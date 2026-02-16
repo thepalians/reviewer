@@ -43,6 +43,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$existingKYC) {
                 throw new Exception('Invalid PAN number. Format: ABCDE1234F');
             }
             
+            // Check Aadhaar uniqueness
+            if (isAadhaarUsed($pdo, $aadhaar, $user_id)) {
+                throw new Exception('Unable to process your KYC submission. Please ensure all details are correct. If the issue persists, contact support.');
+            }
+
+            // Check PAN uniqueness
+            if (isPANUsed($pdo, $pan, $user_id)) {
+                throw new Exception('Unable to process your KYC submission. Please ensure all details are correct. If the issue persists, contact support.');
+            }
+            
             // Validate IFSC
             if (!validateIFSC($ifsc_code)) {
                 throw new Exception('Invalid IFSC code. Format: ABCD0123456');
@@ -178,6 +188,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$existingKYC) {
                 <h1><i class="bi bi-shield-check text-primary"></i> KYC Verification</h1>
                 <p class="text-muted">Complete your KYC to enable withdrawals</p>
             </div>
+
+            <?php if (isset($_SESSION['kyc_required_message'])): ?>
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <i class="bi bi-exclamation-triangle"></i> <?php echo htmlspecialchars($_SESSION['kyc_required_message']); ?>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+                <?php unset($_SESSION['kyc_required_message']); ?>
+            <?php endif; ?>
 
             <?php if ($success_message): ?>
                 <div class="alert alert-success alert-dismissible fade show" role="alert">

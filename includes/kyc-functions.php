@@ -285,4 +285,54 @@ if (!function_exists('getKYCStats')) {
         }
     }
 }
+
+if (!function_exists('isAadhaarUsed')) {
+    /**
+     * Check if Aadhaar number is already used by another user
+     */
+    function isAadhaarUsed($pdo, string $aadhaar, int $excludeUserId = 0): bool {
+        try {
+            $stmt = $pdo->prepare("SELECT 1 FROM user_kyc WHERE aadhaar_number = ? AND user_id != ? LIMIT 1");
+            $stmt->execute([$aadhaar, $excludeUserId]);
+            return $stmt->fetchColumn() !== false;
+        } catch (PDOException $e) {
+            error_log("Check Aadhaar duplicate error: {$e->getMessage()}");
+            // Fail-safe: return true to prevent duplicate submissions during DB errors
+            return true;
+        }
+    }
+}
+
+if (!function_exists('isPANUsed')) {
+    /**
+     * Check if PAN number is already used by another user
+     */
+    function isPANUsed($pdo, string $pan, int $excludeUserId = 0): bool {
+        try {
+            $stmt = $pdo->prepare("SELECT 1 FROM user_kyc WHERE pan_number = ? AND user_id != ? LIMIT 1");
+            $stmt->execute([strtoupper($pan), $excludeUserId]);
+            return $stmt->fetchColumn() !== false;
+        } catch (PDOException $e) {
+            error_log("Check PAN duplicate error: {$e->getMessage()}");
+            // Fail-safe: return true to prevent duplicate submissions during DB errors
+            return true;
+        }
+    }
+}
+
+if (!function_exists('isKYCApproved')) {
+    /**
+     * Check if user has verified KYC
+     */
+    function isKYCApproved($pdo, int $userId): bool {
+        try {
+            $stmt = $pdo->prepare("SELECT status FROM user_kyc WHERE user_id = ? AND status = 'verified'");
+            $stmt->execute([$userId]);
+            return $stmt->rowCount() > 0;
+        } catch (PDOException $e) {
+            error_log("Check KYC approved error: {$e->getMessage()}");
+            return false;
+        }
+    }
+}
 ?>

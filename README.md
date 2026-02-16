@@ -1,6 +1,6 @@
 # ReviewFlow - Review Management Platform
 
-[![Version](https://img.shields.io/badge/version-3.0.0-blue.svg)](https://github.com/aqidul/reviewer)
+[![Version](https://img.shields.io/badge/version-3.1.0-blue.svg)](https://github.com/aqidul/reviewer)
 [![PHP](https://img.shields.io/badge/php-%3E%3D7.4-8892BF.svg)](https://www.php.net/)
 [![License](https://img.shields.io/badge/license-Proprietary-red.svg)](LICENSE)
 
@@ -12,7 +12,7 @@ A comprehensive review management and task automation platform that connects sel
 - **Multi-User System**: Admin, User (Reviewer), Seller, and Affiliate portals
 - **Task Management**: Assign, track, and verify review tasks with multi-step workflows
 - **Wallet System**: Digital wallet with payments, withdrawals, and transaction history
-- **KYC Verification**: User verification system for secure payouts
+- **KYC Verification**: User verification system for secure payouts (mandatory for refund requests, unique Aadhaar/PAN enforcement)
 - **Gamification**: Rewards, badges, leaderboard, competitions, and achievements
 - **Referral Program**: Earn commissions by referring new users
 - **AI Chatbot**: Intelligent assistant across all dashboards
@@ -297,7 +297,15 @@ For support inquiries:
 
 ## 🔖 Version History
 
-### v3.0.0 (Current)
+### v3.1.0 (Current)
+- **Enhanced KYC Security**: KYC verification is now mandatory before Step 4 (Refund Request)
+- **Aadhaar & PAN Uniqueness**: Each Aadhaar and PAN number can only be used once across all users
+- **Database-Level Enforcement**: Added unique constraints for Aadhaar and PAN at database level
+- **User Experience**: Users without verified KYC are automatically redirected to KYC page with clear instructions
+- **Step 4 Gate**: Task detail page now shows KYC requirement warning if verification is pending
+- **Security Functions**: Added `isKYCApproved()`, `isAadhaarUsed()`, and `isPANUsed()` helper functions
+
+### v3.0.0
 - Security improvements: Environment variable configuration
 - Removed hardcoded credentials
 - Cleaned up test/debug files

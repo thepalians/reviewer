@@ -24,7 +24,7 @@ define('APP_URL', env('APP_URL', 'https://palians.com/reviewer'));
 define('BASE_URL', APP_URL); // Alias for shared header/footer templates (legacy usage).
 define('ADMIN_URL', env('ADMIN_URL', 'https://palians.com/reviewer/admin'));
 define('SELLER_URL', env('SELLER_URL', 'https://palians.com/reviewer/seller'));
-define('APP_VERSION', env('APP_VERSION', '3.0.0'));
+define('APP_VERSION', env('APP_VERSION', '3.1.0'));
 
 // Security Settings
 const SESSION_TIMEOUT = 3600;

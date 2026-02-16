@@ -3,6 +3,7 @@ session_start();
 require_once __DIR__ . '/../includes/config.php';
 require_once __DIR__ . '/../includes/security.php';
 require_once __DIR__ . '/../includes/functions.php';
+require_once __DIR__ . '/../includes/kyc-functions.php';
 
 if (!isset($_SESSION['user_id'])) {
     header('Location: ' . APP_URL . '/index.php');
@@ -39,6 +40,13 @@ try {
     $stmt->execute([':task_id' => $task_id]);
     if ($stmt->rowCount() === 0) {
         header('Location: ' . APP_URL . '/user/task-detail.php?task_id=' . $task_id);
+        exit;
+    }
+    
+    // Check if user has verified KYC
+    if (!isKYCApproved($pdo, $user_id)) {
+        $_SESSION['kyc_required_message'] = 'Step 4 (Refund Request) complete karne ke liye KYC verification zaroori hai. Pehle apni KYC complete karein.';
+        header('Location: ' . APP_URL . '/user/kyc.php');
         exit;
     }
     

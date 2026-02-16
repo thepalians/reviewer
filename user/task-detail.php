@@ -3,6 +3,7 @@ session_start();
 require_once __DIR__ . '/../includes/config.php';
 require_once __DIR__ . '/../includes/security.php';
 require_once __DIR__ . '/../includes/functions.php';
+require_once __DIR__ . '/../includes/kyc-functions.php';
 
 if (!isset($_SESSION['user_id'])) {
     header('Location: ' . APP_URL . '/index.php');
@@ -50,6 +51,9 @@ try {
     $step3_done = $step3 && $step3['step_status'] === 'completed';
     $step4_done = $step4 && $step4['step_status'] === 'completed';
     $step4_pending = $step4 && $step4['step_status'] === 'pending_admin';
+    
+    // Check if user has verified KYC
+    $kyc_approved = isKYCApproved($pdo, $user_id);
     
 } catch (PDOException $e) {
     error_log($e->getMessage());
@@ -284,7 +288,15 @@ try {
         <?php endif; ?>
         
         <?php if ($step3_done && !$task['refund_requested']): ?>
-            <a href="<?php echo APP_URL; ?>/user/submit-refund.php?task_id=<?php echo $task_id; ?>" class="action-btn" style="background:#27ae60">💰 Request Refund</a>
+            <?php if ($kyc_approved): ?>
+                <a href="<?php echo APP_URL; ?>/user/submit-refund.php?task_id=<?php echo $task_id; ?>" class="action-btn" style="background:#27ae60">💰 Request Refund</a>
+            <?php else: ?>
+                <div style="background:#fff3cd;border:2px solid #f39c12;padding:15px;border-radius:8px;margin-top:15px;text-align:center">
+                    <strong>🔐 KYC Required</strong><br>
+                    <small>Step 4 complete karne ke liye KYC verification zaroori hai</small>
+                    <a href="<?php echo APP_URL; ?>/user/kyc.php" class="action-btn" style="background:#f39c12;margin-top:10px">📋 Complete KYC Now</a>
+                </div>
+            <?php endif; ?>
         <?php elseif (!$step3_done && !$step4): ?>
             <span class="action-btn locked">🔒 Complete Step 3 First</span>
         <?php endif; ?>
