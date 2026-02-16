@@ -292,9 +292,9 @@ if (!function_exists('isAadhaarUsed')) {
      */
     function isAadhaarUsed($pdo, string $aadhaar, int $excludeUserId = 0): bool {
         try {
-            $stmt = $pdo->prepare("SELECT COUNT(*) FROM user_kyc WHERE aadhaar_number = ? AND user_id != ?");
+            $stmt = $pdo->prepare("SELECT 1 FROM user_kyc WHERE aadhaar_number = ? AND user_id != ? LIMIT 1");
             $stmt->execute([$aadhaar, $excludeUserId]);
-            return (int)$stmt->fetchColumn() > 0;
+            return $stmt->fetchColumn() !== false;
         } catch (PDOException $e) {
             error_log("Check Aadhaar duplicate error: {$e->getMessage()}");
             // Fail-safe: return true to prevent duplicate submissions during DB errors
@@ -309,9 +309,9 @@ if (!function_exists('isPANUsed')) {
      */
     function isPANUsed($pdo, string $pan, int $excludeUserId = 0): bool {
         try {
-            $stmt = $pdo->prepare("SELECT COUNT(*) FROM user_kyc WHERE pan_number = ? AND user_id != ?");
+            $stmt = $pdo->prepare("SELECT 1 FROM user_kyc WHERE pan_number = ? AND user_id != ? LIMIT 1");
             $stmt->execute([strtoupper($pan), $excludeUserId]);
-            return (int)$stmt->fetchColumn() > 0;
+            return $stmt->fetchColumn() !== false;
         } catch (PDOException $e) {
             error_log("Check PAN duplicate error: {$e->getMessage()}");
             // Fail-safe: return true to prevent duplicate submissions during DB errors
