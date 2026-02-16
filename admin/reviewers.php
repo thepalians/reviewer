@@ -37,7 +37,7 @@ if (isset($_GET["login_as"]) && isset($_GET["token"])) {
 }
 
 $whatsapp_channel = "https://whatsapp.com/channel/0029VbC3kV4A89MjSMOyFX1o";
-$telegram_channel = "https://t.me/palimall";
+$telegram_channel = "https://t.me/reviewflowtask";
 
 // WhatsApp message with channel links
 $whatsapp_message = "🎉 Welcome to Review Task Management!
