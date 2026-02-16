@@ -1,0 +1,249 @@
+{
+  "intents": [
+    {
+      "tag": "greeting",
+      "patterns": [
+        "Hi",
+        "Hello",
+        "Hey",
+        "Good morning",
+        "Good afternoon",
+        "Good evening",
+        "Hi there",
+        "Howdy"
+      ],
+      "responses": [
+        "Hello! Welcome to ReviewFlow. How can I assist you today?",
+        "Hi there! Ready to manage your review tasks?",
+        "Greetings! How can I help you with your tasks?"
+      ]
+    },
+    {
+      "tag": "goodbye",
+      "patterns": [
+        "Bye",
+        "Goodbye",
+        "See you later",
+        "Take care",
+        "Bye bye",
+        "Have a good day"
+      ],
+      "responses": [
+        "Goodbye! Have a great day!",
+        "See you later! Keep up the good work!",
+        "Take care! Come back if you need help with tasks."
+      ]
+    },
+    {
+      "tag": "task_status",
+      "patterns": [
+        "How to check task status?",
+        "Where can I see my tasks?",
+        "Task status",
+        "View my tasks",
+        "Check progress",
+        "My assigned tasks"
+      ],
+      "responses": [
+        "Go to 'My Tasks' section to view all your assigned tasks and their status.",
+        "You can check task status in the Tasks page. Each task shows step completion and deadline.",
+        "Navigate to Tasks menu to see all your tasks with progress indicators."
+      ]
+    },
+    {
+      "tag": "submit_order",
+      "patterns": [
+        "How to submit order details?",
+        "Step 1 process",
+        "Submit order information",
+        "Order details submission",
+        "How to start a task?"
+      ],
+      "responses": [
+        "For Step 1: Click on 'Start Step 1' button on your task. Fill order ID, date, amount, and payment method. Submit to proceed.",
+        "To submit order: Go to your task, click Start Step 1, enter exact order details from your confirmation email.",
+        "Step 1 requires: Order ID, Order Date, Amount, Payment Method. Make sure details match your platform receipt."
+      ]
+    },
+    {
+      "tag": "submit_review",
+      "patterns": [
+        "How to submit review?",
+        "Step 2 process",
+        "Submit product review",
+        "Review submission steps",
+        "How to write review?"
+      ],
+      "responses": [
+        "For Step 2: After Step 1, click 'Continue Step 2'. Write detailed review (min 50 chars), select rating (1-5 stars), and submit.",
+        "Review requirements: Minimum 50 characters, honest experience, product quality feedback. Submit after receiving product.",
+        "Step 2: Write genuine review with rating. Include product quality, delivery experience. Don't include personal info."
+      ]
+    },
+    {
+      "tag": "upload_screenshots",
+      "patterns": [
+        "How to upload screenshots?",
+        "Step 3 process",
+        "Screenshot requirements",
+        "Upload images",
+        "What screenshots needed?"
+      ],
+      "responses": [
+        "Step 3 requires: Screenshot 1 (mandatory) of published review, Screenshot 2 (optional) of order details. Max 5MB each, JPG/PNG format.",
+        "Upload clear screenshots showing: 1) Your published review with rating, 2) Order details page. Ensure order ID is visible.",
+        "Screenshot guidelines: Clear, readable images. Screenshot 1 must show review on platform. Maximum file size: 5MB."
+      ]
+    },
+    {
+      "tag": "request_refund",
+      "patterns": [
+        "How to get refund?",
+        "Step 4 process",
+        "Request payment",
+        "When will I get refund?",
+        "Refund procedure"
+      ],
+      "responses": [
+        "After completing all 3 steps, click 'Request Refund'. Provide bank details or UPI ID. Refunds processed within 3-5 business days.",
+        "Refund process: Complete Steps 1-3, then request refund with payment details. Admin processes within 3-5 days after verification.",
+        "Refund timeline: Submit payment details after Step 3. Once admin verifies, refund processed in 3-5 working days to your account."
+      ]
+    },
+    {
+      "tag": "deadline_extension",
+      "patterns": [
+        "Can I get deadline extension?",
+        "Missed deadline",
+        "Task expired",
+        "Need more time",
+        "Deadline help"
+      ],
+      "responses": [
+        "Contact admin for deadline extension requests. Include your task ID and reason. Extensions granted case-by-case.",
+        "If you need more time, email admin with task details. Don't submit late work without approval.",
+        "Deadline extensions require admin approval. Message admin immediately if you can't complete on time."
+      ]
+    },
+    {
+      "tag": "payment_issues",
+      "patterns": [
+        "Haven't received refund",
+        "Payment delayed",
+        "Refund not received",
+        "Payment problem",
+        "When will I get paid?"
+      ],
+      "responses": [
+        "Refunds take 3-5 business days after admin approval. Check task status: 'Refunded' means processed. Contact admin if delayed beyond 7 days.",
+        "Payment status: Check if task shows 'Refunded'. If processed but not received in 5 days, contact admin with transaction query.",
+        "Refund delays possible due to bank holidays. If status is 'Refunded' but no payment in 7 days, provide details to admin."
+      ]
+    },
+    {
+      "tag": "technical_issues",
+      "patterns": [
+        "Website not working",
+        "Can't upload file",
+        "Form submission error",
+        "Page not loading",
+        "Technical problem"
+      ],
+      "responses": [
+        "Clear browser cache, try different browser (Chrome recommended). If issue persists, contact admin with screenshot of error.",
+        "Technical issues: Check internet, disable ad-blockers. File uploads: Ensure <5MB, JPG/PNG format. Contact admin if continues.",
+        "Common fixes: Refresh page, logout/login. Upload issues: Check file size/format. Report persistent issues to admin with details."
+      ]
+    },
+    {
+      "tag": "account_help",
+      "patterns": [
+        "Can't login",
+        "Forgot password",
+        "Account locked",
+        "Change email",
+        "Update profile"
+      ],
+      "responses": [
+        "Login issues: Use correct username/password. Forgot password? Contact admin to reset. Profile updates in Settings page.",
+        "Account help: Ensure correct credentials. Password reset requires admin. Profile updates allowed in Settings section.",
+        "Authentication: Check caps lock. If locked out, email admin. Profile changes available in your account settings."
+      ]
+    },
+    {
+      "tag": "task_value",
+      "patterns": [
+        "How much will I earn?",
+        "Task payment amount",
+        "How much per task?",
+        "Payment rates",
+        "What's the reward?"
+      ],
+      "responses": [
+        "Task value shown when assigned. Varies by product. Complete all steps to receive full amount. Check task details for exact value.",
+        "Each task has specific value shown in task card. Full payment after successful completion of all 4 steps.",
+        "Payment amount per task is specified in task assignment. View task details to see exact amount you'll receive."
+      ]
+    },
+    {
+      "tag": "new_task",
+      "patterns": [
+        "How to get more tasks?",
+        "Request new task",
+        "Need more work",
+        "When new tasks assigned?",
+        "Available tasks"
+      ],
+      "responses": [
+        "New tasks assigned by admin based on availability. Complete existing tasks promptly to get more. Check Tasks page regularly.",
+        "Tasks assigned by admin. Finish current tasks efficiently to qualify for more. Contact admin if available for additional work.",
+        "Task assignment: Admin assigns based on performance. Complete tasks before deadline to receive more opportunities."
+      ]
+    },
+    {
+      "tag": "contact_admin",
+      "patterns": [
+        "Contact admin",
+        "Need admin help",
+        "Message administrator",
+        "How to contact support?",
+        "Report issue"
+      ],
+      "responses": [
+        "Contact admin via: 1) Email: admin@reviewflow.com 2) Phone: +91-XXXXXXXXXX 3) Direct message in system (if available).",
+        "Admin contact: Email issues with task ID. For urgent matters, use provided contact number during business hours.",
+        "Support: Email admin with detailed issue description and task ID. Response within 24 hours on working days."
+      ]
+    },
+    {
+      "tag": "thanks",
+      "patterns": [
+        "Thanks",
+        "Thank you",
+        "Thank you so much",
+        "Appreciate it",
+        "Thanks for help"
+      ],
+      "responses": [
+        "You're welcome! Happy to help.",
+        "Glad I could assist! Let me know if you need anything else.",
+        "Anytime! Keep up the great work with your tasks."
+      ]
+    },
+    {
+      "tag": "faq_general",
+      "patterns": [
+        "What is this system?",
+        "How does this work?",
+        "Explain the process",
+        "What are the steps?",
+        "How it works?"
+      ],
+      "responses": [
+        "ReviewFlow: You review products, get refunded. Steps: 1) Order product 2) Submit review 3) Upload screenshots 4) Get refund. Admin assigns tasks.",
+        "Process: Admin assigns product link → You purchase → Review → Submit proof → Get refunded. 4-step system ensures quality.",
+        "System workflow: Get task → Buy product → Review → Submit evidence → Receive payment. Each step verified by admin."
+      ]
+    }
+  ]
+}

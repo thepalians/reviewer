@@ -1,0 +1,4 @@
+brand_name,product_name,product_url,amazon_link,order_id,reward_amount,seller_id,seller_name,reviewer_mobile,reviewer_email,task_description
+Acme Brand,Premium Headphones,https://example.com/product1,https://amazon.in/product1,ORD-12345,150,1,Acme Seller,9876543210,reviewer1@example.com,Purchase and review Premium Headphones
+Tech Corp,Wireless Mouse,https://example.com/product2,https://amazon.in/product2,ORD-12346,100,1,Tech Seller,9876543211,reviewer2@example.com,Purchase and review Wireless Mouse
+Fashion Hub,Designer T-Shirt,https://example.com/product3,https://amazon.in/product3,ORD-12347,80,2,Fashion Seller,9876543212,reviewer3@example.com,Purchase and review Designer T-Shirt

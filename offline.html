@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#667eea">
+    <title>Offline - ReviewFlow</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .offline-container {
+            background: #fff;
+            border-radius: 20px;
+            padding: 50px 40px;
+            max-width: 450px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+        
+        .offline-icon {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8eb 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            font-size: 50px;
+        }
+        
+        .offline-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 15px;
+        }
+        
+        .offline-message {
+            color: #64748b;
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+        
+        .retry-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px 35px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .retry-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+        
+        .retry-btn:active {
+            transform: translateY(0);
+        }
+        
+        .tips {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        .tips h4 {
+            font-size: 14px;
+            color: #64748b;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .tips ul {
+            list-style: none;
+            text-align: left;
+            font-size: 14px;
+            color: #94a3b8;
+        }
+        
+        .tips li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .tips li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+        
+        .status {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: #fef3c7;
+            border-radius: 8px;
+            font-size: 13px;
+            color: #92400e;
+            display: none;
+        }
+        
+        .status.online {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .checking {
+            animation: pulse 1.5s infinite;
+        }
+        
+        @media (max-width: 480px) {
+            .offline-container {
+                padding: 40px 25px;
+            }
+            
+            .offline-icon {
+                width: 100px;
+                height: 100px;
+                font-size: 40px;
+            }
+            
+            .offline-title {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="offline-container">
+        <div class="offline-icon">📡</div>
+        <h1 class="offline-title">You're Offline</h1>
+        <p class="offline-message">
+            It looks like you've lost your internet connection. 
+            Please check your network settings and try again.
+        </p>
+        
+        <button class="retry-btn" onclick="retryConnection()">
+            🔄 Try Again
+        </button>
+        
+        <div class="status" id="status"></div>
+        
+        <div class="tips">
+            <h4>Troubleshooting Tips:</h4>
+            <ul>
+                <li>Check if Wi-Fi or mobile data is turned on</li>
+                <li>Try switching between Wi-Fi and mobile data</li>
+                <li>Move closer to your Wi-Fi router</li>
+                <li>Restart your device or router</li>
+            </ul>
+        </div>
+    </div>
+    
+    <script>
+        function retryConnection() {
+            const status = document.getElementById('status');
+            const btn = document.querySelector('.retry-btn');
+            
+            status.style.display = 'block';
+            status.textContent = 'Checking connection...';
+            status.className = 'status checking';
+            btn.disabled = true;
+            
+            // Try to fetch a small resource
+            fetch('/reviewer/api/ping.php?t=' + Date.now(), { 
+                method: 'HEAD',
+                cache: 'no-store'
+            })
+            .then(response => {
+                if (response.ok) {
+                    status.textContent = '✓ Connection restored! Redirecting...';
+                    status.className = 'status online';
+                    setTimeout(() => {
+                        window.location.href = '/reviewer/user/';
+                    }, 1000);
+                } else {
+                    throw new Error('Not OK');
+                }
+            })
+            .catch(() => {
+                status.textContent = '✗ Still offline. Please try again.';
+                status.className = 'status';
+                btn.disabled = false;
+            });
+        }
+        
+        // Auto-check when connection changes
+        window.addEventListener('online', () => {
+            retryConnection();
+        });
+        
+        // Listen for SW updates
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.ready.then(registration => {
+                registration.addEventListener('updatefound', () => {
+                    console.log('SW update found');
+                });
+            });
+        }
+    </script>
+</body>
+</html>

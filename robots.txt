@@ -1,0 +1,22 @@
+# robots.txt for ReviewFlow
+
+User-agent: *
+Allow: /
+
+# Disallow admin and private areas
+Disallow: /admin/
+Disallow: /seller/
+Disallow: /user/
+Disallow: /api/
+Disallow: /includes/
+Disallow: /uploads/
+Disallow: /cache/
+Disallow: /migrations/
+
+# Allow public pages
+Allow: /index.php
+Allow: /help.php
+Allow: /assets/
+
+# Sitemap location
+Sitemap: https://palians.com/reviewer/sitemap.php

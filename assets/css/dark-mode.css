@@ -1,0 +1,153 @@
+/* Dark Mode CSS for Reviewer App */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg-primary: #1a1a2e;
+        --bg-secondary: #16213e;
+        --bg-card: #0f3460;
+        --text-primary: #eaeaea;
+        --text-secondary: #b8b8b8;
+        --border-color: #333;
+    }
+}
+
+[data-theme="dark"] {
+    --bg-primary: #1a1a2e;
+    --bg-secondary: #16213e;
+    --bg-card: #0f3460;
+    --text-primary: #eaeaea;
+    --text-secondary: #b8b8b8;
+    --border-color: #333;
+}
+
+[data-theme="dark"] body {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .card,
+[data-theme="dark"] .form-box,
+[data-theme="dark"] .form-container,
+[data-theme="dark"] .login-card,
+[data-theme="dark"] .task-card,
+[data-theme="dark"] .step-card {
+    background: var(--bg-card);
+    color: var(--text-primary);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .meta-item,
+[data-theme="dark"] .info-box,
+[data-theme="dark"] .upload-section {
+    background: var(--bg-secondary);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .form-control,
+[data-theme="dark"] input,
+[data-theme="dark"] select,
+[data-theme="dark"] textarea {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .form-control:focus {
+    border-color: #667eea;
+}
+
+[data-theme="dark"] h1, 
+[data-theme="dark"] h2, 
+[data-theme="dark"] h3,
+[data-theme="dark"] .task-title,
+[data-theme="dark"] .step-title,
+[data-theme="dark"] .section-title {
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .meta-label,
+[data-theme="dark"] .field-label,
+[data-theme="dark"] .file-info,
+[data-theme="dark"] .section-desc {
+    color: var(--text-secondary);
+}
+
+[data-theme="dark"] .admin-sidebar {
+    background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 100%);
+}
+
+[data-theme="dark"] .table-wrapper,
+[data-theme="dark"] table {
+    background: var(--bg-card);
+}
+
+[data-theme="dark"] th {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] td {
+    color: var(--text-primary);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] tbody tr:hover {
+    background: var(--bg-secondary);
+}
+
+[data-theme="dark"] .alert-success {
+    background: #1e4620;
+    color: #7dcea0;
+    border-color: #27ae60;
+}
+
+[data-theme="dark"] .alert-danger {
+    background: #4a1c1c;
+    color: #f1948a;
+    border-color: #e74c3c;
+}
+
+[data-theme="dark"] .warning,
+[data-theme="dark"] .warning-box {
+    background: #3d3d00;
+    color: #f1c40f;
+    border-color: #f39c12;
+}
+
+[data-theme="dark"] .refund-info {
+    background: linear-gradient(135deg, #1e4620, #145a32);
+}
+
+[data-theme="dark"] .qr-display-section {
+    background: linear-gradient(135deg, #3d3d00, #4a4a00);
+    border-color: #f39c12;
+}
+
+[data-theme="dark"] .preview img,
+[data-theme="dark"] .qr-preview img {
+    border-color: #27ae60;
+}
+
+/* Dark mode toggle button */
+.dark-mode-toggle {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #333;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+[data-theme="dark"] .dark-mode-toggle {
+    background: #fff;
+    color: #333;
+}

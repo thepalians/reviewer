@@ -1,0 +1,20 @@
+# Remove this line - it's causing issues
+# AuthType Basic
+# AuthName "Admin Area"
+# AuthUserFile /var/www/palians/.htpasswd
+# Require valid-user
+
+# Instead use this:
+RewriteEngine On
+RewriteBase /reviewer/admin/
+
+# Protect admin area
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . index.php [L]
+
+# Prevent access to sensitive files
+<FilesMatch "\.(sql|log|txt|md|env)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
