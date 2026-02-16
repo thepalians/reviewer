@@ -45,12 +45,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$existingKYC) {
             
             // Check Aadhaar uniqueness
             if (isAadhaarUsed($pdo, $aadhaar, $user_id)) {
-                throw new Exception('This Aadhaar number is already registered with another account. Each Aadhaar can only be used once.');
+                throw new Exception('Unable to process your KYC submission. Please ensure all details are correct. If the issue persists, contact support.');
             }
 
             // Check PAN uniqueness
             if (isPANUsed($pdo, $pan, $user_id)) {
-                throw new Exception('This PAN number is already registered with another account. Each PAN can only be used once.');
+                throw new Exception('Unable to process your KYC submission. Please ensure all details are correct. If the issue persists, contact support.');
             }
             
             // Validate IFSC

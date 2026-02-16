@@ -297,7 +297,8 @@ if (!function_exists('isAadhaarUsed')) {
             return (int)$stmt->fetchColumn() > 0;
         } catch (PDOException $e) {
             error_log("Check Aadhaar duplicate error: {$e->getMessage()}");
-            return false;
+            // Fail-safe: return true to prevent duplicate submissions during DB errors
+            return true;
         }
     }
 }
@@ -313,7 +314,8 @@ if (!function_exists('isPANUsed')) {
             return (int)$stmt->fetchColumn() > 0;
         } catch (PDOException $e) {
             error_log("Check PAN duplicate error: {$e->getMessage()}");
-            return false;
+            // Fail-safe: return true to prevent duplicate submissions during DB errors
+            return true;
         }
     }
 }
