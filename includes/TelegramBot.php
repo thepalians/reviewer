@@ -83,6 +83,25 @@ class TelegramBot {
     }
     
     /**
+     * Send welcome message for new user registration
+     *
+     * @param string $userName Name of the new user
+     * @param int $userId User ID
+     * @return bool True on success, false on failure
+     */
+    public function sendWelcomeMessage(string $userName, int $userId): bool {
+        $message = "🎉 <b>New User Registered!</b>\n\n";
+        $message .= "👤 <b>Name:</b> {$this->escapeHtml($userName)}\n";
+        $message .= "🆔 <b>User ID:</b> #{$userId}\n";
+        $message .= "📅 <b>Joined:</b> " . date('d M Y, h:i A') . "\n\n";
+        $message .= "✅ Welcome to ReviewFlow! 🚀\n";
+        $message .= "━━━━━━━━━━━━━━━━━━\n";
+        $message .= "🤖 <i>ReviewFlow Task Bot</i>";
+        
+        return $this->sendMessage($message);
+    }
+    
+    /**
      * Send a message to the Telegram channel
      * 
      * @param string $text Message text in HTML format

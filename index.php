@@ -8,6 +8,7 @@ declare(strict_types=1);
 session_start();
 
 require_once __DIR__ . '/includes/config.php';
+require_once __DIR__ . '/includes/TelegramBot.php';
 require_once __DIR__ . '/includes/security.php';
 require_once __DIR__ . '/includes/functions.php';
 
@@ -220,6 +221,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register'])) {
                 $name
             );
             sendEmail($email, 'Welcome to ' . APP_NAME, $emailBody, $user_id);
+            
+            // Send Telegram welcome message
+            if (defined('TELEGRAM_ENABLED') && TELEGRAM_ENABLED) {
+                try {
+                    $tgBot = new TelegramBot();
+                    $tgBot->sendWelcomeMessage($name, $user_id);
+                } catch (Exception $e) {
+                    error_log("Telegram welcome message error: " . $e->getMessage());
+                }
+            }
             
             // Log activity
             logActivity("New user registered: $email", null, $user_id);
