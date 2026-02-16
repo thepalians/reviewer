@@ -1,6 +1,6 @@
 # ReviewFlow - Review Management Platform
 
-[![Version](https://img.shields.io/badge/version-3.1.0-blue.svg)](https://github.com/aqidul/reviewer)
+[![Version](https://img.shields.io/badge/version-3.2.0-blue.svg)](https://github.com/thepalians/reviewer)
 [![PHP](https://img.shields.io/badge/php-%3E%3D7.4-8892BF.svg)](https://www.php.net/)
 [![License](https://img.shields.io/badge/license-Proprietary-red.svg)](LICENSE)
 
@@ -17,6 +17,7 @@ A comprehensive review management and task automation platform that connects sel
 - **Referral Program**: Earn commissions by referring new users
 - **AI Chatbot**: Intelligent assistant across all dashboards
 - **PWA Support**: Progressive Web App with offline capabilities
+- **Telegram Notifications**: Real-time task assignment notifications via Telegram Bot to channel @reviewflowtask
 
 ### Admin Features
 - Comprehensive dashboard with analytics and reporting
@@ -26,6 +27,7 @@ A comprehensive review management and task automation platform that connects sel
 - Fraud detection and quality control
 - Business intelligence reports
 - System settings and configuration
+- Telegram Bot integration for task notifications
 
 ### User Features
 - Intuitive task dashboard
@@ -63,7 +65,7 @@ A comprehensive review management and task automation platform that connects sel
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/aqidul/reviewer.git
+git clone https://github.com/thepalians/reviewer.git
 cd reviewer
 ```
 
@@ -224,6 +226,7 @@ See `/docs/api-documentation.md` for complete API reference.
 - **Caching**: Redis (optional)
 - **Email**: PHPMailer
 - **Payments**: Razorpay, PayU, Cashfree
+- **Notifications**: Telegram Bot API
 
 ### Code Structure
 ```
@@ -233,7 +236,7 @@ reviewer/
 ├── seller/         # Seller portal files
 ├── affiliate/      # Affiliate portal files
 ├── api/            # REST API endpoints
-├── includes/       # Core PHP libraries
+├── includes/       # Core PHP libraries (TelegramBot, KYC helpers)
 ├── assets/         # CSS, JS, images
 ├── uploads/        # User uploads
 ├── cache/          # Cache files
@@ -297,7 +300,16 @@ For support inquiries:
 
 ## 🔖 Version History
 
-### v3.1.0 (Current)
+### v3.2.0 (Current)
+- **Telegram Bot Integration**: Real-time task assignment notifications sent to Telegram channel (@reviewflowtask)
+- **Single & Bulk Notifications**: Both individual and bulk task assignments trigger Telegram notifications
+- **TelegramBot Helper Class**: Reusable `includes/TelegramBot.php` with HTML-formatted messages
+- **KYC Gate Enhancement**: Step 4 is now strictly blocked for users without approved KYC
+- **KYC Redirect Flow**: Users without KYC are redirected to KYC page with clear instructions
+- **Aadhaar & PAN Uniqueness**: Database-level unique constraints enforced - no duplicate documents allowed
+- **Security**: Telegram Bot token stored in config constants, error handling with try-catch
+
+### v3.1.0
 - **Enhanced KYC Security**: KYC verification is now mandatory before Step 4 (Refund Request)
 - **Aadhaar & PAN Uniqueness**: Each Aadhaar and PAN number can only be used once across all users
 - **Database-Level Enforcement**: Added unique constraints for Aadhaar and PAN at database level
@@ -323,8 +335,8 @@ For detailed changelog, see `/docs/archive/CHANGELOG.md`
 4. **Backup regularly** - Database and uploaded files
 5. **Test in staging** - Before deploying to production
 6. **Monitor logs** - Check `/logs/error.log` regularly
+7. **Telegram Bot Token** - Keep bot token secure, do not expose publicly
 
 ---
 
 **Built with ❤️ for ReviewFlow**
-# reviewer

@@ -221,5 +221,12 @@ function getSetting(string $key, $default = null) {
     } catch (PDOException $e) {
         return $default;
     }
-} 
+}
+
+// Telegram Bot Configuration
+// NOTE: For production deployments, consider moving these to environment variables
+// via .env file for better security. See .env.example for reference.
+define('TELEGRAM_BOT_TOKEN', '8298760441:AAGVK-GVyjUzTKKcaKkMncA1fzoatEmSq1k');
+define('TELEGRAM_CHANNEL_ID', '-1003859290115');
+define('TELEGRAM_ENABLED', true);
 ?>
