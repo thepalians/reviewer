@@ -221,5 +221,10 @@ function getSetting(string $key, $default = null) {
     } catch (PDOException $e) {
         return $default;
     }
-} 
+}
+
+// Telegram Bot Configuration
+define('TELEGRAM_BOT_TOKEN', '8298760441:AAGVK-GVyjUzTKKcaKkMncA1fzoatEmSq1k');
+define('TELEGRAM_CHANNEL_ID', '-1003859290115');
+define('TELEGRAM_ENABLED', true);
 ?>

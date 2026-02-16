@@ -3,6 +3,7 @@ session_start();
 require_once __DIR__ . '/../includes/config.php';
 require_once __DIR__ . '/../includes/security.php';
 require_once __DIR__ . '/../includes/functions.php';
+require_once __DIR__ . '/../includes/TelegramBot.php';
 
 if (!isset($_SESSION['admin_name'])) {
     header('Location: ' . ADMIN_URL);
@@ -215,6 +216,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['bulk_assign'])) {
         if ($success_count > 0) {
             $bulk_success = true;
             $bulk_count = $success_count;
+            
+            // Send Telegram bulk notification
+            if (defined('TELEGRAM_ENABLED') && TELEGRAM_ENABLED) {
+                try {
+                    $tgBot = new TelegramBot();
+                    $tgBot->sendBulkTaskNotification($success_count, [
+                        'brand_name' => $brand_name ?? '',
+                        'commission' => $commission,
+                        'product_link' => $product_link,
+                        'assigned_by' => $admin_name
+                    ]);
+                } catch (Exception $e) {
+                    error_log("Telegram bulk notification error: " . $e->getMessage());
+                }
+            }
         }
         
         if (!empty($failed_users)) {
@@ -382,6 +398,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['single_assign'])) {
             
             // Send email notification
             sendTaskNotification($user_id, 'task_assigned', ['task_id' => $task_id, 'commission' => $commission]);
+            
+            // Send Telegram notification
+            if (defined('TELEGRAM_ENABLED') && TELEGRAM_ENABLED) {
+                try {
+                    $tgBot = new TelegramBot();
+                    $tgBot->sendTaskAssignedNotification([
+                        'user_name' => $user['name'],
+                        'task_id' => $task_id,
+                        'product_link' => $product_link,
+                        'brand_name' => $brand_name ?? '',
+                        'commission' => $commission,
+                        'deadline' => $deadline ?? '',
+                        'priority' => $priority,
+                        'assigned_by' => $admin_name
+                    ]);
+                } catch (Exception $e) {
+                    error_log("Telegram notification error: " . $e->getMessage());
+                }
+            }
             
             $success = true;
             $success_task_id = $task_id;
