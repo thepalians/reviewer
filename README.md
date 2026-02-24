@@ -1,6 +1,6 @@
 # ReviewFlow - Review Management Platform
 
-[![Version](https://img.shields.io/badge/version-3.2.0-blue.svg)](https://github.com/thepalians/reviewer)
+[![Version](https://img.shields.io/badge/version-3.3.0-blue.svg)](https://github.com/thepalians/reviewer)
 [![PHP](https://img.shields.io/badge/php-%3E%3D7.4-8892BF.svg)](https://www.php.net/)
 [![License](https://img.shields.io/badge/license-Proprietary-red.svg)](LICENSE)
 
@@ -300,7 +300,15 @@ For support inquiries:
 
 ## 🔖 Version History
 
-### v3.2.0 (Current)
+### v3.3.0 (Current)
+- **Telegram Personal DM System**: Users can connect Telegram from dashboard for private notifications
+- **Telegram Payment Proofs**: Auto-posts payment proof to Telegram channel when withdrawal is completed
+- **Auto Task Assignment for New Users**: Admin can configure tasks to be auto-assigned to new users on registration
+- **Security Fix**: Removed hardcoded bank details, DB password fallback, and Telegram credentials from source code
+- **Admin Bank Settings**: Platform bank details now managed from admin settings
+- **Cron Jobs**: Inactive user nudge and deadline reminder via Telegram DM
+
+### v3.2.0
 - **Telegram Bot Integration**: Real-time task assignment notifications sent to Telegram channel (@reviewflowtask)
 - **Single & Bulk Notifications**: Both individual and bulk task assignments trigger Telegram notifications
 - **TelegramBot Helper Class**: Reusable `includes/TelegramBot.php` with HTML-formatted messages

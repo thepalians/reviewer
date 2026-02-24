@@ -13,6 +13,13 @@ $seller_id = $_SESSION['seller_id'];
 $error = '';
 $success = '';
 
+// Fetch platform bank details from settings
+$platform_bank_name = getSetting('platform_bank_name', '');
+$platform_account_holder = getSetting('platform_account_holder', '');
+$platform_account_number = getSetting('platform_account_number', '');
+$platform_ifsc_code = getSetting('platform_ifsc_code', '');
+$platform_upi_id = getSetting('platform_upi_id', '');
+
 // Check for success message from redirect
 if (isset($_SESSION['wallet_success'])) {
     $success = $_SESSION['wallet_success'];
@@ -389,30 +396,44 @@ require_once __DIR__ . '/includes/header.php';
                     <!-- Bank Account Details -->
                     <div class="alert alert-info">
                         <h6 class="mb-3"><i class="bi bi-bank"></i> Bank Account Details</h6>
+                        <?php if (empty($platform_bank_name) && empty($platform_account_holder) && empty($platform_account_number) && empty($platform_ifsc_code) && empty($platform_upi_id)): ?>
+                            <p class="mb-0 text-muted">Payment details not configured. Please contact admin.</p>
+                        <?php else: ?>
                         <table class="table table-sm table-borderless mb-0">
                             <tbody>
+                                <?php if (!empty($platform_bank_name)): ?>
                                 <tr>
                                     <td><strong>Bank Name:</strong></td>
-                                    <td>State Bank Of India</td>
+                                    <td><?php echo htmlspecialchars($platform_bank_name); ?></td>
                                 </tr>
+                                <?php endif; ?>
+                                <?php if (!empty($platform_account_holder)): ?>
                                 <tr>
                                     <td><strong>Account Holder:</strong></td>
-                                    <td>THE PALIANS</td>
+                                    <td><?php echo htmlspecialchars($platform_account_holder); ?></td>
                                 </tr>
+                                <?php endif; ?>
+                                <?php if (!empty($platform_account_number)): ?>
                                 <tr>
                                     <td><strong>Account Number:</strong></td>
-                                    <td><span class="badge bg-dark">41457761629</span></td>
+                                    <td><span class="badge bg-dark"><?php echo htmlspecialchars($platform_account_number); ?></span></td>
                                 </tr>
+                                <?php endif; ?>
+                                <?php if (!empty($platform_ifsc_code)): ?>
                                 <tr>
                                     <td><strong>IFSC Code:</strong></td>
-                                    <td><span class="badge bg-dark">SBIN0005362</span></td>
+                                    <td><span class="badge bg-dark"><?php echo htmlspecialchars($platform_ifsc_code); ?></span></td>
                                 </tr>
+                                <?php endif; ?>
+                                <?php if (!empty($platform_upi_id)): ?>
                                 <tr>
-                                    <td><strong>Branch:</strong></td>
-                                    <td>EKTA NAGAR, BAREILLY</td>
+                                    <td><strong>UPI ID:</strong></td>
+                                    <td><span class="badge bg-dark"><?php echo htmlspecialchars($platform_upi_id); ?></span></td>
                                 </tr>
+                                <?php endif; ?>
                             </tbody>
                         </table>
+                        <?php endif; ?>
                     </div>
                     
                     <div class="alert alert-warning">

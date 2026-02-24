@@ -14,7 +14,7 @@ define('DEBUG', env('DEBUG_MODE', false));
 // Database Configuration
 define('DB_HOST', env('DB_HOST', 'localhost'));
 define('DB_USER', env('DB_USER', 'reviewflow_user'));
-define('DB_PASS', env('DB_PASS', 'Malik@241123'));
+define('DB_PASS', env('DB_PASS', ''));
 define('DB_NAME', env('DB_NAME', 'reviewflow'));
 define('DB_CHARSET', env('DB_CHARSET', 'utf8mb4'));
 
@@ -24,7 +24,7 @@ define('APP_URL', env('APP_URL', 'https://palians.com/reviewer'));
 define('BASE_URL', APP_URL); // Alias for shared header/footer templates (legacy usage).
 define('ADMIN_URL', env('ADMIN_URL', 'https://palians.com/reviewer/admin'));
 define('SELLER_URL', env('SELLER_URL', 'https://palians.com/reviewer/seller'));
-define('APP_VERSION', env('APP_VERSION', '3.1.0'));
+define('APP_VERSION', env('APP_VERSION', '3.3.0'));
 
 // Security Settings
 const SESSION_TIMEOUT = 3600;
@@ -224,10 +224,8 @@ function getSetting(string $key, $default = null) {
 }
 
 // Telegram Bot Configuration
-// NOTE: For production deployments, consider moving these to environment variables
-// via .env file for better security. See .env.example for reference.
-define('TELEGRAM_BOT_TOKEN', '8298760441:AAGVK-GVyjUzTKKcaKkMncA1fzoatEmSq1k');
-define('TELEGRAM_CHANNEL_ID', '-1003859290115');
+define('TELEGRAM_BOT_TOKEN', env('TELEGRAM_BOT_TOKEN', ''));
+define('TELEGRAM_CHANNEL_ID', env('TELEGRAM_CHANNEL_ID', ''));
 define('TELEGRAM_ENABLED', true);
 define('TELEGRAM_BOT_USERNAME', 'reviewflow_tasks_bot'); // The bot's username without @
 ?>

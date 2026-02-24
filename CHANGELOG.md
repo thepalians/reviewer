@@ -5,6 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.3.0] - 2026-02-24
+
+### New Features
+- Telegram Personal DM notification system (task assigned, payment, KYC, referral, deadline reminder, inactive nudge)
+- Telegram Connect card on user dashboard
+- Payment proof auto-post to Telegram channel on withdrawal completion
+- Auto task assignment system for new users (admin configurable, 1-10 tasks)
+- Admin dashboard for managing auto-assignment settings
+
+### Security Fixes
+- Removed hardcoded bank account details from seller/wallet.php
+- Moved platform bank details to database settings (admin-manageable)
+- Changed DB password fallback from hardcoded value to empty string
+- Moved Telegram bot token and channel ID to environment variables
+
+### Improvements
+- Version bumped to 3.3.0
+- Updated README and CHANGELOG
+
 ## [3.0.0] - 2026-02-03
 
 ### 🚀 Major Release - Enterprise Edition
