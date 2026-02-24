@@ -33,6 +33,22 @@ $notifications = getNotifications($user_id, 5);
 $user_stats = getUserStats($user_id);
 $referral_code = getReferralCode($user_id);
 
+// Get Telegram connection status
+$telegram_connected = false;
+$telegram_connected_at = null;
+try {
+    $tg_stmt = $pdo->prepare("SELECT telegram_chat_id, telegram_connected_at FROM users WHERE id = ?");
+    $tg_stmt->execute([$user_id]);
+    $tg_data = $tg_stmt->fetch();
+    if ($tg_data && !empty($tg_data['telegram_chat_id'])) {
+        $telegram_connected = true;
+        $telegram_connected_at = $tg_data['telegram_connected_at'];
+    }
+} catch (PDOException $e) {
+    error_log("Telegram status check failed for user $user_id: " . $e->getMessage());
+    $telegram_connected = false;
+}
+
 // Update stats
 updateUserStats($user_id);
 
@@ -368,7 +384,34 @@ try {
             <div class="stat-action"><a href="<?php echo APP_URL; ?>/user/referral.php">Share & Earn →</a></div>
         </div>
     </div>
-    
+
+    <!-- Telegram Connect Card -->
+    <?php if (!$telegram_connected): ?>
+    <div style="background:linear-gradient(135deg,#0088cc,#005f8c);border-radius:15px;padding:20px;margin-bottom:20px;box-shadow:0 5px 20px rgba(0,136,204,0.3)">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:15px">
+            <div style="color:#fff">
+                <h3 style="margin:0;font-size:18px;font-weight:700">🔔 Connect Telegram for Notifications</h3>
+                <p style="margin:5px 0 0;opacity:0.9;font-size:13px">Task updates, payment alerts aur reminders seedha Telegram pe paao — FREE!</p>
+            </div>
+            <a href="https://t.me/reviewflow_tasks_bot?start=<?php echo $user_id; ?>" 
+               target="_blank"
+               style="background:#fff;color:#0088cc;padding:12px 24px;border-radius:25px;text-decoration:none;font-weight:700;font-size:14px;display:inline-flex;align-items:center;gap:8px;transition:transform 0.2s;box-shadow:0 3px 10px rgba(0,0,0,0.15)">
+                📲 Connect Now
+            </a>
+        </div>
+    </div>
+    <?php else: ?>
+    <div style="background:linear-gradient(135deg,#0088cc,#005f8c);border-radius:15px;padding:15px 20px;margin-bottom:20px;box-shadow:0 5px 20px rgba(0,136,204,0.3)">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+            <div style="color:#fff">
+                <h4 style="margin:0;font-size:15px;font-weight:600">✅ Telegram Connected</h4>
+                <p style="margin:3px 0 0;opacity:0.8;font-size:12px">Personal notifications active<?php if ($telegram_connected_at && strtotime($telegram_connected_at)): ?> since <?php echo date('d M Y', strtotime($telegram_connected_at)); ?><?php endif; ?></p>
+            </div>
+            <span style="background:rgba(255,255,255,0.2);color:#fff;padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600">✅ Active</span>
+        </div>
+    </div>
+    <?php endif; ?>
+
     <!-- Quick Actions -->
     <div class="quick-actions">
         <a href="<?php echo APP_URL; ?>/user/wallet.php" class="action-btn">
