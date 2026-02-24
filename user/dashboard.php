@@ -27,6 +27,21 @@ try {
     die('An error occurred while loading the dashboard. Please try again later.');
 }
 
+// Fetch user's Telegram connection status
+$user_telegram_chat_id = null;
+$user_telegram_connected_at = null;
+try {
+    $stmt = $pdo->prepare("SELECT telegram_chat_id, telegram_connected_at FROM users WHERE id = ?");
+    $stmt->execute([$user_id]);
+    $userTelegramData = $stmt->fetch(PDO::FETCH_ASSOC);
+    if ($userTelegramData) {
+        $user_telegram_chat_id = $userTelegramData['telegram_chat_id'];
+        $user_telegram_connected_at = $userTelegramData['telegram_connected_at'];
+    }
+} catch (PDOException $e) {
+    error_log("Dashboard telegram fetch error: " . $e->getMessage());
+}
+
 $allowedStatusColumns = ['status', 'task_status'];
 $allowedDateColumns = ['assigned_date', 'created_at'];
 $pendingStatusValues = ['pending', 'in_progress', 'assigned'];
@@ -355,6 +370,41 @@ try {
                         <h3><?php echo count($pending_orders); ?></h3>
                         <p>Pending Refunds</p>
                     </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Telegram Notification Card -->
+        <div class="card" style="background: linear-gradient(135deg, #0088cc, #005f8c); color: white; border-radius: 15px; padding: 20px; margin-bottom: 20px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 15px;">
+                <div>
+                    <h5 style="margin: 0; font-weight: 700;">
+                        <?php if (!empty($user_telegram_chat_id)): ?>
+                            ✅ Telegram Connected
+                        <?php else: ?>
+                            🔔 Connect Telegram for Notifications
+                        <?php endif; ?>
+                    </h5>
+                    <p style="margin: 5px 0 0; opacity: 0.9; font-size: 14px;">
+                        <?php if (!empty($user_telegram_chat_id)): ?>
+                            Aapko personal notifications mil rahe hain! Connected: <?php echo date('d M Y', strtotime($user_telegram_connected_at)); ?>
+                        <?php else: ?>
+                            Task updates, payment alerts aur reminders seedha Telegram pe paao — FREE!
+                        <?php endif; ?>
+                    </p>
+                </div>
+                <div>
+                    <?php if (!empty($user_telegram_chat_id)): ?>
+                        <span style="background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 20px; font-size: 14px;">
+                            ✅ Active
+                        </span>
+                    <?php else: ?>
+                        <a href="https://t.me/<?php echo defined('TELEGRAM_BOT_USERNAME') ? htmlspecialchars(TELEGRAM_BOT_USERNAME, ENT_QUOTES, 'UTF-8') : ''; ?>?start=<?php echo $user_id; ?>" 
+                           target="_blank"
+                           style="background: white; color: #0088cc; padding: 10px 20px; border-radius: 25px; text-decoration: none; font-weight: 600; font-size: 14px; display: inline-block;">
+                            📲 Connect Now
+                        </a>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
