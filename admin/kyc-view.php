@@ -309,41 +309,6 @@ try {
                     </div>
                     <?php endif; ?>
                 </div>
-                
-                <div class="card">
-                    <div class="card-header">🏦 Bank Details</div>
-                    <div class="info-grid">
-                        <div class="info-item">
-                            <div class="info-label">Bank Name</div>
-                            <div class="info-value"><?php echo escape($kyc['bank_name'] ?? 'N/A'); ?></div>
-                        </div>
-                        <div class="info-item">
-                            <div class="info-label">Account Number</div>
-                            <div class="info-value"><?php echo escape($kyc['bank_account'] ?? 'N/A'); ?></div>
-                        </div>
-                        <div class="info-item">
-                            <div class="info-label">IFSC Code</div>
-                            <div class="info-value"><?php echo escape($kyc['ifsc_code'] ?? 'N/A'); ?></div>
-                        </div>
-                    </div>
-                    
-                    <?php if ($kyc['passbook_file']): ?>
-                    <div class="document-preview">
-                        <div class="document-preview-label">📄 Bank Passbook/Statement</div>
-                        <?php 
-                        $passbook_path = APP_URL . '/uploads/kyc/' . $kyc['passbook_file'];
-                        $passbook_ext = strtolower(pathinfo($kyc['passbook_file'], PATHINFO_EXTENSION));
-                        if ($passbook_ext === 'pdf'): ?>
-                            <iframe src="<?php echo $passbook_path; ?>"></iframe>
-                        <?php else: ?>
-                            <img src="<?php echo $passbook_path; ?>" alt="Bank Passbook">
-                        <?php endif; ?>
-                        <div style="padding:15px;">
-                            <a href="<?php echo $passbook_path; ?>" target="_blank" class="document-link">📥 Open in New Tab</a>
-                        </div>
-                    </div>
-                    <?php endif; ?>
-                </div>
             </div>
             
             <div>
