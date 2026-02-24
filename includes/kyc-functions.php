@@ -30,7 +30,7 @@ if (!function_exists('getUserKYC')) {
     function getUserKYC($pdo, int $userId): ?array {
         try {
             $stmt = $pdo->prepare("
-                SELECT k.*, u.username, u.email, u.mobile 
+                SELECT k.*, u.name AS username, u.email, u.mobile 
                 FROM user_kyc k
                 JOIN users u ON k.user_id = u.id
                 WHERE k.user_id = ?
@@ -52,7 +52,7 @@ if (!function_exists('getKYCById')) {
     function getKYCById($pdo, int $kycId): ?array {
         try {
             $stmt = $pdo->prepare("
-                SELECT k.*, u.username, u.email, u.mobile 
+                SELECT k.*, u.name AS username, u.email, u.mobile 
                 FROM user_kyc k
                 JOIN users u ON k.user_id = u.id
                 WHERE k.id = ?
@@ -74,7 +74,7 @@ if (!function_exists('getAllPendingKYC')) {
     function getAllPendingKYC($pdo): array {
         try {
             $stmt = $pdo->query("
-                SELECT k.*, u.username, u.email, u.mobile 
+                SELECT k.*, u.name AS username, u.email, u.mobile 
                 FROM user_kyc k
                 JOIN users u ON k.user_id = u.id
                 WHERE k.status = 'pending'
@@ -96,7 +96,7 @@ if (!function_exists('getAllKYC')) {
         try {
             if ($status) {
                 $stmt = $pdo->prepare("
-                    SELECT k.*, u.username, u.email, u.mobile 
+                    SELECT k.*, u.name AS username, u.email, u.mobile 
                     FROM user_kyc k
                     JOIN users u ON k.user_id = u.id
                     WHERE k.status = ?
@@ -105,7 +105,7 @@ if (!function_exists('getAllKYC')) {
                 $stmt->execute([$status]);
             } else {
                 $stmt = $pdo->query("
-                    SELECT k.*, u.username, u.email, u.mobile 
+                    SELECT k.*, u.name AS username, u.email, u.mobile 
                     FROM user_kyc k
                     JOIN users u ON k.user_id = u.id
                     ORDER BY k.submitted_at DESC
