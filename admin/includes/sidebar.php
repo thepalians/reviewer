@@ -90,6 +90,7 @@ if (!isset($current_page)) {
         <div class="sidebar-divider"></div>
         <li class="menu-section-label"><span>📋 Tasks</span></li>
         <li><a href="<?php echo ADMIN_URL; ?>/assign-task.php" class="<?= $current_page === 'assign-task' ? 'active' : '' ?>">➕ Assign Task</a></li>
+        <li><a href="<?php echo ADMIN_URL; ?>/auto-assign-settings.php" class="<?= $current_page === 'auto-assign-settings' ? 'active' : '' ?>"><i class="bi bi-lightning"></i> Auto Assign Tasks</a></li>
         <li><a href="<?php echo ADMIN_URL; ?>/bulk-upload.php" class="<?= $current_page === 'bulk-upload' ? 'active' : '' ?>">📤 Bulk Upload</a></li>
         <li>
             <a href="<?php echo ADMIN_URL; ?>/task-pending.php" class="<?= in_array($current_page, ['task-pending', 'task-pending-brandwise']) ? 'active' : '' ?>">

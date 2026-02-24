@@ -10,6 +10,7 @@ session_start();
 require_once __DIR__ . '/includes/config.php';
 require_once __DIR__ . '/includes/security.php';
 require_once __DIR__ . '/includes/functions.php';
+require_once __DIR__ . '/includes/TelegramBot.php';
 
 // Check maintenance mode
 if (isMaintenanceMode() && !isset($_SESSION['admin_name'])) {
@@ -225,6 +226,103 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register'])) {
             logActivity("New user registered: $email", null, $user_id);
             
             $pdo->commit();
+            
+            // Auto-assign tasks to new user
+            try {
+                $autoAssignEnabled = getSetting('auto_assign_enabled', '0');
+                if ($autoAssignEnabled === '1') {
+                    $minTasks = max(1, min(10, (int)getSetting('auto_assign_min_tasks', '1')));
+                    $maxTasks = max(1, min(10, (int)getSetting('auto_assign_max_tasks', '3')));
+                    if ($minTasks > $maxTasks) $maxTasks = $minTasks;
+                    $numTasks = rand($minTasks, $maxTasks);
+
+                    $autoStmt = $pdo->prepare("
+                        SELECT * FROM auto_assign_tasks 
+                        WHERE is_active = 1 
+                        AND (max_assignments = 0 OR total_assigned < max_assignments)
+                        ORDER BY RAND() 
+                        LIMIT ?
+                    ");
+                    $autoStmt->execute([$numTasks]);
+                    $autoTasks = $autoStmt->fetchAll();
+
+                    foreach ($autoTasks as $autoTask) {
+                        $deadline = date('Y-m-d', strtotime('+' . ($autoTask['deadline_days'] ?? 7) . ' days'));
+
+                        $taskStmt = $pdo->prepare("
+                            INSERT INTO tasks (user_id, product_link, brand_name, commission, deadline, priority, admin_notes, assigned_by, task_status, created_at)
+                            VALUES (?, ?, ?, ?, ?, ?, ?, 'Auto-System', 'pending', NOW())
+                        ");
+                        $taskStmt->execute([
+                            $user_id,
+                            $autoTask['product_link'],
+                            $autoTask['brand_name'],
+                            $autoTask['commission'],
+                            $deadline,
+                            $autoTask['priority'],
+                            $autoTask['admin_notes']
+                        ]);
+                        $newTaskId = $pdo->lastInsertId();
+
+                        // Create task steps
+                        foreach (TASK_STEPS as $index => $step) {
+                            $stepStmt = $pdo->prepare("
+                                INSERT INTO task_steps (task_id, step_number, step_name, step_status, created_at)
+                                VALUES (?, ?, ?, 'pending', NOW())
+                            ");
+                            $stepStmt->execute([$newTaskId, $index + 1, $step]);
+                        }
+
+                        // Update assigned count
+                        $pdo->prepare("UPDATE auto_assign_tasks SET total_assigned = total_assigned + 1 WHERE id = ?")->execute([$autoTask['id']]);
+
+                        // Send notification
+                        createNotification($user_id, 'task', '📋 Welcome Task Assigned!',
+                            'A review task has been auto-assigned to you. Commission: ₹' . number_format($autoTask['commission'], 2),
+                            APP_URL . '/user/task-detail.php?task_id=' . $newTaskId);
+
+                        // Send Telegram DM if connected
+                        if (defined('TELEGRAM_ENABLED') && TELEGRAM_ENABLED) {
+                            try {
+                                $tgStmt = $pdo->prepare("SELECT telegram_chat_id FROM users WHERE id = ?");
+                                $tgStmt->execute([$user_id]);
+                                $tgChatId = $tgStmt->fetchColumn();
+                                if ($tgChatId) {
+                                    $tgBot = new TelegramBot();
+                                    $tgBot->sendPersonalTaskNotification($tgChatId, [
+                                        'task_id' => $newTaskId,
+                                        'brand_name' => $autoTask['brand_name'],
+                                        'commission' => $autoTask['commission'],
+                                        'deadline' => $deadline,
+                                        'product_link' => $autoTask['product_link'],
+                                    ]);
+                                }
+                            } catch (Exception $e) {
+                                error_log("Auto-assign Telegram DM error: " . $e->getMessage());
+                            }
+
+                            // Send channel notification
+                            try {
+                                $tgBot = new TelegramBot();
+                                $tgBot->sendTaskAssignedNotification([
+                                    'user_name' => $name,
+                                    'task_id' => $newTaskId,
+                                    'product_link' => $autoTask['product_link'],
+                                    'brand_name' => $autoTask['brand_name'],
+                                    'commission' => $autoTask['commission'],
+                                    'deadline' => $deadline,
+                                    'priority' => $autoTask['priority'],
+                                    'assigned_by' => 'Auto-System'
+                                ]);
+                            } catch (Exception $e) {
+                                error_log("Auto-assign channel notification error: " . $e->getMessage());
+                            }
+                        }
+                    }
+                }
+            } catch (Exception $e) {
+                error_log("Auto-assign error for new user: " . $e->getMessage());
+            }
             
             // Clear referral from session
             unset($_SESSION['referral_code']);
