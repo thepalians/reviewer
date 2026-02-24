@@ -29,9 +29,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$existingKYC) {
             $dob = sanitizeInput($_POST['dob']);
             $aadhaar = sanitizeInput($_POST['aadhaar_number']);
             $pan = strtoupper(sanitizeInput($_POST['pan_number']));
-            $bank_account = sanitizeInput($_POST['bank_account']);
-            $ifsc_code = strtoupper(sanitizeInput($_POST['ifsc_code']));
-            $bank_name = sanitizeInput($_POST['bank_name']);
             
             // Validate Aadhaar
             if (!validateAadhaar($aadhaar)) {
@@ -53,11 +50,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$existingKYC) {
                 throw new Exception('Unable to process your KYC submission. Please ensure all details are correct. If the issue persists, contact support.');
             }
             
-            // Validate IFSC
-            if (!validateIFSC($ifsc_code)) {
-                throw new Exception('Invalid IFSC code. Format: ABCD0123456');
-            }
-            
             // Validate age (minimum 18 years)
             $dobDate = new DateTime($dob);
             $today = new DateTime();
@@ -70,7 +62,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$existingKYC) {
             // Upload documents
             $aadhaar_file = null;
             $pan_file = null;
-            $passbook_file = null;
             
             if (isset($_FILES['aadhaar_file']) && $_FILES['aadhaar_file']['error'] === UPLOAD_ERR_OK) {
                 $aadhaar_file = uploadKYCDocument($_FILES['aadhaar_file'], 'aadhaar', $user_id);
@@ -90,21 +81,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$existingKYC) {
                 throw new Exception('PAN document is required.');
             }
             
-            if (isset($_FILES['passbook_file']) && $_FILES['passbook_file']['error'] === UPLOAD_ERR_OK) {
-                $passbook_file = uploadKYCDocument($_FILES['passbook_file'], 'passbook', $user_id);
-                if (!$passbook_file) {
-                    throw new Exception('Failed to upload Bank Passbook/Cheque. Please ensure it is a valid image or PDF (max 5MB).');
-                }
-            } else {
-                throw new Exception('Bank Passbook/Cancelled Cheque is required.');
-            }
-            
             // Insert KYC record
             $stmt = $pdo->prepare("
                 INSERT INTO user_kyc 
-                (user_id, full_name, dob, aadhaar_number, aadhaar_file, pan_number, pan_file, 
-                bank_account, ifsc_code, bank_name, passbook_file, status)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending')
+                (user_id, full_name, dob, aadhaar_number, aadhaar_file, pan_number, pan_file, status)
+                VALUES (?, ?, ?, ?, ?, ?, ?, 'pending')
             ");
             
             $stmt->execute([
@@ -114,11 +95,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$existingKYC) {
                 $aadhaar,
                 $aadhaar_file,
                 $pan,
-                $pan_file,
-                $bank_account,
-                $ifsc_code,
-                $bank_name,
-                $passbook_file
+                $pan_file
             ]);
             
             // Update user's KYC status
@@ -134,7 +111,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$existingKYC) {
             // Clean up uploaded files if any error
             if (isset($aadhaar_file)) deleteKYCDocument($aadhaar_file);
             if (isset($pan_file)) deleteKYCDocument($pan_file);
-            if (isset($passbook_file)) deleteKYCDocument($passbook_file);
         }
     }
 }
@@ -264,13 +240,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$existingKYC) {
                                 <?php echo maskPAN($existingKYC['pan_number']); ?>
                             </div>
                         </div>
-                        <div class="row mb-3">
-                            <div class="col-md-12">
-                                <strong>Bank Account:</strong><br>
-                                XXXX XXXX <?php echo substr($existingKYC['bank_account'], -4); ?><br>
-                                <small class="text-muted">IFSC: <?php echo htmlspecialchars($existingKYC['ifsc_code']); ?> | <?php echo htmlspecialchars($existingKYC['bank_name']); ?></small>
-                            </div>
-                        </div>
                         <div class="row">
                             <div class="col-md-12">
                                 <small class="text-muted">
@@ -336,30 +305,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$existingKYC) {
                         <div class="col-md-6">
                             <label class="form-label">Upload PAN Card *</label>
                             <input type="file" name="pan_file" class="form-control" required accept="image/*,.pdf">
-                        </div>
-                    </div>
-
-                    <h5 class="mb-3 mt-4"><i class="bi bi-bank"></i> Bank Details</h5>
-                    
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <label class="form-label">Bank Account Number *</label>
-                            <input type="text" name="bank_account" class="form-control" required maxlength="20">
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label">IFSC Code (11 characters) *</label>
-                            <input type="text" name="ifsc_code" class="form-control" required pattern="[A-Za-z]{4}0[A-Za-z0-9]{6}" maxlength="11" placeholder="SBIN0001234" style="text-transform: uppercase;">
-                        </div>
-                    </div>
-
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <label class="form-label">Bank Name *</label>
-                            <input type="text" name="bank_name" class="form-control" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label">Bank Passbook/Cancelled Cheque *</label>
-                            <input type="file" name="passbook_file" class="form-control" required accept="image/*,.pdf">
                         </div>
                     </div>
 

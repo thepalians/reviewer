@@ -23,15 +23,6 @@ if (!function_exists('validatePAN')) {
     }
 }
 
-if (!function_exists('validateIFSC')) {
-    /**
-     * Validate IFSC code (11 characters)
-     */
-    function validateIFSC(string $ifsc): bool {
-        return preg_match('/^[A-Z]{4}0[A-Z0-9]{6}$/', strtoupper($ifsc)) === 1;
-    }
-}
-
 if (!function_exists('getUserKYC')) {
     /**
      * Get KYC information for a user
