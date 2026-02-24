@@ -176,6 +176,11 @@ if (!isset($current_page)) {
         <li><a href="<?php echo ADMIN_URL; ?>/security-logs.php" class="<?= $current_page === 'security-logs' ? 'active' : '' ?>">🔒 Security Logs</a></li>
         <li><a href="<?php echo ADMIN_URL; ?>/suspicious-users.php" class="<?= $current_page === 'suspicious-users' ? 'active' : '' ?>">🚨 Suspicious Users</a></li>
         
+        <!-- Content Section -->
+        <div class="sidebar-divider"></div>
+        <li class="menu-section-label"><span>📝 Content</span></li>
+        <li><a href="<?php echo ADMIN_URL; ?>/blog-manage.php" class="<?= $current_page === 'blog-manage' ? 'active' : '' ?>"><i class="bi bi-journal-richtext"></i> Blog Manager</a></li>
+        
         <!-- Settings Section -->
         <div class="sidebar-divider"></div>
         <li class="menu-section-label"><span>⚙️ Settings</span></li>
