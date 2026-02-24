@@ -154,6 +154,129 @@ class TelegramBot {
     }
     
     /**
+     * Send personal DM to a user
+     */
+    public function sendPersonalMessage(string $chatId, string $text): bool {
+        return $this->sendMessage($text, $chatId);
+    }
+
+    /**
+     * Send task assigned notification as personal DM
+     */
+    public function sendPersonalTaskNotification(string $chatId, array $taskData): bool {
+        $message = "🎯 <b>Naya Task Mila!</b>\n\n";
+        $message .= "🆔 <b>Task ID:</b> #{$taskData['task_id']}\n";
+        if (!empty($taskData['brand_name'])) {
+            $message .= "🏷️ <b>Brand:</b> {$this->escapeHtml($taskData['brand_name'])}\n";
+        }
+        $message .= "💰 <b>Commission:</b> ₹" . number_format($taskData['commission'], 2) . "\n";
+        if (!empty($taskData['deadline'])) {
+            $message .= "⏰ <b>Deadline:</b> {$this->escapeHtml($taskData['deadline'])}\n";
+        }
+        $message .= "🔗 <b>Product:</b> <a href=\"{$this->escapeHtml($taskData['product_link'])}\">View Product</a>\n\n";
+        $message .= "👉 <a href=\"" . APP_URL . "/user/task-detail.php?id={$taskData['task_id']}\">Open Task</a>";
+
+        return $this->sendPersonalMessage($chatId, $message);
+    }
+
+    /**
+     * Send payment/withdrawal notification as personal DM
+     */
+    public function sendPaymentNotification(string $chatId, array $data): bool {
+        $message = "💰 <b>Payment Update!</b>\n\n";
+        $message .= "💵 <b>Amount:</b> ₹" . number_format($data['amount'], 2) . "\n";
+        $message .= "📋 <b>Type:</b> {$this->escapeHtml($data['type'])}\n";
+        $message .= "✅ <b>Status:</b> {$this->escapeHtml($data['status'])}\n";
+        if (!empty($data['transaction_id'])) {
+            $message .= "🔖 <b>Transaction:</b> {$this->escapeHtml($data['transaction_id'])}\n";
+        }
+        $message .= "\n👉 <a href=\"" . APP_URL . "/user/wallet.php\">View Wallet</a>";
+
+        return $this->sendPersonalMessage($chatId, $message);
+    }
+
+    /**
+     * Send task status notification as personal DM
+     */
+    public function sendTaskStatusNotification(string $chatId, array $data): bool {
+        $statusEmoji = [
+            'approved' => '✅',
+            'rejected' => '❌',
+            'completed' => '🎉',
+        ];
+        $emoji = $statusEmoji[$data['status']] ?? '📋';
+
+        $message = "{$emoji} <b>Task Update!</b>\n\n";
+        $message .= "🆔 <b>Task ID:</b> #{$data['task_id']}\n";
+        $message .= "📋 <b>Status:</b> " . ucfirst($data['status']) . "\n";
+        if (!empty($data['reason'])) {
+            $message .= "💬 <b>Reason:</b> {$this->escapeHtml($data['reason'])}\n";
+        }
+        if ($data['status'] === 'approved' && !empty($data['commission'])) {
+            $message .= "💰 <b>Earned:</b> ₹" . number_format($data['commission'], 2) . "\n";
+        }
+        $message .= "\n👉 <a href=\"" . APP_URL . "/user/task-detail.php?id={$data['task_id']}\">View Task</a>";
+
+        return $this->sendPersonalMessage($chatId, $message);
+    }
+
+    /**
+     * Send KYC status notification as personal DM
+     */
+    public function sendKYCNotification(string $chatId, array $data): bool {
+        $emoji = $data['status'] === 'verified' ? '✅' : '❌';
+        $message = "{$emoji} <b>KYC Update!</b>\n\n";
+        $message .= "📋 <b>Status:</b> " . ucfirst($data['status']) . "\n";
+        if ($data['status'] === 'verified') {
+            $message .= "\n🎉 Ab aap withdrawals kar sakte hain!";
+        } else {
+            $message .= "💬 <b>Reason:</b> {$this->escapeHtml($data['reason'] ?? 'N/A')}\n";
+            $message .= "\n👉 <a href=\"" . APP_URL . "/user/kyc.php\">Re-submit KYC</a>";
+        }
+
+        return $this->sendPersonalMessage($chatId, $message);
+    }
+
+    /**
+     * Send referral bonus notification as personal DM
+     */
+    public function sendReferralNotification(string $chatId, array $data): bool {
+        $message = "🎁 <b>Referral Bonus!</b>\n\n";
+        $message .= "👤 <b>Referred User:</b> {$this->escapeHtml($data['referred_name'])}\n";
+        $message .= "💰 <b>Bonus:</b> ₹" . number_format($data['bonus'], 2) . "\n";
+        $message .= "📊 <b>Total Referrals:</b> {$data['total_referrals']}\n";
+        $message .= "\n👉 <a href=\"" . APP_URL . "/user/referral.php\">View Referrals</a>";
+
+        return $this->sendPersonalMessage($chatId, $message);
+    }
+
+    /**
+     * Send deadline reminder as personal DM
+     */
+    public function sendDeadlineReminder(string $chatId, array $data): bool {
+        $message = "⏰ <b>Deadline Reminder!</b>\n\n";
+        $message .= "🆔 <b>Task ID:</b> #{$data['task_id']}\n";
+        $message .= "📅 <b>Deadline:</b> {$this->escapeHtml($data['deadline'])}\n";
+        $message .= "⚠️ Jaldi complete karo, deadline pass aa rahi hai!\n";
+        $message .= "\n👉 <a href=\"" . APP_URL . "/user/task-detail.php?id={$data['task_id']}\">Open Task</a>";
+
+        return $this->sendPersonalMessage($chatId, $message);
+    }
+
+    /**
+     * Send inactive user nudge as personal DM
+     */
+    public function sendInactiveNudge(string $chatId, array $data): bool {
+        $message = "👋 <b>We miss you!</b>\n\n";
+        $message .= "📢 {$data['available_tasks']} naye tasks available hain!\n";
+        $message .= "💰 Aaj tak ka earning: ₹" . number_format($data['total_earnings'], 2) . "\n";
+        $message .= "\n🎯 Abhi login karke tasks complete karo!\n";
+        $message .= "👉 <a href=\"" . APP_URL . "/user/dashboard.php\">Go to Dashboard</a>";
+
+        return $this->sendPersonalMessage($chatId, $message);
+    }
+
+    /**
      * Escape HTML special characters
      * 
      * @param string $text Text to escape

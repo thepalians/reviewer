@@ -3,6 +3,7 @@ session_start();
 require_once __DIR__ . '/../includes/config.php';
 require_once __DIR__ . '/../includes/security.php';
 require_once __DIR__ . '/../includes/functions.php';
+require_once __DIR__ . '/../includes/TelegramBot.php';
 
 if (!isset($_SESSION['admin_name'])) {
     header('Location: ' . ADMIN_URL);
@@ -65,6 +66,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     
                     sendTaskNotification($withdrawal['user_id'], 'withdrawal_approved', ['amount' => $withdrawal['amount']]);
                     
+                    // Send Telegram personal DM
+                    if (defined('TELEGRAM_ENABLED') && TELEGRAM_ENABLED) {
+                        try {
+                            $tgStmt = $pdo->prepare("SELECT telegram_chat_id FROM users WHERE id = ?");
+                            $tgStmt->execute([$withdrawal['user_id']]);
+                            $userTgChatId = $tgStmt->fetchColumn();
+                            
+                            if ($userTgChatId) {
+                                $tgBot = new TelegramBot();
+                                $tgBot->sendPaymentNotification($userTgChatId, [
+                                    'amount' => $withdrawal['amount'],
+                                    'type' => 'Withdrawal',
+                                    'status' => 'Approved',
+                                    'transaction_id' => (string)$withdrawal_id,
+                                ]);
+                            }
+                        } catch (Exception $e) {
+                            error_log("Telegram withdrawal DM error: " . $e->getMessage());
+                        }
+                    }
+                    
                     $success = "Withdrawal #$withdrawal_id approved successfully!";
                     
                 } elseif ($action === 'complete') {
@@ -99,6 +121,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         '💰 Payment Sent!',
                         "Your withdrawal of ₹{$withdrawal['amount']} has been sent to your {$withdrawal['payment_method']}."
                     );
+                    
+                    // Send Telegram personal DM and channel payment proof
+                    if (defined('TELEGRAM_ENABLED') && TELEGRAM_ENABLED) {
+                        try {
+                            $tgStmt = $pdo->prepare("SELECT telegram_chat_id FROM users WHERE id = ?");
+                            $tgStmt->execute([$withdrawal['user_id']]);
+                            $userTgChatId = $tgStmt->fetchColumn();
+                            
+                            if ($userTgChatId) {
+                                $tgBot = new TelegramBot();
+                                $tgBot->sendPaymentNotification($userTgChatId, [
+                                    'amount' => $withdrawal['amount'],
+                                    'type' => 'Withdrawal',
+                                    'status' => 'Completed — Payment Sent',
+                                    'transaction_id' => (string)$withdrawal_id,
+                                ]);
+                            }
+                        } catch (Exception $e) {
+                            error_log("Telegram withdrawal DM error: " . $e->getMessage());
+                        }
+                        
+                        // Post payment proof to channel (public marketing)
+                        try {
+                            $tgBot = new TelegramBot();
+                            $channelMsg = "✅ <b>Payment Successful!</b>\n\n";
+                            $channelMsg .= "💰 ₹" . number_format($withdrawal['amount'], 2) . " paid to " . substr($withdrawal['user_name'], 0, 3) . "***\n";
+                            $channelMsg .= "⚡ Method: " . strtoupper($withdrawal['payment_method']) . "\n";
+                            $channelMsg .= "📅 Date: " . date('d M Y') . "\n\n";
+                            $channelMsg .= "🎯 Join " . APP_NAME . " and start earning!\n";
+                            $channelMsg .= "👉 " . APP_URL;
+                            $tgBot->sendMessage($channelMsg); // Goes to channel
+                        } catch (Exception $e) {
+                            error_log("Telegram payment proof error: " . $e->getMessage());
+                        }
+                    }
                     
                     $success = "Withdrawal #$withdrawal_id marked as completed!";
                     
@@ -142,6 +199,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         '❌ Withdrawal Rejected',
                         "Your withdrawal of ₹{$withdrawal['amount']} was rejected. Reason: $reject_reason. Amount has been refunded to your wallet."
                     );
+                    
+                    // Send Telegram personal DM
+                    if (defined('TELEGRAM_ENABLED') && TELEGRAM_ENABLED) {
+                        try {
+                            $tgStmt = $pdo->prepare("SELECT telegram_chat_id FROM users WHERE id = ?");
+                            $tgStmt->execute([$withdrawal['user_id']]);
+                            $userTgChatId = $tgStmt->fetchColumn();
+                            
+                            if ($userTgChatId) {
+                                $tgBot = new TelegramBot();
+                                $tgBot->sendPaymentNotification($userTgChatId, [
+                                    'amount' => $withdrawal['amount'],
+                                    'type' => 'Withdrawal',
+                                    'status' => 'Rejected — Amount Refunded',
+                                    'transaction_id' => (string)$withdrawal_id,
+                                ]);
+                            }
+                        } catch (Exception $e) {
+                            error_log("Telegram withdrawal DM error: " . $e->getMessage());
+                        }
+                    }
                     
                     $success = "Withdrawal #$withdrawal_id rejected and refunded!";
                 }

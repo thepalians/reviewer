@@ -5,6 +5,7 @@ require_once __DIR__ . '/../includes/security.php';
 require_once __DIR__ . '/../includes/functions.php';
 require_once __DIR__ . '/../includes/kyc-functions.php';
 require_once __DIR__ . '/../includes/Notifications.php';
+require_once __DIR__ . '/../includes/TelegramBot.php';
 
 if (!isset($_SESSION['admin_name'])) {
     header('Location: ' . ADMIN_URL);
@@ -39,6 +40,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'], $_POST['kyc
                     } catch (Exception $e) {
                         error_log("KYC approval notification error: {$e->getMessage()}");
                     }
+                    
+                    // Send Telegram personal DM for KYC status
+                    if (defined('TELEGRAM_ENABLED') && TELEGRAM_ENABLED) {
+                        try {
+                            $tgStmt = $pdo->prepare("SELECT telegram_chat_id FROM users WHERE id = ?");
+                            $tgStmt->execute([$kyc['user_id']]);
+                            $userTgChatId = $tgStmt->fetchColumn();
+                            
+                            if ($userTgChatId) {
+                                $tgBot = new TelegramBot();
+                                $tgBot->sendKYCNotification($userTgChatId, [
+                                    'status' => 'verified',
+                                    'reason' => null,
+                                ]);
+                            }
+                        } catch (Exception $e) {
+                            error_log("Telegram KYC notification error: {$e->getMessage()}");
+                        }
+                    }
+                    
                     $_SESSION['success'] = 'KYC approved successfully.';
                 } else {
                     $_SESSION['error'] = 'Failed to approve KYC.';
@@ -63,6 +84,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'], $_POST['kyc
                     } catch (Exception $e) {
                         error_log("KYC rejection notification error: {$e->getMessage()}");
                     }
+                    
+                    // Send Telegram personal DM for KYC status
+                    if (defined('TELEGRAM_ENABLED') && TELEGRAM_ENABLED) {
+                        try {
+                            $tgStmt = $pdo->prepare("SELECT telegram_chat_id FROM users WHERE id = ?");
+                            $tgStmt->execute([$kyc['user_id']]);
+                            $userTgChatId = $tgStmt->fetchColumn();
+                            
+                            if ($userTgChatId) {
+                                $tgBot = new TelegramBot();
+                                $tgBot->sendKYCNotification($userTgChatId, [
+                                    'status' => 'rejected',
+                                    'reason' => $reason,
+                                ]);
+                            }
+                        } catch (Exception $e) {
+                            error_log("Telegram KYC notification error: {$e->getMessage()}");
+                        }
+                    }
+                    
                     $_SESSION['success'] = 'KYC rejected successfully.';
                 } else {
                     $_SESSION['error'] = 'Failed to reject KYC.';

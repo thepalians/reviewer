@@ -202,6 +202,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['bulk_assign'])) {
                 // Send email notification
                 sendTaskNotification($uid, 'task_assigned', ['task_id' => $task_id, 'commission' => $commission]);
                 
+                // Send personal Telegram DM to the assigned user (if connected)
+                if (defined('TELEGRAM_ENABLED') && TELEGRAM_ENABLED) {
+                    try {
+                        $tgStmt = $pdo->prepare("SELECT telegram_chat_id FROM users WHERE id = ?");
+                        $tgStmt->execute([$uid]);
+                        $userTgChatId = $tgStmt->fetchColumn();
+                        
+                        if ($userTgChatId) {
+                            $tgBot = new TelegramBot();
+                            $tgBot->sendPersonalTaskNotification($userTgChatId, [
+                                'task_id' => $task_id,
+                                'brand_name' => $brand_name ?? '',
+                                'commission' => $commission,
+                                'deadline' => $deadline ?? '',
+                                'product_link' => $product_link,
+                            ]);
+                            usleep(100000); // 100ms delay (Telegram rate limit)
+                        }
+                    } catch (Exception $e) {
+                        error_log("Telegram personal DM error for user $uid: " . $e->getMessage());
+                    }
+                }
+                
                 $success_count++;
                 
             } catch (PDOException $e) {
@@ -415,6 +438,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['single_assign'])) {
                     ]);
                 } catch (Exception $e) {
                     error_log("Telegram notification error: " . $e->getMessage());
+                }
+                
+                // Send personal Telegram DM to the assigned user (if connected)
+                try {
+                    $tgStmt = $pdo->prepare("SELECT telegram_chat_id FROM users WHERE id = ?");
+                    $tgStmt->execute([$user_id]);
+                    $userTgChatId = $tgStmt->fetchColumn();
+                    
+                    if ($userTgChatId) {
+                        $tgBotPersonal = new TelegramBot();
+                        $tgBotPersonal->sendPersonalTaskNotification($userTgChatId, [
+                            'task_id' => $task_id,
+                            'brand_name' => $brand_name ?? '',
+                            'commission' => $commission,
+                            'deadline' => $deadline ?? '',
+                            'product_link' => $product_link,
+                        ]);
+                    }
+                } catch (Exception $e) {
+                    error_log("Telegram personal DM error: " . $e->getMessage());
                 }
             }
             
