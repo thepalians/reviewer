@@ -8,6 +8,7 @@ declare(strict_types=1);
 session_start();
 
 require_once __DIR__ . '/includes/config.php';
+require_once __DIR__ . '/includes/TelegramBot.php';
 require_once __DIR__ . '/includes/security.php';
 require_once __DIR__ . '/includes/functions.php';
 require_once __DIR__ . '/includes/TelegramBot.php';
@@ -217,10 +218,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register'])) {
             // Send welcome email
             $emailBody = getEmailTemplate(
                 '🎉 Welcome to ' . APP_NAME . '!',
-                "Your account has been created successfully. You can now login and start completing tasks to earn rewards.",
+                "Your account has been created successfully. You can now login and start completing tasks to earn rewards.\n\n📖 Read our Pro Tips: " . APP_URL . "/blog/\n💎 Top earners use these secrets to earn 3x more!",
                 $name
             );
             sendEmail($email, 'Welcome to ' . APP_NAME, $emailBody, $user_id);
+
+            // Store WhatsApp welcome message for post-registration redirect
+            $welcome_msg  = "🎉 Welcome to " . APP_NAME . "!\n\n";
+            $welcome_msg .= "✅ Your account is ready. Start earning now!\n\n";
+            $welcome_msg .= "📖 Read our Pro Tips: " . APP_URL . "/blog/\n";
+            $welcome_msg .= "💎 Top earners use these secrets to earn 3x more!\n\n";
+            $welcome_msg .= "👉 Login: " . APP_URL;
+            $_SESSION['whatsapp_welcome_msg'] = $welcome_msg;
+            
+            // Send Telegram welcome message
+            if (defined('TELEGRAM_ENABLED') && TELEGRAM_ENABLED) {
+                try {
+                    $tgBot = new TelegramBot();
+                    $tgBot->sendWelcomeMessage($name, $user_id);
+                } catch (Exception $e) {
+                    error_log("Telegram welcome message error: " . $e->getMessage());
+                }
+            }
             
             // Log activity
             logActivity("New user registered: $email", null, $user_id);
