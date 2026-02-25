@@ -80,6 +80,22 @@ try {
     $stmt = $pdo->query("SELECT COUNT(*) FROM review_requests WHERE admin_status = 'pending' AND payment_status = 'paid'");
     $pending_approvals = (int)$stmt->fetchColumn();
     
+    // Pending Social Campaigns
+    try {
+        $stmt = $pdo->query("SELECT COUNT(*) FROM social_campaigns WHERE admin_approved = 0 AND status = 'pending'");
+        $pending_social_campaigns = (int)$stmt->fetchColumn();
+    } catch (PDOException $e) {
+        $pending_social_campaigns = 0;
+    }
+    
+    // Total active social campaigns
+    try {
+        $stmt = $pdo->query("SELECT COUNT(*) FROM social_campaigns WHERE admin_approved = 1 AND status = 'active'");
+        $active_social_campaigns = (int)$stmt->fetchColumn();
+    } catch (PDOException $e) {
+        $active_social_campaigns = 0;
+    }
+    
     // Revenue Stats (this month)
     $stmt = $pdo->query("
         SELECT 
@@ -169,6 +185,7 @@ try {
     $total_wallet_balance = $total_paid = $pending_withdrawal_amount = 0;
     $pending_withdrawals = $unread_messages = $unanswered_questions = 0;
     $total_sellers = $active_sellers = $total_seller_revenue = $pending_approvals = 0;
+    $pending_social_campaigns = $active_social_campaigns = 0;
     $month_stats = ['total_credited' => 0, 'total_withdrawn' => 0];
     $daily_registrations = $daily_tasks = $monthly_revenue = [];
     $recent_activities = $recent_users = $pending_withdrawal_list = $top_earners = [];
@@ -325,7 +342,7 @@ try {
         .activity-time{font-size:11px;color:#94a3b8;margin-top:5px}
         
         /* Quick Actions */
-        .quick-actions{display:grid;grid-template-columns:repeat(4,1fr);gap:15px;margin-bottom:25px}
+        .quick-actions{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:15px;margin-bottom:25px}
         .quick-action{background:#fff;border-radius:12px;padding:20px;text-align:center;text-decoration:none;transition:all 0.2s;box-shadow:0 2px 10px rgba(0,0,0,0.04)}
         .quick-action:hover{transform:translateY(-3px);box-shadow:0 5px 20px rgba(0,0,0,0.08)}
         .quick-action .icon{width:50px;height:50px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px;margin:0 auto 12px}
@@ -476,6 +493,12 @@ try {
                 <div class="stat-label">Active Users</div>
                 <div class="stat-change">Last 7 days</div>
             </div>
+            <div class="stat-card" style="border-left:4px solid #f59e0b">
+                <div class="stat-icon" style="background:#fef3c7;color:#f59e0b">📢</div>
+                <div class="stat-value"><?php echo number_format($pending_social_campaigns); ?></div>
+                <div class="stat-label">Pending Campaigns</div>
+                <div class="stat-change"><?php echo $active_social_campaigns; ?> active campaigns</div>
+            </div>
         </div>
         
         <!-- Quick Actions -->
@@ -495,6 +518,10 @@ try {
             <a href="<?php echo ADMIN_URL; ?>/reports.php" class="quick-action">
                 <div class="icon" style="background:#fef3c7;color:#f59e0b">📊</div>
                 <div class="label">View Reports</div>
+            </a>
+            <a href="<?php echo ADMIN_URL; ?>/social-campaigns.php" class="quick-action">
+                <div class="icon" style="background:#fef3c7;color:#f59e0b">📢</div>
+                <div class="label">Social Campaigns<?php if($pending_social_campaigns > 0): ?> (<?php echo $pending_social_campaigns; ?>)<?php endif; ?></div>
             </a>
         </div>
         
