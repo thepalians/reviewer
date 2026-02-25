@@ -96,6 +96,15 @@ $user_rating = (float)($user_stats['rating'] ?? 5.0);
 $user_level = (int)($user_stats['level'] ?? 1);
 $streak_days = (int)($user_stats['streak_days'] ?? 0);
 
+// Get blog count for dashboard card
+$blog_count = 0;
+try {
+    $blog_stmt = $pdo->query("SELECT COUNT(*) FROM blog_posts WHERE status = 'published'");
+    $blog_count = (int)$blog_stmt->fetchColumn();
+} catch (PDOException $e) {
+    $blog_count = 0;
+}
+
 // Leaderboard summary
 try {
     $user_points = getUserPoints($pdo, $user_id);
@@ -309,6 +318,22 @@ try {
 <style>.dashboard{padding-top:55px !important}</style>
 <?php endif; ?>
 <div class="dashboard">
+    <?php if (isset($_GET['welcome']) && $_GET['welcome'] === '1' && isset($_SESSION['whatsapp_welcome_msg'])): ?>
+    <div style="background:linear-gradient(135deg,#25d366,#128c7e);border-radius:15px;padding:20px;margin-bottom:20px;box-shadow:0 5px 20px rgba(37,211,102,0.3)">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:15px">
+            <div style="color:#fff">
+                <h3 style="margin:0;font-size:18px;font-weight:700">🎉 Welcome to <?php echo escape(APP_NAME); ?>!</h3>
+                <p style="margin:5px 0 0;opacity:0.9;font-size:13px">Share your joining on WhatsApp &amp; invite friends to earn ₹50 per referral!</p>
+            </div>
+            <a href="https://wa.me/?text=<?php echo urlencode($_SESSION['whatsapp_welcome_msg']); ?>"
+               target="_blank"
+               style="background:#fff;color:#128c7e;padding:12px 24px;border-radius:25px;text-decoration:none;font-weight:700;font-size:14px;display:inline-flex;align-items:center;gap:8px;transition:transform 0.2s;box-shadow:0 3px 10px rgba(0,0,0,0.15)">
+               📱 Share on WhatsApp
+            </a>
+        </div>
+    </div>
+    <?php unset($_SESSION['whatsapp_welcome_msg']); ?>
+    <?php endif; ?>
     <!-- Header -->
     <div class="header">
         <div class="user-info">
@@ -411,6 +436,22 @@ try {
         </div>
     </div>
     <?php endif; ?>
+
+    <!-- Blog Pro Tips Card -->
+    <a href="<?php echo APP_URL; ?>/blog/" style="text-decoration:none;display:block">
+        <div style="background:linear-gradient(135deg,#667eea,#f7971e);border-radius:15px;padding:20px;margin-bottom:20px;box-shadow:0 5px 20px rgba(102,126,234,0.3);cursor:pointer;transition:transform 0.2s">
+            <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:15px">
+                <div style="color:#fff">
+                    <h3 style="margin:0;font-size:18px;font-weight:700">💎 Pro Tips: Earn 3x More Than Others</h3>
+                    <p style="margin:5px 0 0;opacity:0.9;font-size:13px">📖 <?php echo $blog_count; ?> articles • ⏱️ 3 min avg read</p>
+                    <p style="margin:3px 0 0;opacity:0.8;font-size:12px">"Top earners use these secrets daily!"</p>
+                </div>
+                <div style="background:rgba(255,255,255,0.2);color:#fff;padding:12px 24px;border-radius:25px;font-weight:700;font-size:14px;display:inline-flex;align-items:center;gap:8px">
+                    🔓 Read Now →
+                </div>
+            </div>
+        </div>
+    </a>
 
     <!-- Quick Actions -->
     <div class="quick-actions">
