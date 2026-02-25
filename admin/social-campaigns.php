@@ -99,8 +99,21 @@ $csrf_token = generateCSRFToken();
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="<?php echo APP_URL; ?>/assets/css/admin.css">
     <style>
+        *{box-sizing:border-box;margin:0;padding:0}
+        body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f5f6fa;min-height:100vh}
+        .admin-layout{display:grid;grid-template-columns:250px 1fr;min-height:100vh}
+        .sidebar{background:linear-gradient(180deg,#2c3e50 0%,#1a252f 100%);color:#fff;padding:0;position:sticky;top:0;height:100vh;overflow-y:auto}
+        .sidebar-header{padding:25px 20px;border-bottom:1px solid rgba(255,255,255,0.1)}
+        .sidebar-header h2{font-size:20px;display:flex;align-items:center;gap:10px}
+        .sidebar-menu{list-style:none;padding:15px 0}
+        .sidebar-menu li{margin-bottom:5px}
+        .sidebar-menu a{display:flex;align-items:center;gap:10px;padding:10px 20px;color:rgba(255,255,255,0.75);text-decoration:none;border-radius:0 25px 25px 0;margin-right:15px;transition:all 0.2s;font-size:14px}
+        .sidebar-menu a:hover,.sidebar-menu a.active{background:rgba(255,255,255,0.15);color:#fff}
+        .sidebar-divider{height:1px;background:rgba(255,255,255,0.08);margin:10px 20px}
+        .badge{background:#e74c3c;color:#fff;font-size:10px;padding:2px 6px;border-radius:10px;margin-left:auto}
+        .main-content{padding:25px;overflow-x:auto}
+        @media(max-width:900px){.admin-layout{grid-template-columns:1fr}.sidebar{display:none}}
         .status-badge { padding:0.3rem 0.75rem;border-radius:20px;font-size:0.78rem;font-weight:600; }
         .status-active    { background:#d4edda;color:#155724; }
         .status-pending   { background:#fff3cd;color:#856404; }
@@ -111,8 +124,9 @@ $csrf_token = generateCSRFToken();
     </style>
 </head>
 <body>
+<div class="admin-layout">
 <?php include 'includes/sidebar.php'; ?>
-<div class="main-content" style="margin-left:220px;padding:2rem;">
+<div class="main-content">
 
     <h2 style="margin-bottom:1.5rem;font-size:1.5rem;font-weight:700;">📱 Social Campaigns</h2>
 
@@ -206,6 +220,7 @@ $csrf_token = generateCSRFToken();
     </div>
     <?php endif; ?>
 
+</div>
 </div>
 </body>
 </html>

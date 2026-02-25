@@ -180,6 +180,7 @@ $embed_html = $campaign['embed_code'] ?: generateEmbed($campaign['platform_slug'
     var claimed      = false;
     var lastHb       = 0;
     var timerInterval = null;
+    var isYTPlatform = <?php echo json_encode($campaign['platform_slug'] === 'youtube'); ?>;
 
     var timerEl   = document.getElementById('timer-display');
     var fillEl    = document.getElementById('progress-fill');
@@ -230,7 +231,9 @@ $embed_html = $campaign['embed_code'] ?: generateEmbed($campaign['platform_slug'
 
     // Start timer
     timerInterval = setInterval(function() {
-        if (tabActive && !claimed) {
+        // For YouTube: only count when video is actually playing (not paused/buffering)
+        var videoPlaying = !isYTPlatform || window._ytPlaying !== false;
+        if (tabActive && !claimed && videoPlaying) {
             seconds++;
             timerEl.textContent = formatTime(seconds);
         }
@@ -331,5 +334,42 @@ $embed_html = $campaign['embed_code'] ?: generateEmbed($campaign['platform_slug'
     sendHeartbeat();
 })();
 </script>
+<?php if ($campaign['platform_slug'] === 'youtube'): ?>
+<script>
+// YouTube IFrame API — detect playback state and forward seeks
+window._ytPlaying = false;
+window._ytLastTime = 0;
+window.onYouTubeIframeAPIReady = function() {
+    var iframe = document.getElementById('yt-player');
+    if (!iframe) return;
+    new YT.Player('yt-player', {
+        events: {
+            onReady: function(e) {
+                window._ytLastTime = 0;
+            },
+            onStateChange: function(e) {
+                if (e.data === YT.PlayerState.PLAYING) {
+                    var ct = e.target.getCurrentTime();
+                    // Forward seek > 15s detected — pause client timer briefly
+                    if (ct > window._ytLastTime + 15) {
+                        window._ytPlaying = false;
+                        setTimeout(function() { window._ytPlaying = true; }, 500);
+                    } else {
+                        window._ytPlaying = true;
+                    }
+                    window._ytLastTime = ct;
+                } else {
+                    if (e.target && e.target.getCurrentTime) {
+                        window._ytLastTime = e.target.getCurrentTime();
+                    }
+                    window._ytPlaying = false;
+                }
+            }
+        }
+    });
+};
+</script>
+<script src="https://www.youtube.com/iframe_api"></script>
+<?php endif; ?>
 </body>
 </html>

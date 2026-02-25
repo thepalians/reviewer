@@ -38,12 +38,15 @@ if (!$campaign_id) {
     exit;
 }
 
-// Fetch completion record to get server-tracked watch_percent
+// Fetch completion record to get server-tracked watch_percent and heartbeat count
 try {
     $stmt = $pdo->prepare("
-        SELECT stc.*, sc.watch_percent_required, sc.reward_per_task, sc.title
+        SELECT stc.*, sc.watch_percent_required, sc.reward_per_task, sc.title,
+               COALESCE(sc.video_duration, 300) AS video_duration,
+               COALESCE(sws.heartbeat_count, 0) AS heartbeat_count
         FROM social_task_completions stc
         JOIN social_campaigns sc ON sc.id = stc.campaign_id
+        LEFT JOIN social_watch_sessions sws ON sws.completion_id = stc.id
         WHERE stc.campaign_id = ? AND stc.user_id = ?
     ");
     $stmt->execute([$campaign_id, $user_id]);
@@ -56,8 +59,9 @@ try {
 
 // If no completion record exists yet, create one from client data
 if (!$completion) {
-    // Validate watch percent from client (trusting since no session record)
-    $watch_percent = min(100.0, $watch_seconds > 0 ? round($watch_seconds / 3.0, 2) : 0);
+    // Validate watch percent from client using server-side formula (no heartbeats yet, use grace only)
+    $actual_seconds = min($watch_seconds, 15); // no heartbeats yet — minimal grace
+    $watch_percent = min(100.0, round(($actual_seconds / 300) * 100, 2));
     $watch_data = ['watch_percent' => $watch_percent, 'watch_seconds' => $watch_seconds];
 } else {
     // Use server-tracked value
@@ -65,6 +69,17 @@ if (!$completion) {
         echo json_encode(['success' => false, 'message' => 'You have already claimed this reward.']);
         exit;
     }
+
+    // Validate server-tracked heartbeat count against minimum required
+    $heartbeat_count   = (int)$completion['heartbeat_count'];
+    $assumed_duration  = max(1, (int)$completion['video_duration']);
+    $watch_pct_req     = (float)$completion['watch_percent_required'];
+    $min_heartbeats    = (int)ceil($assumed_duration * ($watch_pct_req / 100) / 10);
+    if ($heartbeat_count < $min_heartbeats) {
+        echo json_encode(['success' => false, 'message' => 'Minimum watch time not verified. Please continue watching the video.']);
+        exit;
+    }
+
     $watch_percent = (float)$completion['watch_percent'];
     $watch_data = ['watch_percent' => $watch_percent, 'watch_seconds' => $watch_seconds];
 }

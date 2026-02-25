@@ -46,8 +46,8 @@ if (!$campaign_id) {
 $rate_key = "hb_{$user_id}_{$campaign_id}";
 // Simple rate-limit via DB last_heartbeat check
 try {
-    // Fetch campaign to get watch_percent_required
-    $stmt = $pdo->prepare("SELECT id, watch_percent_required, reward_per_task FROM social_campaigns WHERE id = ? AND status = 'active' AND admin_approved = 1");
+    // Fetch campaign to get watch_percent_required and video_duration
+    $stmt = $pdo->prepare("SELECT id, watch_percent_required, reward_per_task, COALESCE(video_duration, 300) AS video_duration FROM social_campaigns WHERE id = ? AND status = 'active' AND admin_approved = 1");
     $stmt->execute([$campaign_id]);
     $campaign = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -71,6 +71,7 @@ try {
         ");
         $stmt->execute([$campaign_id, $user_id, $watch_seconds, $ip, $ua]);
         $completion_id = (int)$pdo->lastInsertId();
+        $server_heartbeats = 0;
     } else {
         $completion_id = (int)$completion['id'];
 
@@ -84,9 +85,10 @@ try {
         }
 
         // Rate limit: check last heartbeat on session
-        $stmt = $pdo->prepare("SELECT last_heartbeat FROM social_watch_sessions WHERE completion_id = ? ORDER BY id DESC LIMIT 1");
+        $stmt = $pdo->prepare("SELECT last_heartbeat, heartbeat_count FROM social_watch_sessions WHERE completion_id = ? ORDER BY id DESC LIMIT 1");
         $stmt->execute([$completion_id]);
         $session = $stmt->fetch(PDO::FETCH_ASSOC);
+        $server_heartbeats = $session ? (int)$session['heartbeat_count'] : 0;
         if ($session && $session['last_heartbeat']) {
             $diff = time() - strtotime($session['last_heartbeat']);
             if ($diff < 5) {
@@ -100,9 +102,13 @@ try {
         }
     }
 
-    // Calculate watch percent (assume average video length of 300s for now; server trusts watch_seconds but caps at 100%)
-    // In a production system you'd store video duration and validate against it
-    $watch_percent = min(100.0, $watch_seconds > 0 ? round($watch_seconds / 3.0, 2) : 0);
+    // Server-side anti-cheat: calculate watch percent from server-tracked heartbeats
+    // Each heartbeat = ~10 seconds of genuine watch time (heartbeat interval is 10s)
+    // Allow 15 seconds grace to cover the first heartbeat before session is created
+    $server_watched_seconds = $server_heartbeats * 10;
+    $actual_seconds = min($watch_seconds, $server_watched_seconds + 15);
+    $assumed_duration = max(1, (int)($campaign['video_duration'] ?? 300));
+    $watch_percent = min(100.0, round(($actual_seconds / $assumed_duration) * 100, 2));
 
     // Update completion
     $pdo->prepare("UPDATE social_task_completions SET watch_duration = ?, watch_percent = ?, status = 'watching' WHERE id = ?")
