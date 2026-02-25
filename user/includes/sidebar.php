@@ -97,6 +97,11 @@ if (!isset($current_page)) {
         <li class="menu-section-label"><span>📋 Tasks</span></li>
         <li><a href="<?php echo APP_URL; ?>/user/tasks.php" class="<?= $current_page === 'tasks' ? 'active' : '' ?>">📋 My Tasks <?php if($pending_tasks_count > 0): ?><span class="badge"><?php echo $pending_tasks_count; ?></span><?php endif; ?></a></li>
         
+        <!-- Social Hub -->
+        <div class="sidebar-divider"></div>
+        <li class="menu-section-label"><span>📱 Social Hub</span></li>
+        <li><a href="<?php echo APP_URL; ?>/user/social-hub.php" class="<?= $current_page === 'social-hub' ? 'active' : '' ?>">📱 Social Hub</a></li>
+        
         <!-- Wallet -->
         <div class="sidebar-divider"></div>
         <li class="menu-section-label"><span>💰 Finance</span></li>

@@ -224,6 +224,10 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
                 <i class="bi bi-person-circle"></i>
                 <span>Profile</span>
             </a>
+            <a href="social-campaigns.php" class="<?= $current_page === 'social-campaigns' ? 'active' : '' ?>">
+                <i class="bi bi-megaphone"></i>
+                <span>📢 Campaigns</span>
+            </a>
             <a href="../logout.php">
                 <i class="bi bi-box-arrow-right"></i>
                 <span>Logout</span>
