@@ -290,13 +290,13 @@ function exportCalendarToICal($db, $user_id, $start_date, $end_date) {
     
     $ical = "BEGIN:VCALENDAR\r\n";
     $ical .= "VERSION:2.0\r\n";
-    $ical .= "PRODID:-//ReviewFlow//Task Calendar//EN\r\n";
+    $ical .= "PRODID:-//TaskHive//Task Calendar//EN\r\n";
     $ical .= "CALSCALE:GREGORIAN\r\n";
     $ical .= "METHOD:PUBLISH\r\n";
     
     foreach ($tasks as $task) {
         $ical .= "BEGIN:VEVENT\r\n";
-        $ical .= "UID:" . md5($task['id'] . $task['task_id']) . "@reviewflow.com\r\n";
+        $ical .= "UID:" . md5($task['id'] . $task['task_id']) . "@taskhive.com\r\n";
         $ical .= "DTSTAMP:" . gmdate('Ymd\THis\Z') . "\r\n";
         
         $date_str = str_replace('-', '', $task['scheduled_date']);

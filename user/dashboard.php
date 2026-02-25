@@ -198,7 +198,7 @@ try {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Dashboard - ReviewFlow</title>
+    <title>User Dashboard - TaskHive</title>
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -447,9 +447,9 @@ try {
                             <td>
                                 <?php 
                                 if($order['step3_status'] == 'pending' && $order['step2_status'] == 'approved') {
-                                    echo 'Submit Review Screenshot';
+                                    echo 'Submit Work Screenshot';
                                 } elseif($order['step2_status'] == 'pending' && $order['step1_status'] == 'approved') {
-                                    echo 'Submit Delivery Screenshot';
+                                    echo 'Submit Verification Screenshot';
                                 } elseif($order['step1_status'] == 'pending') {
                                     echo 'Submit Order Details';
                                 } elseif($order['step3_status'] == 'approved') {
@@ -483,7 +483,7 @@ try {
                     <thead>
                         <tr>
                             <th>Task ID</th>
-                            <th>Product Link</th>
+                            <th>Task Link</th>
                             <th>Assigned Date</th>
                             <th>Status</th>
                             <th>Action</th>

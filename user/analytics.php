@@ -72,7 +72,7 @@ $distColors = ['#059669', '#f59e0b', '#dc2626'];
             font-family: 'Inter', system-ui, -apple-system, sans-serif;
         }
         .navbar {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
             padding: 1rem 0;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
@@ -111,7 +111,7 @@ $distColors = ['#059669', '#f59e0b', '#dc2626'];
             font-size: 1.1rem;
         }
         .metric-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
             color: white;
             border-radius: 12px;
             padding: 1.5rem;
@@ -315,8 +315,8 @@ $distColors = ['#059669', '#f59e0b', '#dc2626'];
                 datasets: [{
                     label: 'Daily Earnings (₹)',
                     data: <?= json_encode($trendValues) ?>,
-                    borderColor: '#667eea',
-                    backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                    borderColor: '#0ea5e9',
+                    backgroundColor: 'rgba(14, 165, 233, 0.1)',
                     tension: 0.4,
                     fill: true
                 }]

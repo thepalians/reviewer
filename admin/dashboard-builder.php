@@ -109,7 +109,7 @@ $chartTypes = [
         .card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;padding-bottom:15px;border-bottom:2px solid #f0f0f0}
         .form-label{font-weight:600;margin-bottom:8px;font-size:14px}
         .form-control,.form-select{border-radius:8px;border:1px solid #ddd;padding:10px 15px}
-        .btn-primary{background:#667eea;border:none;padding:12px 25px;border-radius:8px;font-weight:600}
+        .btn-primary{background:#0ea5e9;border:none;padding:12px 25px;border-radius:8px;font-weight:600}
         .btn-secondary{background:#6c757d;border:none;padding:12px 25px;border-radius:8px;font-weight:600}
         .preview-box{background:#f8f9fa;border:2px dashed #ddd;border-radius:12px;padding:40px;text-align:center;min-height:200px}
         @media(max-width:768px){.wrapper{grid-template-columns:1fr}.sidebar{display:none}}

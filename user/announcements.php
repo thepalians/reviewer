@@ -64,7 +64,7 @@ foreach ($announcements as $announcement) {
     <title>Announcements - <?php echo APP_NAME; ?></title>
     <style>
         *{box-sizing:border-box;margin:0;padding:0}
-        body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:20px}
+        body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:linear-gradient(135deg,#0ea5e9 0%,#06b6d4 100%);min-height:100vh;padding:20px}
         
         .container{max-width:900px;margin:0 auto}
         
@@ -82,8 +82,8 @@ foreach ($announcements as $announcement) {
         .announcement-card{background:#fff;border-radius:15px;padding:25px;box-shadow:0 5px 20px rgba(0,0,0,0.1);transition:all 0.3s;position:relative;overflow:hidden}
         .announcement-card:hover{transform:translateY(-5px);box-shadow:0 8px 25px rgba(0,0,0,0.15)}
         
-        .announcement-card.unviewed{border-left:4px solid #667eea}
-        .announcement-card.unviewed::before{content:'NEW';position:absolute;top:15px;right:15px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;padding:5px 12px;border-radius:15px;font-size:11px;font-weight:700}
+        .announcement-card.unviewed{border-left:4px solid #0ea5e9}
+        .announcement-card.unviewed::before{content:'NEW';position:absolute;top:15px;right:15px;background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff;padding:5px 12px;border-radius:15px;font-size:11px;font-weight:700}
         
         .announcement-header{display:flex;justify-content:space-between;align-items:start;margin-bottom:15px;gap:15px}
         
@@ -99,11 +99,11 @@ foreach ($announcements as $announcement) {
         .announcement-dates{background:#f8f9ff;border-radius:10px;padding:12px 15px;display:flex;gap:20px;flex-wrap:wrap;font-size:13px}
         .announcement-dates .date-item{display:flex;align-items:center;gap:8px}
         .announcement-dates .date-label{color:#999;font-weight:600}
-        .announcement-dates .date-value{color:#667eea;font-weight:700}
+        .announcement-dates .date-value{color:#0ea5e9;font-weight:700}
         
         .announcement-footer{display:flex;justify-content:space-between;align-items:center;margin-top:15px;padding-top:15px;border-top:1px solid #f5f5f5}
         
-        .view-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;text-decoration:none;border-radius:8px;font-weight:600;font-size:14px;transition:all 0.2s}
+        .view-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff;text-decoration:none;border-radius:8px;font-weight:600;font-size:14px;transition:all 0.2s}
         .view-btn:hover{transform:translateY(-2px);box-shadow:0 4px 15px rgba(102,126,234,0.4)}
         
         .viewed-badge{display:inline-flex;align-items:center;gap:5px;padding:6px 12px;background:#e8f5e9;color:#27ae60;border-radius:8px;font-size:13px;font-weight:600}
@@ -126,7 +126,7 @@ foreach ($announcements as $announcement) {
         /* Stats */
         .stats-bar{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin-bottom:20px}
         .stat-item{background:#fff;border-radius:12px;padding:20px;text-align:center;box-shadow:0 3px 15px rgba(0,0,0,0.08)}
-        .stat-item .value{font-size:28px;font-weight:700;color:#667eea;margin-bottom:5px}
+        .stat-item .value{font-size:28px;font-weight:700;color:#0ea5e9;margin-bottom:5px}
         .stat-item .label{font-size:13px;color:#888;font-weight:600}
         
         /* Responsive */

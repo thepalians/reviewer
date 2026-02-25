@@ -12,13 +12,13 @@ require_once 'includes/functions.php';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Help & Support - Reviewer Task Management System</title>
+    <title>Help & Support - TaskHive</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     <style>
         body { background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); min-height: 100vh; }
         .help-hero {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
             color: #fff;
             padding: 60px 0 80px;
             text-align: center;
@@ -51,7 +51,7 @@ require_once 'includes/functions.php';
             margin-bottom: 20px;
             color: #fff;
         }
-        .help-icon.icon-faq { background: linear-gradient(135deg, #667eea, #764ba2); }
+        .help-icon.icon-faq { background: linear-gradient(135deg, #0ea5e9, #06b6d4); }
         .help-icon.icon-chat { background: linear-gradient(135deg, #10b981, #059669); }
         .help-icon.icon-contact { background: linear-gradient(135deg, #f59e0b, #d97706); }
         .accordion-item {
@@ -67,7 +67,7 @@ require_once 'includes/functions.php';
             border-radius: 12px !important;
         }
         .accordion-button:not(.collapsed) {
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: linear-gradient(135deg, #0ea5e9, #06b6d4);
             color: #fff;
             box-shadow: none;
         }
@@ -83,18 +83,18 @@ require_once 'includes/functions.php';
             border-left: 4px solid;
         }
         .contact-card:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(0,0,0,0.1); }
-        .contact-card.email-card { border-color: #667eea; }
+        .contact-card.email-card { border-color: #0ea5e9; }
         .contact-card.phone-card { border-color: #10b981; }
         .btn-outline-primary {
-            border: 2px solid #667eea;
-            color: #667eea;
+            border: 2px solid #0ea5e9;
+            color: #0ea5e9;
             border-radius: 10px;
             font-weight: 600;
             padding: 8px 24px;
             transition: all 0.3s;
         }
         .btn-outline-primary:hover {
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: linear-gradient(135deg, #0ea5e9, #06b6d4);
             border-color: transparent;
             color: #fff;
             transform: translateY(-2px);
@@ -121,7 +121,7 @@ require_once 'includes/functions.php';
                                 <i class="bi bi-question-circle-fill"></i>
                             </div>
                             <h4>FAQ</h4>
-                            <p>Find answers to frequently asked questions about the review process, payments, and task completion.</p>
+                            <p>Find answers to frequently asked questions about micro tasks, payments, and the TaskHive platform.</p>
                             <a href="#faq" class="btn btn-outline-primary">View FAQ</a>
                         </div>
                     </div>
@@ -161,43 +161,53 @@ require_once 'includes/functions.php';
                     <div class="accordion-item">
                         <h2 class="accordion-header">
                             <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
-                                How does the review process work?
+                                How do I complete a task?
                             </button>
                         </h2>
                         <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
                             <div class="accordion-body">
-                                The process has 4 steps: 1) Get assigned a product 2) Purchase the product 3) Submit review with screenshots 4) Receive 100% refund after verification.
+                                Complete tasks in 3 steps: 1) Start the task and note the details 2) Submit your work with required screenshots 3) Wait for admin verification. Once verified, your reward is credited to your wallet.
                             </div>
                         </div>
                     </div>
                     <div class="accordion-item">
                         <h2 class="accordion-header">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
-                                When will I receive my refund?
+                                How do I withdraw my earnings?
                             </button>
                         </h2>
                         <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
                             <div class="accordion-body">
-                                Refunds are processed within 3-5 business days after admin verification. You'll receive notification when refund is initiated.
+                                Go to your Wallet page, enter the amount you want to withdraw (minimum ₹100), and submit a withdrawal request. Payments are processed via UPI or bank transfer within 1-3 business days.
                             </div>
                         </div>
                     </div>
                     <div class="accordion-item">
                         <h2 class="accordion-header">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
-                                What if I miss the deadline?
+                                What types of tasks are available?
                             </button>
                         </h2>
                         <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
                             <div class="accordion-body">
-                                Contact admin immediately if you can't meet the deadline. Extensions may be granted on a case-by-case basis.
+                                TaskHive offers a variety of micro tasks including data entry, online surveys, content writing, app testing, social media tasks, and more. New tasks are added regularly by clients.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                                How does the referral system work?
+                            </button>
+                        </h2>
+                        <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Share your unique referral link with friends. When they sign up and complete their first task, you earn a bonus reward credited directly to your wallet. There is no limit on how many friends you can refer!
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            
-            <!-- Contact Section -->
             <div id="contact" class="mb-5">
                 <h2 class="mb-4"><i class="bi bi-headset"></i> Contact Support</h2>
                 <div class="row">
@@ -206,7 +216,7 @@ require_once 'includes/functions.php';
                             <div class="card-body p-4">
                                 <h5 class="card-title"><i class="bi bi-envelope-at text-primary"></i> Email Support</h5>
                                 <p class="card-text">For account issues, payment queries, and technical support:</p>
-                                <p><strong>Email:</strong> admin@reviewflow.com</p>
+                                <p><strong>Email:</strong> admin@taskhive.com</p>
                                 <p><strong>Response Time:</strong> Within 24 hours on business days</p>
                             </div>
                         </div>

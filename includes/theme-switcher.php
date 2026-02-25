@@ -1,6 +1,6 @@
 <?php
 /**
- * ReviewFlow Theme Switcher Component - Version 2.0
+ * TaskHive Theme Switcher Component - Version 2.0
  * Include this file on any page to add theme switching capability
  * Requires: Bootstrap Icons, themes.css, theme.js
  */
@@ -66,7 +66,7 @@
 </style>
 
 <!-- Inline Theme Switcher (for headers/navbars) -->
-<div class="theme-switcher-inline" id="theme-switcher-inline" onclick="window.ReviewFlowTheme && window.ReviewFlowTheme.toggle()" title="Toggle theme">
+<div class="theme-switcher-inline" id="theme-switcher-inline" onclick="window.TaskHiveTheme && window.TaskHiveTheme.toggle()" title="Toggle theme">
     <i class="bi bi-sun-fill theme-icon" id="theme-icon-inline"></i>
     <span class="theme-label">Theme</span>
 </div>

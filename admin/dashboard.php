@@ -194,7 +194,7 @@ try {
         .sidebar-menu{list-style:none;padding:15px 0}
         .sidebar-menu li{margin-bottom:5px}
         .sidebar-menu a{display:flex;align-items:center;gap:12px;padding:12px 20px;color:#94a3b8;text-decoration:none;transition:all 0.2s;border-left:3px solid transparent}
-        .sidebar-menu a:hover,.sidebar-menu a.active{background:rgba(255,255,255,0.05);color:#fff;border-left-color:#667eea}
+        .sidebar-menu a:hover,.sidebar-menu a.active{background:rgba(255,255,255,0.05);color:#fff;border-left-color:#0ea5e9}
         .sidebar-menu .badge{background:#e74c3c;color:#fff;padding:2px 8px;border-radius:10px;font-size:11px;margin-left:auto}
         .sidebar-divider{height:1px;background:rgba(255,255,255,0.1);margin:15px 20px}
         .sidebar-menu a.logout{color:#e74c3c}
@@ -209,7 +209,7 @@ try {
         .page-subtitle{color:#64748b;font-size:14px;margin-top:5px}
         .header-actions{display:flex;gap:10px}
         .header-btn{padding:10px 20px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;border:none;transition:all 0.2s;display:flex;align-items:center;gap:8px;text-decoration:none}
-        .header-btn.primary{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
+        .header-btn.primary{background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff}
         .header-btn.secondary{background:#fff;color:#64748b;border:1px solid #e2e8f0}
         .header-btn:hover{transform:translateY(-2px);box-shadow:0 5px 15px rgba(0,0,0,0.1)}
         
@@ -263,13 +263,13 @@ try {
         .bar-group{flex:1;display:flex;flex-direction:column;align-items:center}
         .bar-wrapper{display:flex;gap:4px;align-items:flex-end;height:160px}
         .bar{width:18px;border-radius:4px 4px 0 0;transition:height 0.5s}
-        .bar.primary{background:linear-gradient(180deg,#667eea,#764ba2)}
+        .bar.primary{background:linear-gradient(180deg,#0ea5e9,#06b6d4)}
         .bar.secondary{background:linear-gradient(180deg,#10b981,#059669)}
         .bar-label{font-size:11px;color:#64748b;margin-top:10px}
         
         /* Donut Chart */
         .donut-chart{display:flex;align-items:center;gap:30px}
-        .donut{width:150px;height:150px;border-radius:50%;background:conic-gradient(#667eea 0deg calc(3.6deg * var(--completed)),#f59e0b calc(3.6deg * var(--completed)) calc(3.6deg * var(--completed) + 3.6deg * var(--pending)),#e2e8f0 calc(3.6deg * var(--completed) + 3.6deg * var(--pending)) 360deg);position:relative}
+        .donut{width:150px;height:150px;border-radius:50%;background:conic-gradient(#0ea5e9 0deg calc(3.6deg * var(--completed)),#f59e0b calc(3.6deg * var(--completed)) calc(3.6deg * var(--completed) + 3.6deg * var(--pending)),#e2e8f0 calc(3.6deg * var(--completed) + 3.6deg * var(--pending)) 360deg);position:relative}
         .donut::after{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:100px;height:100px;background:#fff;border-radius:50%}
         .donut-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;z-index:1}
         .donut-value{font-size:28px;font-weight:700;color:#1e293b}
@@ -284,7 +284,7 @@ try {
         .table-card{background:#fff;border-radius:15px;box-shadow:0 2px 10px rgba(0,0,0,0.04);overflow:hidden;margin-bottom:25px}
         .table-header{padding:20px;border-bottom:1px solid #f1f5f9;display:flex;justify-content:space-between;align-items:center}
         .table-title{font-size:16px;font-weight:600;color:#1e293b}
-        .table-action{font-size:13px;color:#667eea;text-decoration:none;font-weight:500}
+        .table-action{font-size:13px;color:#0ea5e9;text-decoration:none;font-weight:500}
         table{width:100%;border-collapse:collapse}
         th{background:#f8fafc;padding:12px 20px;text-align:left;font-size:12px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:0.5px}
         td{padding:15px 20px;border-bottom:1px solid #f1f5f9;font-size:14px;color:#334155}
@@ -292,7 +292,7 @@ try {
         tr:hover{background:#f8fafc}
         
         .user-cell{display:flex;align-items:center;gap:12px}
-        .user-avatar{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,#667eea,#764ba2);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:600;font-size:14px}
+        .user-avatar{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,#0ea5e9,#06b6d4);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:600;font-size:14px}
         .user-info{line-height:1.4}
         .user-name{font-weight:600;color:#1e293b}
         .user-email{font-size:12px;color:#64748b}
@@ -445,7 +445,7 @@ try {
             <div class="stat-card purple">
                 <div class="stat-icon">💸</div>
                 <div class="stat-value">₹<?php echo number_format($total_paid, 0); ?></div>
-                <div class="stat-label">Total Paid Out</div>
+                <div class="stat-label">Total Rewards Paid</div>
                 <div class="stat-change up">₹<?php echo number_format($month_stats['total_withdrawn'] ?? 0, 0); ?> this month</div>
             </div>
         </div>
@@ -455,13 +455,13 @@ try {
             <div class="stat-card cyan">
                 <div class="stat-icon">🏪</div>
                 <div class="stat-value"><?php echo number_format($total_sellers); ?></div>
-                <div class="stat-label">Total Sellers</div>
+                <div class="stat-label">Total Clients</div>
                 <div class="stat-change"><?php echo $active_sellers; ?> active</div>
             </div>
             <div class="stat-card green">
                 <div class="stat-icon">💵</div>
                 <div class="stat-value">₹<?php echo number_format($total_seller_revenue, 0); ?></div>
-                <div class="stat-label">Seller Revenue</div>
+                <div class="stat-label">Client Spending</div>
                 <div class="stat-change">From paid review requests</div>
             </div>
             <div class="stat-card orange">
@@ -529,7 +529,7 @@ try {
                     <?php endif; ?>
                 </div>
                 <div style="display:flex;justify-content:center;gap:25px;margin-top:15px;font-size:12px;color:#64748b">
-                    <span><span style="display:inline-block;width:12px;height:12px;background:linear-gradient(135deg,#667eea,#764ba2);border-radius:3px;margin-right:6px"></span>Credited</span>
+                    <span><span style="display:inline-block;width:12px;height:12px;background:linear-gradient(135deg,#0ea5e9,#06b6d4);border-radius:3px;margin-right:6px"></span>Credited</span>
                     <span><span style="display:inline-block;width:12px;height:12px;background:linear-gradient(135deg,#10b981,#059669);border-radius:3px;margin-right:6px"></span>Withdrawn</span>
                 </div>
             </div>
@@ -551,7 +551,7 @@ try {
                     </div>
                     <div class="donut-legend">
                         <div class="legend-item">
-                            <div class="legend-color" style="background:#667eea"></div>
+                            <div class="legend-color" style="background:#0ea5e9"></div>
                             <div class="legend-text">Completed</div>
                             <div class="legend-value"><?php echo $completed_tasks; ?></div>
                         </div>

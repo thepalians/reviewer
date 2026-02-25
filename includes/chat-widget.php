@@ -34,7 +34,7 @@ $unread_count = getUnreadMessageCount($db, $widget_user_id, $widget_is_admin ? '
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
     border: none;
     color: white;
     font-size: 1.5rem;
@@ -83,7 +83,7 @@ $unread_count = getUnreadMessageCount($db, $widget_user_id, $widget_is_admin ? '
 }
 
 #chatWidgetHeader {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
     color: white;
     padding: 15px;
     border-radius: 10px 10px 0 0;

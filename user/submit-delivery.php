@@ -99,10 +99,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <title>Step 2: Delivery - <?php echo APP_NAME; ?></title>
     <style>
-        *{box-sizing:border-box}body{background:linear-gradient(135deg,#667eea,#764ba2);min-height:100vh;padding:15px;margin:0;font-family:-apple-system,sans-serif}
+        *{box-sizing:border-box}body{background:linear-gradient(135deg,#0ea5e9,#06b6d4);min-height:100vh;padding:15px;margin:0;font-family:-apple-system,sans-serif}
         .form-box{max-width:500px;margin:0 auto;background:#fff;padding:25px;border-radius:15px;box-shadow:0 10px 40px rgba(0,0,0,0.2)}
         h2{font-size:20px;margin-bottom:20px;color:#333;text-align:center}
-        .info-box{background:#f8f9fa;padding:12px;border-radius:8px;margin-bottom:15px;border-left:4px solid #667eea;font-size:14px}
+        .info-box{background:#f8f9fa;padding:12px;border-radius:8px;margin-bottom:15px;border-left:4px solid #0ea5e9;font-size:14px}
         .alert{padding:12px;border-radius:8px;margin-bottom:15px;font-size:14px}
         .alert-success{background:#d4edda;color:#155724}
         .alert-danger{background:#f8d7da;color:#721c24}
@@ -113,10 +113,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         .preview{margin-top:12px;text-align:center}
         .preview img{max-width:200px;border-radius:8px;border:2px solid #27ae60}
         .btn{width:100%;padding:14px;border:none;border-radius:10px;font-size:16px;font-weight:600;cursor:pointer;margin-top:10px}
-        .btn-primary{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
+        .btn-primary{background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff}
         .btn-success{background:#27ae60;color:#fff}
         .links{text-align:center;margin-top:20px}
-        .links a{color:#667eea;text-decoration:none;margin:0 10px;font-weight:600}
+        .links a{color:#0ea5e9;text-decoration:none;margin:0 10px;font-weight:600}
     </style>
 </head>
 <body>
@@ -131,7 +131,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     <form method="POST" enctype="multipart/form-data">
         <div class="form-group">
-            <label>Delivery Screenshot *</label>
+            <label>Verification Screenshot *</label>
             <input type="file" name="delivery_screenshot" accept="image/*" <?php echo empty($step_data['delivery_screenshot']) ? 'required' : ''; ?>>
             <div class="file-info">Max 5MB • JPG, PNG, WebP</div>
             <?php if (!empty($step_data['delivery_screenshot'])): ?>

@@ -460,7 +460,7 @@ function generateReferralLink($referral_code) {
  */
 function getWhatsAppShareLink($referral_code) {
     $link = generateReferralLink($referral_code);
-    $message = "Join ReviewFlow and earn money by completing tasks! Use my referral code: {$referral_code}\n\n{$link}";
+    $message = "Join TaskHive and earn money by completing tasks! Use my referral code: {$referral_code}\n\n{$link}";
     return 'https://api.whatsapp.com/send?text=' . urlencode($message);
 }
 
@@ -477,7 +477,7 @@ function getFacebookShareLink($referral_code) {
  */
 function getTwitterShareLink($referral_code) {
     $link = generateReferralLink($referral_code);
-    $message = "Join ReviewFlow and earn money! Use my code: {$referral_code}";
+    $message = "Join TaskHive and earn money! Use my code: {$referral_code}";
     return 'https://twitter.com/intent/tweet?text=' . urlencode($message) . '&url=' . urlencode($link);
 }
 

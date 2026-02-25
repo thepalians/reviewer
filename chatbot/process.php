@@ -173,7 +173,7 @@ function generateContextualResponse($message, $userType) {
             return "To approve review requests:\n1. Go to 'Review Requests' in the sidebar\n2. Click on a pending request\n3. Review the details\n4. Click 'Approve' button\n\nYou can also approve wallet recharge requests from the 'Wallet Requests' page.";
         }
         if (strpos($message, 'assign') !== false || strpos($message, 'task') !== false) {
-            return "To assign tasks:\n1. Go to 'Assign Task' in the sidebar\n2. Select users from the list\n3. Enter product link and commission\n4. Click 'Assign Task'\n\nYou can assign tasks to multiple users at once.";
+            return "To assign tasks:\n1. Go to 'Assign Task' in the sidebar\n2. Select users from the list\n3. Enter task link and commission\n4. Click 'Assign Task'\n\nYou can assign tasks to multiple users at once.";
         }
         if (strpos($message, 'export') !== false || strpos($message, 'data') !== false) {
             return "To export data:\n1. Go to 'Export Data' in the sidebar\n2. Select a brand from the dropdown\n3. Choose date range (optional)\n4. Click 'Export to CSV'\n\nThe file will download automatically with all review data.";

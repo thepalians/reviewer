@@ -1,12 +1,12 @@
 <?php
 /**
  * English (en) Translations
- * Base language file for ReviewFlow
+ * Base language file for TaskHive
  */
 
 return [
     // General
-    'general.app_name' => 'ReviewFlow',
+    'general.app_name' => 'TaskHive',
     'general.welcome' => 'Welcome',
     'general.dashboard' => 'Dashboard',
     'general.profile' => 'Profile',

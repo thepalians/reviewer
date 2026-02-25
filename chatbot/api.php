@@ -1,6 +1,6 @@
 <?php
 /**
- * ReviewFlow - AI Chatbot API
+ * TaskHive - AI Chatbot API
  * Intelligent chatbot with FAQ matching, learning capability, and context awareness
  */
 

@@ -130,12 +130,12 @@ $current_page = 'email-campaigns';
         .stat{background:#fff;padding:20px;border-radius:12px;text-align:center;box-shadow:0 2px 10px rgba(0,0,0,0.05)}
         .stat .val{font-size:28px;font-weight:700}
         .stat .lbl{font-size:13px;color:#888;margin-top:5px}
-        .stat.total .val{color:#667eea}.stat.draft .val{color:#f39c12}.stat.sent .val{color:#27ae60}.stat.scheduled .val{color:#3498db}
+        .stat.total .val{color:#0ea5e9}.stat.draft .val{color:#f39c12}.stat.sent .val{color:#27ae60}.stat.scheduled .val{color:#3498db}
         .card{background:#fff;border-radius:12px;box-shadow:0 2px 10px rgba(0,0,0,0.05);padding:25px;margin-bottom:20px}
         .card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;padding-bottom:15px;border-bottom:2px solid #f0f0f0}
         .card-header h4{margin:0;font-size:20px}
         .btn{padding:10px 20px;border-radius:8px;border:none;cursor:pointer;font-weight:600;transition:all 0.3s}
-        .btn-primary{background:#667eea;color:#fff}.btn-primary:hover{background:#5568d3}
+        .btn-primary{background:#0ea5e9;color:#fff}.btn-primary:hover{background:#5568d3}
         .btn-success{background:#27ae60;color:#fff}.btn-success:hover{background:#229954}
         .btn-danger{background:#e74c3c;color:#fff}.btn-danger:hover{background:#c0392b}
         .btn-warning{background:#f39c12;color:#fff}.btn-warning:hover{background:#e67e22}

@@ -137,7 +137,7 @@ try {
     
     <div style="margin-top: 40px;">
         <p><small>This is a computer generated invoice.</small></p>
-        <p><small>For queries, contact: support@reviewflow.com</small></p>
+        <p><small>For queries, contact: support@taskhive.com</small></p>
     </div>
 </body>
 </html>

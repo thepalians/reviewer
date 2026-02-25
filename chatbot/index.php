@@ -20,7 +20,7 @@ $user_name = $_SESSION['user_name'] ?? 'Guest';
             box-sizing: border-box;
         }
         body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
             min-height: 100vh;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
@@ -40,7 +40,7 @@ $user_name = $_SESSION['user_name'] ?? 'Guest';
             overflow: hidden;
         }
         .chatbot-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
             color: white;
             padding: 20px;
             text-align: center;
@@ -88,7 +88,7 @@ $user_name = $_SESSION['user_name'] ?? 'Guest';
             line-height: 1.4;
         }
         .message.user .message-content {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
             color: white;
             border-bottom-right-radius: 4px;
         }
@@ -114,14 +114,14 @@ $user_name = $_SESSION['user_name'] ?? 'Guest';
             transition: all 0.3s;
         }
         .chatbot-input input:focus {
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            border-color: #0ea5e9;
+            box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
         }
         .chatbot-input button {
             width: 45px;
             height: 45px;
             border: none;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
             color: white;
             border-radius: 50%;
             cursor: pointer;
@@ -141,7 +141,7 @@ $user_name = $_SESSION['user_name'] ?? 'Guest';
         .loading span {
             width: 8px;
             height: 8px;
-            background: #667eea;
+            background: #0ea5e9;
             border-radius: 50%;
             animation: loading 1.4s infinite;
         }
@@ -172,7 +172,7 @@ $user_name = $_SESSION['user_name'] ?? 'Guest';
             margin-top: 10px;
         }
         .back-link a {
-            color: #667eea;
+            color: #0ea5e9;
             text-decoration: none;
             font-weight: 600;
         }

@@ -126,7 +126,7 @@ try {
         .sidebar-menu{list-style:none;padding:15px 0}
         .sidebar-menu li{margin-bottom:5px}
         .sidebar-menu a{display:flex;align-items:center;gap:12px;padding:12px 20px;color:#94a3b8;text-decoration:none;transition:all 0.2s;border-left:3px solid transparent}
-        .sidebar-menu a:hover,.sidebar-menu a.active{background:rgba(255,255,255,0.05);color:#fff;border-left-color:#667eea}
+        .sidebar-menu a:hover,.sidebar-menu a.active{background:rgba(255,255,255,0.05);color:#fff;border-left-color:#0ea5e9}
         .sidebar-menu .badge{background:#e74c3c;color:#fff;padding:2px 8px;border-radius:10px;font-size:11px;margin-left:auto}
         .sidebar-divider{height:1px;background:rgba(255,255,255,0.1);margin:15px 20px}
         .sidebar-menu a.logout{color:#e74c3c}
@@ -153,12 +153,12 @@ try {
         .form-label{font-size:14px;font-weight:500;color:#475569;margin-bottom:8px}
         .form-label.required::after{content:" *";color:#ef4444}
         .form-input,.form-textarea{padding:12px 15px;border:1px solid #e2e8f0;border-radius:8px;font-size:14px;transition:all 0.2s}
-        .form-input:focus,.form-textarea:focus{outline:none;border-color:#667eea;box-shadow:0 0 0 3px rgba(102,126,234,0.1)}
+        .form-input:focus,.form-textarea:focus{outline:none;border-color:#0ea5e9;box-shadow:0 0 0 3px rgba(102,126,234,0.1)}
         .form-textarea{resize:vertical;min-height:100px;font-family:inherit}
         .form-help{font-size:12px;color:#64748b;margin-top:5px}
         
         .btn{padding:12px 24px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;border:none;transition:all 0.2s;display:inline-flex;align-items:center;gap:8px}
-        .btn-primary{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
+        .btn-primary{background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff}
         .btn-primary:hover{transform:translateY(-2px);box-shadow:0 5px 15px rgba(102,126,234,0.3)}
         .btn-danger{background:#ef4444;color:#fff}
         .btn-danger:hover{background:#dc2626;transform:translateY(-2px)}

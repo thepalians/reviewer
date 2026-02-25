@@ -77,7 +77,7 @@ $current_page = 'rewards';
     
     /* Level Card with animated gradient */
     .level-card {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
         color: white;
         border-radius: 20px;
         padding: 35px;
@@ -327,7 +327,7 @@ $current_page = 'rewards';
         border-radius: 16px;
         padding: 20px;
         margin: 20px 0;
-        border-left: 4px solid #667eea;
+        border-left: 4px solid #0ea5e9;
     }
     
     .weekly-recap h5 {
@@ -389,7 +389,7 @@ $current_page = 'rewards';
     .stat-card:hover {
         transform: translateY(-5px);
         box-shadow: 0 8px 30px rgba(0,0,0,0.12);
-        border-color: #667eea;
+        border-color: #0ea5e9;
     }
     
     .stat-icon {
@@ -522,13 +522,13 @@ $current_page = 'rewards';
         padding: 20px;
         border-radius: 12px;
         text-align: center;
-        border-left: 4px solid #667eea;
+        border-left: 4px solid #0ea5e9;
     }
     
     .benefit-icon {
         font-size: 2rem;
         margin-bottom: 10px;
-        color: #667eea;
+        color: #0ea5e9;
     }
     
     .benefit-value {
@@ -598,7 +598,7 @@ $current_page = 'rewards';
     }
     
     .activity-item:hover {
-        border-left-color: #667eea;
+        border-left-color: #0ea5e9;
         background: #f8f9fa;
         transform: translateX(5px);
     }
@@ -607,7 +607,7 @@ $current_page = 'rewards';
         width: 40px;
         height: 40px;
         border-radius: 50%;
-        background: linear-gradient(135deg, #667eea, #764ba2);
+        background: linear-gradient(135deg, #0ea5e9, #06b6d4);
         color: white;
         display: inline-flex;
         align-items: center;
@@ -701,7 +701,7 @@ $current_page = 'rewards';
     
     .chart-bar {
         flex: 1;
-        background: linear-gradient(180deg, #667eea, #764ba2);
+        background: linear-gradient(180deg, #0ea5e9, #06b6d4);
         border-radius: 8px 8px 0 0;
         position: relative;
         transition: all 0.3s;
@@ -715,7 +715,7 @@ $current_page = 'rewards';
     }
     
     .chart-bar:hover {
-        background: linear-gradient(180deg, #764ba2, #667eea);
+        background: linear-gradient(180deg, #06b6d4, #0ea5e9);
         transform: scaleY(1.05);
     }
     
@@ -788,9 +788,9 @@ $current_page = 'rewards';
         display: flex;
         align-items: center;
         justify-content: center;
-        background: linear-gradient(135deg, #667eea, #764ba2);
+        background: linear-gradient(135deg, #0ea5e9, #06b6d4);
         color: white;
-        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
     }
     
     .points-activity-text {

@@ -1,12 +1,12 @@
 /**
- * ReviewFlow Theme Toggle Script - Version 2.0
+ * TaskHive Theme Toggle Script - Version 2.0
  * Handles light/dark theme switching with localStorage persistence
  */
 
 (function() {
     'use strict';
     
-    const THEME_KEY = 'reviewflow_theme';
+    const THEME_KEY = 'taskhive_theme';
     const THEME_ATTR = 'data-theme';
     
     // Theme Manager Class
@@ -133,7 +133,7 @@
     }
     
     // Export utility functions
-    window.ReviewFlowTheme = {
+    window.TaskHiveTheme = {
         getCurrentTheme: () => window.themeManager.currentTheme,
         setTheme: (theme) => {
             if (theme === 'light' || theme === 'dark') {

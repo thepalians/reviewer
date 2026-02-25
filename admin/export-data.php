@@ -112,8 +112,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['export'])) {
                 fputcsv($output, [
                     'Request ID',
                     'Brand Name',
-                    'Product Name',
-                    'Product Link',
+                    'Task Title',
+                    'Task Link',
                     'Platform',
                     'Reviews Needed',
                     'Reviews Completed',
@@ -223,12 +223,12 @@ $current_page = 'export-data';
         }
         .form-control:focus {
             outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            border-color: #0ea5e9;
+            box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
         }
         .export-icon {
             font-size: 48px;
-            color: #667eea;
+            color: #0ea5e9;
             margin-bottom: 20px;
         }
     </style>

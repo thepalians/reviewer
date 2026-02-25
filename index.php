@@ -1,6 +1,6 @@
 <?php
 /**
- * ReviewFlow - Login & Landing Page
+ * TaskHive - Login & Landing Page
  * With referral code support
  */
 
@@ -372,7 +372,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['forgot_password'])) {
                 $reset_link = APP_URL . "/reset-password.php?token=$token";
                 $emailBody = getEmailTemplate(
                     '🔐 Password Reset Request',
-                    "You requested to reset your password. Click the link below to reset:<br><br><a href='$reset_link' style='background:linear-gradient(135deg,#667eea,#764ba2);color:white;padding:12px 30px;text-decoration:none;border-radius:5px;display:inline-block'>Reset Password</a><br><br>This link expires in 1 hour. If you didn't request this, please ignore this email.",
+                    "You requested to reset your password. Click the link below to reset:<br><br><a href='$reset_link' style='background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:white;padding:12px 30px;text-decoration:none;border-radius:5px;display:inline-block'>Reset Password</a><br><br>This link expires in 1 hour. If you didn't request this, please ignore this email.",
                     $user['name']
                 );
                 sendEmail($email, 'Password Reset - ' . APP_NAME, $emailBody, $user['id']);
@@ -431,9 +431,9 @@ try {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="theme-color" content="#667eea">
-    <meta name="description" content="<?php echo APP_NAME; ?> - Complete tasks, earn rewards, and withdraw money easily">
-    <meta name="keywords" content="earn money, tasks, rewards, referral, work from home">
+    <meta name="theme-color" content="#0ea5e9">
+    <meta name="description" content="TaskHive - Complete micro tasks like data entry, surveys, and content writing. Earn real money for real work. Fast UPI withdrawals.">
+    <meta name="keywords" content="micro tasks, earn money, data entry, surveys, work from home, online earning, TaskHive">
     <meta name="author" content="<?php echo APP_NAME; ?>">
     
     <!-- Open Graph -->
@@ -453,7 +453,7 @@ try {
     
     <style>
         *{box-sizing:border-box;margin:0;padding:0}
-        body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+        body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:linear-gradient(135deg,#0ea5e9 0%,#06b6d4 100%);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
         
         .container{width:100%;max-width:1100px;display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
         
@@ -479,7 +479,7 @@ try {
         
         .form-tabs{display:flex;gap:5px;margin-bottom:30px;background:#f5f5f5;padding:5px;border-radius:12px}
         .form-tab{flex:1;padding:12px;text-align:center;border-radius:10px;cursor:pointer;font-weight:600;font-size:14px;color:#666;transition:all 0.3s}
-        .form-tab.active{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
+        .form-tab.active{background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff}
         
         .form-content{display:none}
         .form-content.active{display:block}
@@ -491,7 +491,7 @@ try {
         .form-group label{display:block;font-weight:600;margin-bottom:8px;color:#333;font-size:14px}
         .form-group label span{color:#e74c3c}
         .form-control{width:100%;padding:14px 18px;border:2px solid #eee;border-radius:12px;font-size:14px;transition:all 0.3s}
-        .form-control:focus{border-color:#667eea;outline:none;box-shadow:0 0 0 4px rgba(102,126,234,0.1)}
+        .form-control:focus{border-color:#0ea5e9;outline:none;box-shadow:0 0 0 4px rgba(102,126,234,0.1)}
         .form-control.error{border-color:#e74c3c}
         
         .input-icon{position:relative}
@@ -504,15 +504,15 @@ try {
         .form-row{display:grid;grid-template-columns:1fr 1fr;gap:15px}
         
         .form-footer{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;font-size:13px}
-        .form-footer a{color:#667eea;text-decoration:none;font-weight:500}
+        .form-footer a{color:#0ea5e9;text-decoration:none;font-weight:500}
         .form-footer a:hover{text-decoration:underline}
         
         .checkbox-group{display:flex;align-items:center;gap:10px}
-        .checkbox-group input{width:18px;height:18px;accent-color:#667eea}
+        .checkbox-group input{width:18px;height:18px;accent-color:#0ea5e9}
         .checkbox-group label{font-size:13px;color:#666;cursor:pointer}
         
         .btn{padding:15px 30px;border:none;border-radius:12px;font-weight:600;cursor:pointer;font-size:15px;transition:all 0.3s;display:flex;align-items:center;justify-content:center;gap:10px;width:100%}
-        .btn-primary{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
+        .btn-primary{background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff}
         .btn-primary:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(102,126,234,0.4)}
         .btn-google{background:#fff;border:2px solid #eee;color:#333}
         .btn-google:hover{border-color:#ddd;background:#fafafa}
@@ -558,10 +558,9 @@ try {
             <div class="logo-icon">💼</div>
             <?php echo APP_NAME; ?>
         </div>
-        <div class="tagline">Earn Money by Completing Simple Tasks</div>
+        <div class="tagline">Work Smart. Earn Real.</div>
         <div class="description">
-            Join thousands of users who are earning money online. Complete tasks, 
-            refer friends, and withdraw your earnings instantly!
+            Join thousands of skilled workers completing micro tasks. Data entry, surveys, content writing &amp; more — earn real money for real work!
         </div>
         
         <div class="stats-row">
@@ -582,23 +581,23 @@ try {
         <ul class="features">
             <li>
                 <div class="feature-icon">✅</div>
-                <span>Complete simple 4-step tasks</span>
+                <span>Complete flexible micro tasks</span>
             </li>
             <li>
                 <div class="feature-icon">💰</div>
-                <span>Earn commission on each task</span>
+                <span>Earn rewards for quality work</span>
             </li>
             <li>
                 <div class="feature-icon">🎁</div>
-                <span>Refer friends & earn ₹<?php echo getSetting('referral_bonus', 50); ?> bonus</span>
+                <span>Refer friends &amp; earn bonus rewards</span>
             </li>
             <li>
                 <div class="feature-icon">💳</div>
-                <span>Instant withdrawals via UPI/Bank</span>
+                <span>Fast withdrawals via UPI/Bank</span>
             </li>
             <li>
                 <div class="feature-icon">📱</div>
-                <span>Works on mobile & desktop</span>
+                <span>Works on any device</span>
             </li>
         </ul>
     </div>

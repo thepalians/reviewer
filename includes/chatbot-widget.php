@@ -1,6 +1,6 @@
 <?php
 /**
- * ReviewFlow AI Chatbot Widget - Version 2.0
+ * TaskHive AI Chatbot Widget - Version 2.0
  * Self-learning chatbot with FAQ integration
  * Include this file on any dashboard page
  */
@@ -165,7 +165,7 @@ if (isset($_SESSION['admin_name'])) {
 }
 
 .chatbot-header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
     color: white;
     padding: 16px 20px;
     border-radius: 16px 16px 0 0;
@@ -235,7 +235,7 @@ if (isset($_SESSION['admin_name'])) {
     width: 36px;
     height: 36px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -274,7 +274,7 @@ if (isset($_SESSION['admin_name'])) {
 }
 
 .user-message .message-text {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
     color: white;
 }
 
@@ -306,7 +306,7 @@ if (isset($_SESSION['admin_name'])) {
 }
 
 .quick-action-btn:hover {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
     color: white;
     border-color: transparent;
     transform: translateY(-1px);
@@ -336,14 +336,14 @@ if (isset($_SESSION['admin_name'])) {
 
 .chatbot-input:focus {
     outline: none;
-    border-color: #667eea;
+    border-color: #0ea5e9;
 }
 
 .chatbot-send-btn {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
     border: none;
     color: white;
     cursor: pointer;
@@ -368,7 +368,7 @@ if (isset($_SESSION['admin_name'])) {
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background: #667eea;
+    background: #0ea5e9;
     animation: typing 1.4s infinite;
 }
 
@@ -392,12 +392,12 @@ if (isset($_SESSION['admin_name'])) {
     width: 56px;
     height: 56px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
     border: none;
     color: white;
     font-size: 24px;
     cursor: pointer;
-    box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
+    box-shadow: 0 8px 24px rgba(14, 165, 233, 0.4);
     z-index: 9997;
     display: flex;
     align-items: center;
@@ -407,7 +407,7 @@ if (isset($_SESSION['admin_name'])) {
 
 .chatbot-trigger:hover {
     transform: scale(1.1);
-    box-shadow: 0 12px 32px rgba(102, 126, 234, 0.5);
+    box-shadow: 0 12px 32px rgba(14, 165, 233, 0.5);
 }
 
 .chatbot-badge {

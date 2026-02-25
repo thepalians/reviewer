@@ -358,7 +358,7 @@ try {
         .sidebar-menu{list-style:none;padding:15px 0}
         .sidebar-menu li{margin-bottom:5px}
         .sidebar-menu a{display:flex;align-items:center;gap:12px;padding:12px 20px;color:#94a3b8;text-decoration:none;transition:all 0.2s;border-left:3px solid transparent}
-        .sidebar-menu a:hover,.sidebar-menu a.active{background:rgba(255,255,255,0.05);color:#fff;border-left-color:#667eea}
+        .sidebar-menu a:hover,.sidebar-menu a.active{background:rgba(255,255,255,0.05);color:#fff;border-left-color:#0ea5e9}
         .sidebar-menu .badge{background:#e74c3c;color:#fff;padding:2px 8px;border-radius:10px;font-size:11px;margin-left:auto}
         .sidebar-divider{height:1px;background:rgba(255,255,255,0.1);margin:15px 20px}
         .sidebar-menu a.logout{color:#e74c3c}
@@ -377,7 +377,7 @@ try {
         /* Stats Grid */
         .stats-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:15px;margin-bottom:25px}
         .stat-card{background:#fff;border-radius:12px;padding:20px;box-shadow:0 2px 10px rgba(0,0,0,0.04)}
-        .stat-card.highlight{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
+        .stat-card.highlight{background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff}
         .stat-value{font-size:28px;font-weight:700;margin-bottom:5px}
         .stat-label{font-size:13px;opacity:0.8}
         
@@ -387,10 +387,10 @@ try {
         .filter-group{display:flex;flex-direction:column;gap:5px}
         .filter-group label{font-size:12px;font-weight:600;color:#64748b}
         .filter-group select,.filter-group input{padding:10px 15px;border:1px solid #e2e8f0;border-radius:8px;font-size:13px;min-width:150px}
-        .filter-group select:focus,.filter-group input:focus{border-color:#667eea;outline:none}
+        .filter-group select:focus,.filter-group input:focus{border-color:#0ea5e9;outline:none}
         .filter-actions{margin-left:auto;display:flex;gap:10px}
         .btn{padding:10px 20px;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:13px;transition:all 0.2s;display:inline-flex;align-items:center;gap:6px}
-        .btn-primary{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
+        .btn-primary{background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff}
         .btn-secondary{background:#f1f5f9;color:#475569}
         .btn-success{background:#10b981;color:#fff}
         .btn-danger{background:#ef4444;color:#fff}
@@ -409,7 +409,7 @@ try {
         tr:hover{background:#f8fafc}
         
         .user-cell{display:flex;align-items:center;gap:10px}
-        .user-avatar{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,#667eea,#764ba2);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:600;font-size:14px}
+        .user-avatar{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,#0ea5e9,#06b6d4);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:600;font-size:14px}
         .user-info{line-height:1.4}
         .user-name{font-weight:600;color:#1e293b;font-size:14px}
         .user-email{font-size:12px;color:#64748b}
@@ -448,7 +448,7 @@ try {
         .form-group{margin-bottom:20px}
         .form-group label{display:block;font-weight:600;margin-bottom:8px;color:#1e293b;font-size:14px}
         .form-control{width:100%;padding:12px 15px;border:1px solid #e2e8f0;border-radius:10px;font-size:14px}
-        .form-control:focus{border-color:#667eea;outline:none}
+        .form-control:focus{border-color:#0ea5e9;outline:none}
         textarea.form-control{min-height:80px;resize:vertical}
         
         .btn-group{display:flex;gap:10px;margin-top:20px}
@@ -457,8 +457,8 @@ try {
         /* Pagination */
         .pagination{display:flex;justify-content:center;gap:8px;padding:20px}
         .page-btn{width:40px;height:40px;border-radius:8px;display:flex;align-items:center;justify-content:center;background:#fff;color:#64748b;text-decoration:none;font-weight:600;font-size:14px;border:1px solid #e2e8f0;cursor:pointer}
-        .page-btn:hover{background:#667eea;color:#fff;border-color:#667eea}
-        .page-btn.active{background:#667eea;color:#fff;border-color:#667eea}
+        .page-btn:hover{background:#0ea5e9;color:#fff;border-color:#0ea5e9}
+        .page-btn.active{background:#0ea5e9;color:#fff;border-color:#0ea5e9}
         .page-btn.disabled{opacity:0.5;cursor:not-allowed;pointer-events:none}
         
         /* Empty State */
@@ -576,7 +576,7 @@ try {
                     <h3>No Withdrawals Found</h3>
                     <p>
                         <?php if ($filter_status !== 'all' || $filter_method !== 'all' || !empty($search)): ?>
-                            Try adjusting your filters. <a href="?status=pending" style="color:#667eea">Reset</a>
+                            Try adjusting your filters. <a href="?status=pending" style="color:#0ea5e9">Reset</a>
                         <?php else: ?>
                             No withdrawal requests yet.
                         <?php endif; ?>

@@ -59,7 +59,7 @@ foreach ($allLanguages as $lang) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo $page_title; ?> - ReviewFlow Admin</title>
+    <title><?php echo $page_title; ?> - TaskHive Admin</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -104,7 +104,7 @@ foreach ($allLanguages as $lang) {
         }
         .native-name {
             font-size: 24px;
-            color: #667eea;
+            color: #0ea5e9;
             margin-bottom: 15px;
         }
         .language-code {
@@ -131,7 +131,7 @@ foreach ($allLanguages as $lang) {
             text-decoration: none;
             display: inline-block;
         }
-        .btn-primary { background: #667eea; color: white; }
+        .btn-primary { background: #0ea5e9; color: white; }
         .btn-success { background: #10b981; color: white; }
         .btn-danger { background: #ef4444; color: white; }
         .btn-secondary { background: #6b7280; color: white; }
@@ -152,7 +152,7 @@ foreach ($allLanguages as $lang) {
             <div class="alert"><?php echo htmlspecialchars($success_message); ?></div>
         <?php endif; ?>
         
-        <p>Manage available languages for your ReviewFlow platform. Enable or disable languages to control what users can select.</p>
+        <p>Manage available languages for your TaskHive platform. Enable or disable languages to control what users can select.</p>
         
         <div class="language-grid">
             <?php foreach ($allLanguages as $lang): ?>

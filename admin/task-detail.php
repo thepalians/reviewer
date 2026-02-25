@@ -368,7 +368,7 @@ $refund_rejected = $step4 && ($step4['step_status'] ?? '') === 'rejected';
             <?php if ($s2_done): ?>
             <div class="info-grid">
                 <div class="info-item"><div class="info-label">Delivery Date</div><div class="info-value"><?php echo ($s2['completed_at'] ?? '') ? date('d M Y', strtotime($s2['completed_at'])) : '-'; ?></div></div>
-                <div class="info-item"><div class="info-label">Delivery Screenshot</div><div class="info-value"><?php echo !empty($s2['delivery_screenshot']) ? '<a href="'.escape($s2['delivery_screenshot']).'" target="_blank" class="screenshot-link">View Screenshot →</a>' : '<span class="no-data">Not uploaded</span>'; ?></div></div>
+                <div class="info-item"><div class="info-label">Verification Screenshot</div><div class="info-value"><?php echo !empty($s2['delivery_screenshot']) ? '<a href="'.escape($s2['delivery_screenshot']).'" target="_blank" class="screenshot-link">View Screenshot →</a>' : '<span class="no-data">Not uploaded</span>'; ?></div></div>
             </div>
             <?php else: ?><p class="no-data" style="padding:10px 0">Not submitted yet.</p><?php endif; ?>
         </div>
@@ -383,7 +383,7 @@ $refund_rejected = $step4 && ($step4['step_status'] ?? '') === 'rejected';
             <?php if ($s3_done): ?>
             <div class="info-grid">
                 <div class="info-item"><div class="info-label">Review Date</div><div class="info-value"><?php echo ($s3['completed_at'] ?? '') ? date('d M Y', strtotime($s3['completed_at'])) : '-'; ?></div></div>
-                <div class="info-item"><div class="info-label">Review Screenshot</div><div class="info-value"><?php echo !empty($s3['review_screenshot']) ? '<a href="'.escape($s3['review_screenshot']).'" target="_blank" class="screenshot-link">View Screenshot →</a>' : '<span class="no-data">Not uploaded</span>'; ?></div></div>
+                <div class="info-item"><div class="info-label">Work Screenshot</div><div class="info-value"><?php echo !empty($s3['review_screenshot']) ? '<a href="'.escape($s3['review_screenshot']).'" target="_blank" class="screenshot-link">View Screenshot →</a>' : '<span class="no-data">Not uploaded</span>'; ?></div></div>
             </div>
             <?php else: ?><p class="no-data" style="padding:10px 0">Not submitted yet.</p><?php endif; ?>
         </div>

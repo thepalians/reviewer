@@ -46,11 +46,11 @@ try {
             cursor: pointer;
         }
         .upload-zone:hover {
-            border-color: #667eea;
+            border-color: #0ea5e9;
             background: #f1f5f9;
         }
         .upload-zone.dragging {
-            border-color: #667eea;
+            border-color: #0ea5e9;
             background: #e0e7ff;
         }
         .file-input-wrapper {
@@ -128,7 +128,7 @@ try {
                 </div>
                 <div class="card-body">
                     <div class="upload-zone" id="uploadZone">
-                        <i class="bi bi-cloud-upload" style="font-size: 48px; color: #667eea;"></i>
+                        <i class="bi bi-cloud-upload" style="font-size: 48px; color: #0ea5e9;"></i>
                         <h4 class="mt-3">Drag & Drop CSV file here</h4>
                         <p class="text-muted">or click to browse</p>
                         <input type="file" id="fileInput" accept=".csv" style="display: none;">

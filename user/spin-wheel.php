@@ -48,7 +48,7 @@ $current_page = 'spin-wheel';
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
             min-height: 100vh;
         }
         
@@ -480,7 +480,7 @@ $current_page = 'spin-wheel';
         
         .close-modal-btn {
             padding: 15px 40px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: linear-gradient(135deg, #0ea5e9, #06b6d4);
             color: white;
             border: none;
             border-radius: 50px;
@@ -492,7 +492,7 @@ $current_page = 'spin-wheel';
         
         .close-modal-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 10px 30px rgba(14, 165, 233, 0.4);
         }
         
         /* Streak Bonus Badge */
@@ -552,7 +552,7 @@ $current_page = 'spin-wheel';
         .prize-item:hover {
             transform: translateY(-5px);
             box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-            border-color: #667eea;
+            border-color: #0ea5e9;
         }
         
         .prize-icon {

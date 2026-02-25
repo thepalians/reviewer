@@ -71,10 +71,10 @@ $user_name = $_SESSION['user_name'] ?? 'Guest';
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #667eea, #764ba2);
+    background: linear-gradient(135deg, #0ea5e9, #06b6d4);
     border: none;
     cursor: pointer;
-    box-shadow: 0 5px 25px rgba(102, 126, 234, 0.5);
+    box-shadow: 0 5px 25px rgba(14, 165, 233, 0.5);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -153,7 +153,7 @@ $user_name = $_SESSION['user_name'] ?? 'Guest';
 }
 
 .chat-header {
-    background: linear-gradient(135deg, #667eea, #764ba2);
+    background: linear-gradient(135deg, #0ea5e9, #06b6d4);
     color: #fff;
     padding: 18px 20px;
     display: flex;
@@ -253,7 +253,7 @@ $user_name = $_SESSION['user_name'] ?? 'Guest';
 }
 
 .message.bot .message-avatar {
-    background: linear-gradient(135deg, #667eea, #764ba2);
+    background: linear-gradient(135deg, #0ea5e9, #06b6d4);
 }
 
 .message.user .message-avatar {
@@ -281,7 +281,7 @@ $user_name = $_SESSION['user_name'] ?? 'Guest';
 }
 
 .message.user .message-bubble {
-    background: linear-gradient(135deg, #667eea, #764ba2);
+    background: linear-gradient(135deg, #0ea5e9, #06b6d4);
     color: #fff;
     border-bottom-right-radius: 5px;
 }
@@ -316,9 +316,9 @@ $user_name = $_SESSION['user_name'] ?? 'Guest';
 }
 
 .quick-suggestions button:hover {
-    background: #667eea;
+    background: #0ea5e9;
     color: #fff;
-    border-color: #667eea;
+    border-color: #0ea5e9;
 }
 
 .chat-input {
@@ -340,13 +340,13 @@ $user_name = $_SESSION['user_name'] ?? 'Guest';
 }
 
 .chat-input input:focus {
-    border-color: #667eea;
+    border-color: #0ea5e9;
 }
 
 .chat-input button {
     width: 48px;
     height: 48px;
-    background: linear-gradient(135deg, #667eea, #764ba2);
+    background: linear-gradient(135deg, #0ea5e9, #06b6d4);
     border: none;
     border-radius: 50%;
     color: #fff;

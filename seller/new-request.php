@@ -108,7 +108,7 @@ require_once __DIR__ . '/includes/header.php';
                         <h5 class="mb-3"><i class="bi bi-box"></i> Product Information</h5>
                         
                         <div class="mb-3">
-                            <label class="form-label">Product Link <span class="text-danger">*</span></label>
+                            <label class="form-label">Task Link <span class="text-danger">*</span></label>
                             <input type="url" name="product_link" class="form-control" 
                                    placeholder="https://www.amazon.in/product..." 
                                    value="<?= htmlspecialchars($_POST['product_link'] ?? '') ?>" required>
@@ -116,9 +116,9 @@ require_once __DIR__ . '/includes/header.php';
                         </div>
                         
                         <div class="mb-3">
-                            <label class="form-label">Product Name <span class="text-danger">*</span></label>
+                            <label class="form-label">Task Title <span class="text-danger">*</span></label>
                             <input type="text" name="product_name" class="form-control" 
-                                   placeholder="Enter product name" 
+                                   placeholder="Enter task title" 
                                    value="<?= htmlspecialchars($_POST['product_name'] ?? '') ?>" required>
                         </div>
                         

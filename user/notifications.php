@@ -124,7 +124,7 @@ function getNotificationStyle($type) {
     <title>Notifications - <?php echo APP_NAME; ?></title>
     <style>
         *{box-sizing:border-box;margin:0;padding:0}
-        body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:20px}
+        body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:linear-gradient(135deg,#0ea5e9 0%,#06b6d4 100%);min-height:100vh;padding:20px}
         
         .container{max-width:800px;margin:0 auto}
         
@@ -137,7 +137,7 @@ function getNotificationStyle($type) {
         .page-title .count{background:#e74c3c;color:#fff;font-size:14px;padding:3px 10px;border-radius:15px}
         .header-actions{display:flex;gap:10px}
         .header-btn{padding:10px 18px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;border:none;transition:all 0.2s}
-        .header-btn.primary{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
+        .header-btn.primary{background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff}
         .header-btn.secondary{background:#f5f5f5;color:#666}
         .header-btn.danger{background:#fee;color:#e74c3c}
         .header-btn:hover{transform:translateY(-2px)}
@@ -145,8 +145,8 @@ function getNotificationStyle($type) {
         /* Filters */
         .filters{background:#fff;border-radius:12px;padding:15px;margin-bottom:20px;display:flex;gap:8px;flex-wrap:wrap;box-shadow:0 3px 15px rgba(0,0,0,0.08)}
         .filter-btn{padding:8px 16px;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer;border:2px solid #eee;background:#fff;color:#666;transition:all 0.2s;text-decoration:none}
-        .filter-btn:hover{border-color:#667eea;color:#667eea}
-        .filter-btn.active{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border-color:transparent}
+        .filter-btn:hover{border-color:#0ea5e9;color:#0ea5e9}
+        .filter-btn.active{background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff;border-color:transparent}
         .filter-btn .badge{background:rgba(255,255,255,0.3);padding:2px 8px;border-radius:10px;font-size:11px;margin-left:5px}
         
         /* Notification List */
@@ -156,7 +156,7 @@ function getNotificationStyle($type) {
         .notification-item:last-child{border-bottom:none}
         .notification-item:hover{background:#fafafa}
         .notification-item.unread{background:#f8f9ff}
-        .notification-item.unread::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(135deg,#667eea,#764ba2)}
+        .notification-item.unread::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(135deg,#0ea5e9,#06b6d4)}
         
         .notif-icon{width:50px;height:50px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-right:15px;flex-shrink:0}
         
@@ -184,14 +184,14 @@ function getNotificationStyle($type) {
         /* Pagination */
         .pagination{display:flex;justify-content:center;gap:8px;margin-top:20px}
         .page-btn{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:#fff;color:#666;text-decoration:none;font-weight:600;font-size:14px;transition:all 0.2s;box-shadow:0 2px 10px rgba(0,0,0,0.08)}
-        .page-btn:hover{background:#667eea;color:#fff}
-        .page-btn.active{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
+        .page-btn:hover{background:#0ea5e9;color:#fff}
+        .page-btn.active{background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff}
         .page-btn.disabled{opacity:0.5;cursor:not-allowed;pointer-events:none}
         
         /* Stats */
         .stats-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px}
         .stat-item{background:#fff;border-radius:10px;padding:15px;text-align:center;box-shadow:0 3px 10px rgba(0,0,0,0.08)}
-        .stat-item .value{font-size:24px;font-weight:700;color:#667eea}
+        .stat-item .value{font-size:24px;font-weight:700;color:#0ea5e9}
         .stat-item .label{font-size:11px;color:#888;margin-top:3px}
         
         /* Responsive */
@@ -276,7 +276,7 @@ function getNotificationStyle($type) {
                 <h3>No Notifications</h3>
                 <p>
                     <?php if ($filter !== 'all'): ?>
-                        No <?php echo $filter; ?> notifications found. <a href="?filter=all" style="color:#667eea">View all</a>
+                        No <?php echo $filter; ?> notifications found. <a href="?filter=all" style="color:#0ea5e9">View all</a>
                     <?php else: ?>
                         You're all caught up! Check back later for updates.
                     <?php endif; ?>

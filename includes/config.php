@@ -13,18 +13,18 @@ define('DEBUG', env('DEBUG_MODE', false));
 
 // Database Configuration
 define('DB_HOST', env('DB_HOST', 'localhost'));
-define('DB_USER', env('DB_USER', 'reviewflow_user'));
+define('DB_USER', env('DB_USER', 'taskhive_user'));
 define('DB_PASS', env('DB_PASS', ''));
-define('DB_NAME', env('DB_NAME', 'reviewflow'));
+define('DB_NAME', env('DB_NAME', 'taskhive'));
 define('DB_CHARSET', env('DB_CHARSET', 'utf8mb4'));
 
 // Application Settings
-define('APP_NAME', env('APP_NAME', 'ReviewFlow'));
+define('APP_NAME', env('APP_NAME', 'TaskHive'));
 define('APP_URL', env('APP_URL', 'https://palians.com/reviewer'));
 define('BASE_URL', APP_URL); // Alias for shared header/footer templates (legacy usage).
 define('ADMIN_URL', env('ADMIN_URL', 'https://palians.com/reviewer/admin'));
 define('SELLER_URL', env('SELLER_URL', 'https://palians.com/reviewer/seller'));
-define('APP_VERSION', env('APP_VERSION', '3.3.0'));
+define('APP_VERSION', env('APP_VERSION', '4.0.0'));
 
 // Security Settings
 const SESSION_TIMEOUT = 3600;
@@ -43,7 +43,7 @@ const FIRST_TASK_BONUS = 25;
 const DEFAULT_ADMIN_COMMISSION_PER_REVIEW = 5;
 
 // Task Steps Configuration
-const TASK_STEPS = ['Order Placed', 'Delivery Received', 'Review Submitted', 'Refund Requested'];
+const TASK_STEPS = ['Task Started', 'Work Submitted', 'Work Verified'];
 
 // WhatsApp Settings
 const WHATSAPP_API_URL = 'https://api.whatsapp.com/send';
@@ -55,7 +55,7 @@ define('SMTP_PORT', (int)env('SMTP_PORT', 587));
 define('SMTP_USER', env('SMTP_USER', ''));
 define('SMTP_PASS', env('SMTP_PASS', ''));
 define('SMTP_FROM', env('SMTP_FROM', 'noreply@palians.com'));
-define('SMTP_FROM_NAME', env('SMTP_FROM_NAME', 'ReviewFlow'));
+define('SMTP_FROM_NAME', env('SMTP_FROM_NAME', 'TaskHive'));
 
 // Payment Gateway Settings (Override with database settings)
 define('RAZORPAY_KEY_ID', env('RAZORPAY_KEY_ID', ''));
@@ -125,7 +125,7 @@ try {
                     align-items: center;
                     min-height: 100vh;
                     margin: 0;
-                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
                     color: #333;
                 }
                 .error-container {
@@ -154,14 +154,14 @@ try {
                     display: inline-block;
                     margin-top: 1.5rem;
                     padding: 0.8rem 2rem;
-                    background: #667eea;
+                    background: #0ea5e9;
                     color: white;
                     text-decoration: none;
                     border-radius: 6px;
                     transition: background 0.3s;
                 }
                 .btn:hover {
-                    background: #5568d3;
+                    background: #0284c7;
                 }
             </style>
         </head>
@@ -227,5 +227,5 @@ function getSetting(string $key, $default = null) {
 define('TELEGRAM_BOT_TOKEN', env('TELEGRAM_BOT_TOKEN', ''));
 define('TELEGRAM_CHANNEL_ID', env('TELEGRAM_CHANNEL_ID', ''));
 define('TELEGRAM_ENABLED', true);
-define('TELEGRAM_BOT_USERNAME', 'reviewflow_tasks_bot'); // The bot's username without @
+define('TELEGRAM_BOT_USERNAME', 'taskhive_tasks_bot'); // The bot's username without @
 ?>

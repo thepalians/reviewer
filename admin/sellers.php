@@ -123,7 +123,7 @@ try {
         .sidebar-menu{list-style:none;padding:15px 0}
         .sidebar-menu li{margin-bottom:5px}
         .sidebar-menu a{display:flex;align-items:center;gap:12px;padding:12px 20px;color:#94a3b8;text-decoration:none;transition:all 0.2s;border-left:3px solid transparent}
-        .sidebar-menu a:hover,.sidebar-menu a.active{background:rgba(255,255,255,0.05);color:#fff;border-left-color:#667eea}
+        .sidebar-menu a:hover,.sidebar-menu a.active{background:rgba(255,255,255,0.05);color:#fff;border-left-color:#0ea5e9}
         .sidebar-menu .badge{background:#e74c3c;color:#fff;padding:2px 8px;border-radius:10px;font-size:11px;margin-left:auto}
         .sidebar-divider{height:1px;background:rgba(255,255,255,0.1);margin:15px 20px}
         .sidebar-menu a.logout{color:#e74c3c}
@@ -145,7 +145,7 @@ try {
         .filter-label{font-size:13px;font-weight:500;color:#475569;margin-bottom:6px}
         .filter-input,.filter-select{padding:10px 12px;border:1px solid #e2e8f0;border-radius:8px;font-size:14px}
         .btn{padding:10px 20px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;border:none;transition:all 0.2s;display:inline-block;text-decoration:none;text-align:center}
-        .btn-primary{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
+        .btn-primary{background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff}
         .btn-secondary{background:#64748b;color:#fff}
         .btn-warning{background:#f59e0b;color:#fff}
         .btn-success{background:#10b981;color:#fff}
@@ -177,7 +177,7 @@ try {
                 <div class="alert alert-success">✅ <?php echo htmlspecialchars($success); ?></div>
             <?php endif; ?>
             <div class="stats-grid">
-                <div class="stat-card"><div class="stat-value"><?php echo number_format($stats['total']); ?></div><div class="stat-label">Total Sellers</div></div>
+                <div class="stat-card"><div class="stat-value"><?php echo number_format($stats['total']); ?></div><div class="stat-label">Total Clients</div></div>
                 <div class="stat-card"><div class="stat-value"><?php echo number_format($stats['active']); ?></div><div class="stat-label">Active</div></div>
                 <div class="stat-card"><div class="stat-value"><?php echo number_format($stats['inactive']); ?></div><div class="stat-label">Inactive</div></div>
                 <div class="stat-card"><div class="stat-value"><?php echo number_format($stats['suspended']); ?></div><div class="stat-label">Suspended</div></div>

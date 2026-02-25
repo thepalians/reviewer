@@ -107,7 +107,7 @@ $current_page = 'security-logs';
         .stat{background:#fff;padding:20px;border-radius:12px;text-align:center;box-shadow:0 2px 10px rgba(0,0,0,0.05)}
         .stat .val{font-size:28px;font-weight:700}
         .stat .lbl{font-size:13px;color:#888;margin-top:5px}
-        .stat.p .val{color:#667eea}.stat.cr .val{color:#e74c3c}.stat.h .val{color:#f39c12}.stat.m .val{color:#f1c40f}.stat.l .val{color:#27ae60}
+        .stat.p .val{color:#0ea5e9}.stat.cr .val{color:#e74c3c}.stat.h .val{color:#f39c12}.stat.m .val{color:#f1c40f}.stat.l .val{color:#27ae60}
         .card{background:#fff;border-radius:12px;box-shadow:0 2px 10px rgba(0,0,0,0.05);padding:25px;margin-bottom:20px}
         .card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;padding-bottom:15px;border-bottom:2px solid #f0f0f0}
         .card-header h4{margin:0;font-size:20px}
@@ -127,7 +127,7 @@ $current_page = 'security-logs';
         .form-group label{display:block;margin-bottom:5px;font-weight:600;font-size:12px}
         .form-control{width:100%;padding:8px;border:1px solid #ddd;border-radius:6px;font-size:13px}
         .btn{padding:8px 16px;border-radius:6px;border:none;cursor:pointer;font-weight:600;transition:all 0.3s;font-size:13px}
-        .btn-primary{background:#667eea;color:#fff}.btn-primary:hover{background:#5568d3}
+        .btn-primary{background:#0ea5e9;color:#fff}.btn-primary:hover{background:#5568d3}
         .btn-warning{background:#f39c12;color:#fff}.btn-warning:hover{background:#e67e22}
         .alert{padding:15px;border-radius:8px;margin-bottom:20px}
         .alert-danger{background:#f8d7da;color:#721c24;border:1px solid #f5c6cb}

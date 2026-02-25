@@ -140,7 +140,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $review_ss = $step_data['review_live_screenshot'] ?? '';
     $qr_code = $step_data['payment_qr_code'] ?? '';
     
-    // Upload Review Screenshot to image-host
+    // Upload Work Screenshot to image-host
     if (isset($_FILES['review_screenshot']) && $_FILES['review_screenshot']['error'] === UPLOAD_ERR_OK) {
         $result = uploadToImageHost($_FILES['review_screenshot']);
         if ($result['success']) {
@@ -219,10 +219,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Step 4: Refund - <?php echo APP_NAME; ?></title>
     <style>
         *{box-sizing:border-box;margin:0;padding:0}
-        body{background:linear-gradient(135deg,#667eea,#764ba2);min-height:100vh;padding:15px;font-family:-apple-system,sans-serif}
+        body{background:linear-gradient(135deg,#0ea5e9,#06b6d4);min-height:100vh;padding:15px;font-family:-apple-system,sans-serif}
         .container{max-width:550px;margin:0 auto;background:#fff;padding:25px;border-radius:18px;box-shadow:0 10px 40px rgba(0,0,0,0.2)}
         h2{font-size:22px;text-align:center;margin-bottom:20px;color:#333}
-        .info-box{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;padding:15px;border-radius:12px;text-align:center;margin-bottom:20px}
+        .info-box{background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff;padding:15px;border-radius:12px;text-align:center;margin-bottom:20px}
         .warning{background:#fff3cd;border-left:4px solid #ffc107;padding:12px;border-radius:8px;margin-bottom:20px;color:#856404;font-size:13px}
         .alert{padding:12px;border-radius:8px;margin-bottom:15px;font-size:14px}
         .alert-success{background:#d4edda;color:#155724}
@@ -240,12 +240,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         .btn:disabled{background:#ccc;cursor:not-allowed}
         .success-box{background:#d4edda;border:2px solid #27ae60;border-radius:15px;padding:30px;text-align:center;margin-bottom:20px}
         .success-box h3{color:#155724;margin:10px 0}
-        .nav-btn{display:block;padding:14px;text-align:center;border-radius:10px;text-decoration:none;font-weight:600;margin-top:12px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
+        .nav-btn{display:block;padding:14px;text-align:center;border-radius:10px;text-decoration:none;font-weight:600;margin-top:12px;background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff}
         .links{text-align:center;margin-top:25px}
-        .links a{color:#667eea;text-decoration:none;font-weight:600;margin:0 15px}
+        .links a{color:#0ea5e9;text-decoration:none;font-weight:600;margin:0 15px}
         .loading{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:9999;justify-content:center;align-items:center;flex-direction:column}
         .loading.show{display:flex}
-        .spinner{width:50px;height:50px;border:4px solid #fff;border-top-color:#667eea;border-radius:50%;animation:spin 1s linear infinite}
+        .spinner{width:50px;height:50px;border:4px solid #fff;border-top-color:#0ea5e9;border-radius:50%;animation:spin 1s linear infinite}
         .loading-text{color:#fff;margin-top:15px}
         @keyframes spin{to{transform:rotate(360deg)}}
     </style>

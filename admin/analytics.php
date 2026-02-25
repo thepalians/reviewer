@@ -62,7 +62,7 @@ foreach ($taskStats as $row) {
     <?php include __DIR__ . '/includes/styles.php'; ?>
     <style>
         .stat-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
             color: white;
             border-radius: 15px;
             padding: 25px;
@@ -252,8 +252,8 @@ foreach ($taskStats as $row) {
                 datasets: [{
                     label: 'Revenue (₹)',
                     data: <?= json_encode($revenueValues) ?>,
-                    borderColor: '#667eea',
-                    backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                    borderColor: '#0ea5e9',
+                    backgroundColor: 'rgba(14, 165, 233, 0.1)',
                     tension: 0.4,
                     fill: true
                 }]

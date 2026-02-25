@@ -1,5 +1,5 @@
 /**
- * ReviewFlow - Main Application JavaScript
+ * TaskHive - Main Application JavaScript
  * PWA initialization, notifications, and utilities
  */
 
@@ -9,7 +9,7 @@
     const APP = {
         // Configuration
         config: {
-            appName: 'ReviewFlow',
+            appName: 'TaskHive',
             swPath: '/reviewer/sw.js',
             apiBase: '/reviewer/api/',
             notificationPermission: false

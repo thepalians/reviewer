@@ -113,7 +113,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['generate_report'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo $page_title; ?> - ReviewFlow Admin</title>
+    <title><?php echo $page_title; ?> - TaskHive Admin</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -159,7 +159,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['generate_report'])) {
             font-size: 14px;
             margin: 5px;
         }
-        .btn-primary { background: #667eea; color: white; }
+        .btn-primary { background: #0ea5e9; color: white; }
         .btn-secondary { background: #6b7280; color: white; }
         table {
             width: 100%;

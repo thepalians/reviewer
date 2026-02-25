@@ -96,7 +96,7 @@ function sendWebhook($db, $webhook, $event_type, $payload) {
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             'Content-Type: application/json',
             'X-Webhook-Signature: ' . $signature,
-            'User-Agent: ReviewFlow-Webhook/1.0'
+            'User-Agent: TaskHive-Webhook/1.0'
         ]);
         
         $response = curl_exec($ch);

@@ -13,7 +13,7 @@
         "Howdy"
       ],
       "responses": [
-        "Hello! Welcome to ReviewFlow. How can I assist you today?",
+        "Hello! Welcome to TaskHive. How can I assist you today?",
         "Hi there! Ready to manage your review tasks?",
         "Greetings! How can I help you with your tasks?"
       ]
@@ -210,7 +210,7 @@
         "Report issue"
       ],
       "responses": [
-        "Contact admin via: 1) Email: admin@reviewflow.com 2) Phone: +91-XXXXXXXXXX 3) Direct message in system (if available).",
+        "Contact admin via: 1) Email: admin@taskhive.com 2) Phone: +91-XXXXXXXXXX 3) Direct message in system (if available).",
         "Admin contact: Email issues with task ID. For urgent matters, use provided contact number during business hours.",
         "Support: Email admin with detailed issue description and task ID. Response within 24 hours on working days."
       ]
@@ -240,7 +240,7 @@
         "How it works?"
       ],
       "responses": [
-        "ReviewFlow: You review products, get refunded. Steps: 1) Order product 2) Submit review 3) Upload screenshots 4) Get refund. Admin assigns tasks.",
+        "TaskHive: You review products, get refunded. Steps: 1) Order product 2) Submit review 3) Upload screenshots 4) Get refund. Admin assigns tasks.",
         "Process: Admin assigns product link → You purchase → Review → Submit proof → Get refunded. 4-step system ensures quality.",
         "System workflow: Get task → Buy product → Review → Submit evidence → Receive payment. Each step verified by admin."
       ]

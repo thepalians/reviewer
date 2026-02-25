@@ -52,7 +52,7 @@ $totalPages = ceil($totalFlagged / $limit);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo $page_title; ?> - ReviewFlow Admin</title>
+    <title><?php echo $page_title; ?> - TaskHive Admin</title>
     <link rel="stylesheet" href="../assets/css/admin.css">
     <style>
         .stats-grid {
@@ -70,7 +70,7 @@ $totalPages = ceil($totalFlagged / $limit);
         .stat-value {
             font-size: 32px;
             font-weight: bold;
-            color: #667eea;
+            color: #0ea5e9;
         }
         .stat-label {
             color: #666;
@@ -127,7 +127,7 @@ $totalPages = ceil($totalFlagged / $limit);
         }
         .pagination a {
             padding: 8px 12px;
-            background: #667eea;
+            background: #0ea5e9;
             color: white;
             text-decoration: none;
             border-radius: 4px;

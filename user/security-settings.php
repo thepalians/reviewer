@@ -74,7 +74,7 @@ $qrCodeUrl = !empty($tempSecret) ? get2FAQRCodeUrl($tempSecret, $user_email) : '
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Security Settings - ReviewFlow</title>
+    <title>Security Settings - TaskHive</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -154,7 +154,7 @@ $qrCodeUrl = !empty($tempSecret) ? get2FAQRCodeUrl($tempSecret, $user_email) : '
             font-size: 14px;
             margin: 5px 5px 5px 0;
         }
-        .btn-primary { background: #667eea; color: white; }
+        .btn-primary { background: #0ea5e9; color: white; }
         .btn-danger { background: #ef4444; color: white; }
         .btn-secondary { background: #6b7280; color: white; }
         .alert {

@@ -139,7 +139,7 @@ $current_page = 'seller-wallet-manage';
     <style>
         .seller-select-wrapper{position:relative;margin-bottom:20px}
         .seller-search{width:100%;padding:12px 15px;border:1px solid #e2e8f0;border-radius:8px;font-size:14px}
-        .seller-search:focus{outline:none;border-color:#667eea;box-shadow:0 0 0 3px rgba(102,126,234,0.1)}
+        .seller-search:focus{outline:none;border-color:#0ea5e9;box-shadow:0 0 0 3px rgba(102,126,234,0.1)}
         .seller-dropdown{position:absolute;top:100%;left:0;right:0;background:#fff;border:1px solid #e2e8f0;border-radius:8px;max-height:300px;overflow-y:auto;display:none;z-index:100;box-shadow:0 4px 12px rgba(0,0,0,0.1)}
         .seller-dropdown.show{display:block}
         .seller-option{padding:12px 15px;cursor:pointer;border-bottom:1px solid #f1f5f9}

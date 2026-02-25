@@ -112,7 +112,7 @@ $current_page = 'bi-dashboard';
         .content{padding:30px}
         .card{background:#fff;border-radius:12px;box-shadow:0 2px 10px rgba(0,0,0,0.05);margin-bottom:20px}
         .card-header{background:#f8f9fa;padding:15px 20px;border-bottom:2px solid #e9ecef;border-radius:12px 12px 0 0;display:flex;justify-content:space-between;align-items:center}
-        .btn-primary{background:#667eea;border:none;padding:10px 20px;border-radius:8px;font-weight:600}
+        .btn-primary{background:#0ea5e9;border:none;padding:10px 20px;border-radius:8px;font-weight:600}
         .btn-primary:hover{background:#5568d3}
         .grid-stack{min-height:600px}
         .grid-stack-item-content{background:#fff;border-radius:12px;box-shadow:0 2px 10px rgba(0,0,0,0.08);padding:20px;overflow:auto}
@@ -122,7 +122,7 @@ $current_page = 'bi-dashboard';
         .widget-btn{background:none;border:none;color:#666;cursor:pointer;padding:5px;border-radius:4px;transition:all 0.3s}
         .widget-btn:hover{background:#f0f0f0;color:#333}
         .widget-content{font-size:14px;color:#666}
-        .add-widget-btn{position:fixed;bottom:30px;right:30px;width:60px;height:60px;border-radius:50%;background:#667eea;color:#fff;border:none;font-size:24px;box-shadow:0 4px 12px rgba(102,126,234,0.4);cursor:pointer;transition:all 0.3s}
+        .add-widget-btn{position:fixed;bottom:30px;right:30px;width:60px;height:60px;border-radius:50%;background:#0ea5e9;color:#fff;border:none;font-size:24px;box-shadow:0 4px 12px rgba(102,126,234,0.4);cursor:pointer;transition:all 0.3s}
         .add-widget-btn:hover{transform:scale(1.1);box-shadow:0 6px 16px rgba(102,126,234,0.6)}
         .empty-state{text-align:center;padding:60px 20px;color:#999}
         .empty-state i{font-size:64px;margin-bottom:20px;opacity:0.3}

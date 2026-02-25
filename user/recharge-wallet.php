@@ -175,7 +175,7 @@ $current_page = 'recharge-wallet';
         <?php endif; ?>
 
         <!-- Current Balance -->
-        <div class="card mb-4" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+        <div class="card mb-4" style="background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%); color: white;">
             <div class="card-body">
                 <div class="row align-items-center">
                     <div class="col-md-8">
@@ -194,7 +194,7 @@ $current_page = 'recharge-wallet';
             <div class="col-md-4">
                 <div class="card">
                     <div class="card-body text-center">
-                        <i class="bi bi-credit-card" style="font-size: 2rem; color: #667eea;"></i>
+                        <i class="bi bi-credit-card" style="font-size: 2rem; color: #0ea5e9;"></i>
                         <h3 class="mt-2"><?php echo $payment_stats['total_payments']; ?></h3>
                         <p class="mb-0 text-muted">Total Recharges</p>
                     </div>
@@ -274,7 +274,7 @@ $current_page = 'recharge-wallet';
                     <div class="col-md-4 mb-3">
                         <div class="card text-center h-100">
                             <div class="card-body">
-                                <i class="bi bi-credit-card" style="font-size: 3rem; color: #667eea;"></i>
+                                <i class="bi bi-credit-card" style="font-size: 3rem; color: #0ea5e9;"></i>
                                 <h6 class="mt-2">Credit/Debit Card</h6>
                                 <small class="text-muted">Visa, Mastercard, RuPay</small>
                             </div>
@@ -382,7 +382,7 @@ function openRazorpay(orderId, paymentId, amount, keyId) {
             email: '<?php echo htmlspecialchars($user['email']); ?>'
         },
         theme: {
-            color: '#667eea'
+            color: '#0ea5e9'
         }
     };
     

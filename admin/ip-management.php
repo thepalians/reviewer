@@ -113,7 +113,7 @@ $current_page = 'ip-management';
         .content{padding:30px}
         .card{background:#fff;border-radius:12px;box-shadow:0 2px 10px rgba(0,0,0,0.05);padding:25px;margin-bottom:20px}
         .stats{display:grid;grid-template-columns:repeat(2,1fr);gap:15px;margin-bottom:25px}
-        .stat{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;padding:25px;border-radius:12px;text-align:center}
+        .stat{background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff;padding:25px;border-radius:12px;text-align:center}
         .stat.danger{background:linear-gradient(135deg,#ef4444,#dc2626)}
         .stat.success{background:linear-gradient(135deg,#10b981,#059669)}
         .stat .val{font-size:36px;font-weight:700;margin-bottom:5px}
@@ -126,7 +126,7 @@ $current_page = 'ip-management';
         .badge.active{background:#d1fae5;color:#065f46}
         .badge.expired{background:#fee2e2;color:#991b1b}
         .badge.permanent{background:#dbeafe;color:#1e40af}
-        .ip-address{font-family:monospace;font-weight:600;color:#667eea}
+        .ip-address{font-family:monospace;font-weight:600;color:#0ea5e9}
         .btn-sm{padding:6px 12px;font-size:13px;border-radius:6px}
         @media(max-width:768px){.wrapper{grid-template-columns:1fr}.sidebar{display:none}.stats{grid-template-columns:1fr}}
     </style>

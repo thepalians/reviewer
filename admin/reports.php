@@ -60,7 +60,7 @@ if (isset($_GET['export'])) {
                 $data = $stmt->fetchAll();
                 
                 exportCSV($data, 'tasks_report_' . date('Y-m-d') . '.csv', [
-                    'Task ID', 'User', 'Product Link', 'Status', 'Commission', 'Deadline', 'Refund Requested', 'Created', 'Steps Completed'
+                    'Task ID', 'User', 'Task Link', 'Status', 'Commission', 'Deadline', 'Refund Requested', 'Created', 'Steps Completed'
                 ]);
                 break;
                 
@@ -372,7 +372,7 @@ while ($current <= $end) {
         .sidebar-menu{list-style:none;padding:15px 0}
         .sidebar-menu li{margin-bottom:5px}
         .sidebar-menu a{display:flex;align-items:center;gap:12px;padding:12px 20px;color:#94a3b8;text-decoration:none;transition:all 0.2s;border-left:3px solid transparent}
-        .sidebar-menu a:hover,.sidebar-menu a.active{background:rgba(255,255,255,0.05);color:#fff;border-left-color:#667eea}
+        .sidebar-menu a:hover,.sidebar-menu a.active{background:rgba(255,255,255,0.05);color:#fff;border-left-color:#0ea5e9}
         .sidebar-menu .badge{background:#e74c3c;color:#fff;padding:2px 8px;border-radius:10px;font-size:11px;margin-left:auto}
         .sidebar-divider{height:1px;background:rgba(255,255,255,0.1);margin:15px 20px}
         .sidebar-menu a.logout{color:#e74c3c}
@@ -390,10 +390,10 @@ while ($current <= $end) {
         .filter-group{display:flex;flex-direction:column;gap:5px}
         .filter-group label{font-size:12px;font-weight:600;color:#64748b}
         .filter-group input,.filter-group select{padding:10px 15px;border:1px solid #e2e8f0;border-radius:8px;font-size:13px}
-        .filter-group input:focus,.filter-group select:focus{border-color:#667eea;outline:none}
+        .filter-group input:focus,.filter-group select:focus{border-color:#0ea5e9;outline:none}
         .filter-actions{display:flex;gap:10px;margin-left:auto}
         .btn{padding:10px 20px;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:13px;transition:all 0.2s;display:inline-flex;align-items:center;gap:6px;text-decoration:none}
-        .btn-primary{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
+        .btn-primary{background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff}
         .btn-secondary{background:#f1f5f9;color:#475569}
         .btn-success{background:#10b981;color:#fff}
         .btn:hover{transform:translateY(-1px);box-shadow:0 3px 10px rgba(0,0,0,0.1)}
@@ -401,7 +401,7 @@ while ($current <= $end) {
         /* Quick Stats */
         .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:15px;margin-bottom:25px}
         .stat-card{background:#fff;border-radius:12px;padding:20px;box-shadow:0 2px 10px rgba(0,0,0,0.04)}
-        .stat-card.highlight{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
+        .stat-card.highlight{background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff}
         .stat-icon{font-size:24px;margin-bottom:10px}
         .stat-value{font-size:28px;font-weight:700;margin-bottom:3px}
         .stat-label{font-size:13px;opacity:0.8}
@@ -437,7 +437,7 @@ while ($current <= $end) {
         .bar-item{flex:1;display:flex;flex-direction:column;align-items:center}
         .bar{width:100%;max-width:40px;border-radius:4px 4px 0 0;transition:height 0.3s;cursor:pointer}
         .bar:hover{opacity:0.8}
-        .bar.primary{background:linear-gradient(180deg,#667eea,#764ba2)}
+        .bar.primary{background:linear-gradient(180deg,#0ea5e9,#06b6d4)}
         .bar.success{background:linear-gradient(180deg,#10b981,#059669)}
         .bar.warning{background:linear-gradient(180deg,#f59e0b,#d97706)}
         .bar-label{font-size:10px;color:#94a3b8;margin-top:8px;text-align:center}
@@ -446,7 +446,7 @@ while ($current <= $end) {
         .table-card{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,0.04);margin-bottom:25px}
         .table-header{padding:20px;border-bottom:1px solid #f1f5f9;display:flex;justify-content:space-between;align-items:center}
         .table-title{font-size:16px;font-weight:600;color:#1e293b}
-        .table-action{font-size:13px;color:#667eea;text-decoration:none;font-weight:500}
+        .table-action{font-size:13px;color:#0ea5e9;text-decoration:none;font-weight:500}
         table{width:100%;border-collapse:collapse}
         th{background:#f8fafc;padding:12px 15px;text-align:left;font-size:11px;font-weight:600;color:#64748b;text-transform:uppercase}
         td{padding:12px 15px;border-bottom:1px solid #f1f5f9;font-size:13px;color:#1e293b}
@@ -467,7 +467,7 @@ while ($current <= $end) {
         /* Export Buttons */
         .export-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:25px}
         .export-btn{background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:15px;text-align:center;text-decoration:none;transition:all 0.2s}
-        .export-btn:hover{border-color:#667eea;background:#f8f9ff;transform:translateY(-2px)}
+        .export-btn:hover{border-color:#0ea5e9;background:#f8f9ff;transform:translateY(-2px)}
         .export-btn .icon{font-size:24px;margin-bottom:8px}
         .export-btn .label{font-size:13px;font-weight:600;color:#1e293b}
         .export-btn .desc{font-size:11px;color:#64748b;margin-top:3px}
@@ -573,7 +573,7 @@ while ($current <= $end) {
                 <div class="label">GST Report</div>
                 <div class="desc">Export as CSV</div>
             </a>
-            <a href="?from=<?php echo $date_from; ?>&to=<?php echo $date_to; ?>&export=gst&format=json" class="export-btn" style="background:linear-gradient(135deg,#667eea,#764ba2);color:#fff">
+            <a href="?from=<?php echo $date_from; ?>&to=<?php echo $date_to; ?>&export=gst&format=json" class="export-btn" style="background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff">
                 <div class="icon">📊</div>
                 <div class="label">GST Report</div>
                 <div class="desc">Export as JSON</div>
@@ -639,7 +639,7 @@ while ($current <= $end) {
                     <?php endforeach; ?>
                 </div>
                 <div style="display:flex;justify-content:center;gap:20px;margin-top:15px;font-size:12px;color:#64748b">
-                    <span><span style="display:inline-block;width:12px;height:12px;background:linear-gradient(135deg,#667eea,#764ba2);border-radius:2px;margin-right:5px"></span> Users</span>
+                    <span><span style="display:inline-block;width:12px;height:12px;background:linear-gradient(135deg,#0ea5e9,#06b6d4);border-radius:2px;margin-right:5px"></span> Users</span>
                     <span><span style="display:inline-block;width:12px;height:12px;background:linear-gradient(135deg,#10b981,#059669);border-radius:2px;margin-right:5px"></span> Tasks</span>
                 </div>
             </div>

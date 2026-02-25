@@ -276,7 +276,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_account'])) {
     <title>Profile - <?php echo APP_NAME; ?></title>
     <style>
         *{box-sizing:border-box;margin:0;padding:0}
-        body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:20px}
+        body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:linear-gradient(135deg,#0ea5e9 0%,#06b6d4 100%);min-height:100vh;padding:20px}
         
         .container{max-width:900px;margin:0 auto}
         
@@ -286,10 +286,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_account'])) {
         /* Profile Header */
         .profile-header{background:#fff;border-radius:20px;padding:30px;margin-bottom:25px;display:flex;align-items:center;gap:25px;box-shadow:0 5px 20px rgba(0,0,0,0.1)}
         .avatar-section{position:relative}
-        .avatar{width:120px;height:120px;border-radius:50%;background:linear-gradient(135deg,#667eea,#764ba2);display:flex;align-items:center;justify-content:center;color:#fff;font-size:48px;font-weight:700;overflow:hidden;border:4px solid #fff;box-shadow:0 5px 20px rgba(0,0,0,0.2)}
+        .avatar{width:120px;height:120px;border-radius:50%;background:linear-gradient(135deg,#0ea5e9,#06b6d4);display:flex;align-items:center;justify-content:center;color:#fff;font-size:48px;font-weight:700;overflow:hidden;border:4px solid #fff;box-shadow:0 5px 20px rgba(0,0,0,0.2)}
         .avatar img{width:100%;height:100%;object-fit:cover}
-        .avatar-edit{position:absolute;bottom:5px;right:5px;width:35px;height:35px;background:#667eea;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;border:3px solid #fff;font-size:14px}
-        .avatar-edit:hover{background:#764ba2}
+        .avatar-edit{position:absolute;bottom:5px;right:5px;width:35px;height:35px;background:#0ea5e9;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;border:3px solid #fff;font-size:14px}
+        .avatar-edit:hover{background:#06b6d4}
         .profile-info h1{font-size:26px;color:#333;margin-bottom:5px}
         .profile-info p{color:#666;font-size:14px;margin-bottom:3px}
         .profile-badges{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
@@ -301,7 +301,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_account'])) {
         /* Stats Mini */
         .stats-mini{margin-left:auto;display:grid;grid-template-columns:repeat(3,1fr);gap:15px;text-align:center}
         .stat-mini{padding:10px 20px}
-        .stat-mini .value{font-size:22px;font-weight:700;color:#667eea}
+        .stat-mini .value{font-size:22px;font-weight:700;color:#0ea5e9}
         .stat-mini .label{font-size:11px;color:#888}
         
         /* Alerts */
@@ -313,7 +313,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_account'])) {
         .tabs{display:flex;gap:5px;background:#fff;padding:8px;border-radius:12px;margin-bottom:20px;box-shadow:0 3px 15px rgba(0,0,0,0.08);overflow-x:auto}
         .tab{padding:12px 20px;background:transparent;border:none;border-radius:8px;cursor:pointer;font-weight:600;font-size:13px;color:#666;transition:all 0.2s;white-space:nowrap}
         .tab:hover{background:#f5f5f5}
-        .tab.active{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
+        .tab.active{background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff}
         
         /* Cards */
         .card{background:#fff;border-radius:15px;padding:25px;box-shadow:0 5px 20px rgba(0,0,0,0.1);margin-bottom:20px;display:none}
@@ -326,13 +326,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_account'])) {
         .form-group label{display:block;font-weight:600;margin-bottom:8px;color:#333;font-size:14px}
         .form-group label span{color:#e74c3c}
         .form-control{width:100%;padding:12px 15px;border:2px solid #eee;border-radius:10px;font-size:14px;transition:border-color 0.2s}
-        .form-control:focus{border-color:#667eea;outline:none}
+        .form-control:focus{border-color:#0ea5e9;outline:none}
         .form-control:disabled{background:#f5f5f5;cursor:not-allowed}
         .form-hint{font-size:12px;color:#888;margin-top:5px}
         
         /* Buttons */
         .btn{padding:12px 25px;border:none;border-radius:10px;font-weight:600;cursor:pointer;font-size:14px;transition:all 0.2s;display:inline-flex;align-items:center;justify-content:center;gap:8px}
-        .btn-primary{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
+        .btn-primary{background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff}
         .btn-primary:hover{transform:translateY(-2px);box-shadow:0 5px 20px rgba(102,126,234,0.4)}
         .btn-success{background:linear-gradient(135deg,#27ae60,#2ecc71);color:#fff}
         .btn-danger{background:#e74c3c;color:#fff}
@@ -590,7 +590,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_account'])) {
         
         <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:15px;margin-bottom:25px">
             <div style="background:#f8f9fa;padding:20px;border-radius:12px;text-align:center">
-                <div style="font-size:32px;font-weight:700;color:#667eea"><?php echo $user_stats['tasks_completed'] ?? 0; ?></div>
+                <div style="font-size:32px;font-weight:700;color:#0ea5e9"><?php echo $user_stats['tasks_completed'] ?? 0; ?></div>
                 <div style="font-size:13px;color:#666">Tasks Completed</div>
             </div>
             <div style="background:#f8f9fa;padding:20px;border-radius:12px;text-align:center">

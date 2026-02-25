@@ -1,6 +1,6 @@
 <?php
 /**
- * ReviewFlow - Security Middleware
+ * TaskHive - Security Middleware
  * Handles authentication, CSRF, XSS protection, and security headers
  */
 

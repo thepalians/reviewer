@@ -82,13 +82,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Two-Factor Authentication - ReviewFlow</title>
+    <title>Two-Factor Authentication - TaskHive</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -134,7 +134,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         input[type="text"]:focus {
             outline: none;
-            border-color: #667eea;
+            border-color: #0ea5e9;
         }
         .checkbox-group {
             display: flex;
@@ -163,7 +163,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             transition: background 0.3s;
         }
         .btn-primary {
-            background: #667eea;
+            background: #0ea5e9;
             color: white;
         }
         .btn-primary:hover {
@@ -188,7 +188,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         .link {
             text-align: center;
             margin-top: 20px;
-            color: #667eea;
+            color: #0ea5e9;
             cursor: pointer;
             text-decoration: underline;
         }

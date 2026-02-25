@@ -104,7 +104,7 @@ $twitter_message = "I'm earning money on " . APP_NAME . "! Join using my code: "
     <title>Refer & Earn - <?php echo APP_NAME; ?></title>
     <style>
         *{box-sizing:border-box;margin:0;padding:0}
-        body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:20px}
+        body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:linear-gradient(135deg,#0ea5e9 0%,#06b6d4 100%);min-height:100vh;padding:20px}
         
         .container{max-width:900px;margin:0 auto}
         
@@ -130,7 +130,7 @@ $twitter_message = "I'm earning money on " . APP_NAME . "! Join using my code: "
         
         .link-box{background:#f8f9fa;border-radius:10px;padding:12px 15px;display:flex;align-items:center;gap:10px;margin-bottom:20px}
         .link-box input{flex:1;background:none;border:none;font-size:13px;color:#666;outline:none}
-        .link-copy{padding:8px 15px;background:#667eea;color:#fff;border:none;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer}
+        .link-copy{padding:8px 15px;background:#0ea5e9;color:#fff;border:none;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer}
         
         .share-section{text-align:center}
         .share-title{font-size:14px;color:#666;margin-bottom:15px}
@@ -162,7 +162,7 @@ $twitter_message = "I'm earning money on " . APP_NAME . "! Join using my code: "
         .section-title{font-size:18px;font-weight:600;color:#333;margin-bottom:20px;display:flex;align-items:center;gap:10px}
         .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
         .step{text-align:center;padding:20px}
-        .step-number{width:50px;height:50px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;margin:0 auto 15px}
+        .step-number{width:50px;height:50px;background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;margin:0 auto 15px}
         .step-title{font-weight:600;color:#333;margin-bottom:8px}
         .step-desc{font-size:13px;color:#666;line-height:1.5}
         
@@ -173,7 +173,7 @@ $twitter_message = "I'm earning money on " . APP_NAME . "! Join using my code: "
         .user-list{max-height:400px;overflow-y:auto}
         .user-item{display:flex;align-items:center;padding:15px 0;border-bottom:1px solid #f5f5f5}
         .user-item:last-child{border-bottom:none}
-        .user-avatar{width:45px;height:45px;background:linear-gradient(135deg,#667eea,#764ba2);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:600;font-size:16px;margin-right:15px}
+        .user-avatar{width:45px;height:45px;background:linear-gradient(135deg,#0ea5e9,#06b6d4);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:600;font-size:16px;margin-right:15px}
         .user-info{flex:1}
         .user-name{font-weight:600;color:#333;font-size:14px}
         .user-date{font-size:12px;color:#888;margin-top:2px}
@@ -235,7 +235,7 @@ $twitter_message = "I'm earning money on " . APP_NAME . "! Join using my code: "
         /* Referral Tree */
         .referral-tree{margin:20px 0}
         .tree-level{margin-bottom:25px}
-        .tree-level-header{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;padding:12px 20px;border-radius:10px;font-weight:700;margin-bottom:15px;display:flex;justify-content:space-between;align-items:center}
+        .tree-level-header{background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff;padding:12px 20px;border-radius:10px;font-weight:700;margin-bottom:15px;display:flex;justify-content:space-between;align-items:center}
         .tree-items{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:15px}
         .tree-item{background:#f8f9fa;border-radius:10px;padding:15px;border-left:4px solid;transition:all 0.3s}
         .tree-item:hover{background:#e9ecef;transform:translateX(5px)}
@@ -258,13 +258,13 @@ $twitter_message = "I'm earning money on " . APP_NAME . "! Join using my code: "
         /* Network Growth Chart */
         .growth-chart-card{background:#fff;border-radius:15px;padding:25px;margin-bottom:25px;box-shadow:0 5px 20px rgba(0,0,0,0.1)}
         .chart-container{display:flex;align-items:flex-end;justify-content:space-between;height:200px;padding:20px 0;gap:8px}
-        .chart-bar{flex:1;background:linear-gradient(180deg,#667eea 0%,#764ba2 100%);border-radius:8px 8px 0 0;position:relative;transition:all 0.3s;cursor:pointer;min-height:20px}
+        .chart-bar{flex:1;background:linear-gradient(180deg,#0ea5e9 0%,#06b6d4 100%);border-radius:8px 8px 0 0;position:relative;transition:all 0.3s;cursor:pointer;min-height:20px}
         .chart-bar:hover{transform:translateY(-5px);opacity:0.8}
         .chart-bar-label{position:absolute;bottom:-25px;left:50%;transform:translateX(-50%);font-size:11px;color:#888;white-space:nowrap}
-        .chart-bar-value{position:absolute;top:-25px;left:50%;transform:translateX(-50%);font-size:12px;font-weight:700;color:#667eea;background:#fff;padding:3px 8px;border-radius:5px;box-shadow:0 2px 8px rgba(0,0,0,0.1)}
+        .chart-bar-value{position:absolute;top:-25px;left:50%;transform:translateX(-50%);font-size:12px;font-weight:700;color:#0ea5e9;background:#fff;padding:3px 8px;border-radius:5px;box-shadow:0 2px 8px rgba(0,0,0,0.1)}
         .chart-legend{display:flex;justify-content:center;gap:20px;margin-top:35px;font-size:13px;color:#666}
         .legend-item{display:flex;align-items:center;gap:6px}
-        .legend-dot{width:12px;height:12px;border-radius:50%;background:linear-gradient(135deg,#667eea,#764ba2)}
+        .legend-dot{width:12px;height:12px;border-radius:50%;background:linear-gradient(135deg,#0ea5e9,#06b6d4)}
         
         /* Chain Bonus Explainer */
         .chain-bonus-card{background:linear-gradient(135deg,#e8f5e9 0%,#c8e6c9 100%);border-radius:15px;padding:30px;margin-bottom:25px;box-shadow:0 5px 20px rgba(0,0,0,0.1);overflow:hidden}
@@ -302,7 +302,7 @@ $twitter_message = "I'm earning money on " . APP_NAME . "! Join using my code: "
         @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
         .leaderboard-item{display:flex;align-items:center;padding:15px;background:linear-gradient(135deg,#f8f9fa,#e9ecef);border-radius:12px;margin-bottom:10px;transition:all 0.3s}
         .leaderboard-item:hover{transform:translateX(5px);box-shadow:0 4px 15px rgba(0,0,0,0.1)}
-        .leaderboard-rank{width:40px;height:40px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px}
+        .leaderboard-rank{width:40px;height:40px;background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px}
         .leaderboard-item:nth-child(1) .leaderboard-rank{background:linear-gradient(135deg,#ffd700,#ffed4e);color:#333}
         .leaderboard-item:nth-child(2) .leaderboard-rank{background:linear-gradient(135deg,#c0c0c0,#d3d3d3);color:#333}
         .leaderboard-item:nth-child(3) .leaderboard-rank{background:linear-gradient(135deg,#cd7f32,#a0522d);color:#fff}
@@ -761,7 +761,7 @@ $twitter_message = "I'm earning money on " . APP_NAME . "! Join using my code: "
             </p>
             <div style="margin-top:20px;padding:15px;background:#fff;border-radius:10px;display:inline-block">
                 <div style="font-size:12px;color:#888">Your Current Rank</div>
-                <div style="font-size:32px;font-weight:800;color:#667eea;margin:5px 0">-</div>
+                <div style="font-size:32px;font-weight:800;color:#0ea5e9;margin:5px 0">-</div>
                 <div style="font-size:11px;color:#999">Keep referring to rank up!</div>
             </div>
         </div>

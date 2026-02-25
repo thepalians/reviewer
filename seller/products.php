@@ -140,7 +140,7 @@ try {
                 <table class="table table-hover">
                     <thead>
                         <tr>
-                            <th>Product Name</th>
+                            <th>Task Title</th>
                             <th>SKU</th>
                             <th>Barcode</th>
                             <th>Price</th>
@@ -230,7 +230,7 @@ try {
                     <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
                     
                     <div class="mb-3">
-                        <label class="form-label">Product Name *</label>
+                        <label class="form-label">Task Title *</label>
                         <input type="text" class="form-control" name="name" required>
                     </div>
                     
@@ -289,7 +289,7 @@ try {
                     <input type="hidden" name="product_id" id="edit_product_id">
                     
                     <div class="mb-3">
-                        <label class="form-label">Product Name *</label>
+                        <label class="form-label">Task Title *</label>
                         <input type="text" class="form-control" name="name" id="edit_name" required>
                     </div>
                     

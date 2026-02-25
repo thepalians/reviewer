@@ -162,7 +162,7 @@ function getTransactionStyle($type) {
     <title>Transactions - <?php echo APP_NAME; ?></title>
     <style>
         *{box-sizing:border-box;margin:0;padding:0}
-        body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:20px}
+        body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:linear-gradient(135deg,#0ea5e9 0%,#06b6d4 100%);min-height:100vh;padding:20px}
         
         .container{max-width:1100px;margin:0 auto}
         
@@ -173,7 +173,7 @@ function getTransactionStyle($type) {
         .summary-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:15px;margin-bottom:25px}
         .summary-card{background:#fff;border-radius:15px;padding:20px;box-shadow:0 5px 20px rgba(0,0,0,0.1);position:relative;overflow:hidden}
         .summary-card::after{content:'';position:absolute;top:0;right:0;width:60px;height:60px;border-radius:0 0 0 60px;opacity:0.1}
-        .summary-card.balance{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
+        .summary-card.balance{background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff}
         .summary-card.balance::after{background:#fff}
         .summary-card.credit::after{background:#27ae60}
         .summary-card.debit::after{background:#e74c3c}
@@ -200,10 +200,10 @@ function getTransactionStyle($type) {
         .filter-group{display:flex;flex-direction:column;gap:5px}
         .filter-group label{font-size:12px;font-weight:600;color:#666}
         .filter-group select,.filter-group input{padding:10px 15px;border:2px solid #eee;border-radius:8px;font-size:13px;min-width:140px}
-        .filter-group select:focus,.filter-group input:focus{border-color:#667eea;outline:none}
+        .filter-group select:focus,.filter-group input:focus{border-color:#0ea5e9;outline:none}
         .filter-actions{margin-left:auto;display:flex;gap:10px}
         .btn{padding:10px 20px;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:13px;transition:all 0.2s;display:inline-flex;align-items:center;gap:6px}
-        .btn-primary{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
+        .btn-primary{background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff}
         .btn-secondary{background:#f5f5f5;color:#666}
         .btn-success{background:#27ae60;color:#fff}
         .btn:hover{transform:translateY(-2px)}
@@ -247,8 +247,8 @@ function getTransactionStyle($type) {
         /* Pagination */
         .pagination{display:flex;justify-content:center;gap:8px;padding:20px}
         .page-btn{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:#f5f5f5;color:#666;text-decoration:none;font-weight:600;font-size:14px;transition:all 0.2s;border:none;cursor:pointer}
-        .page-btn:hover{background:#667eea;color:#fff}
-        .page-btn.active{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
+        .page-btn:hover{background:#0ea5e9;color:#fff}
+        .page-btn.active{background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff}
         .page-btn.disabled{opacity:0.5;cursor:not-allowed;pointer-events:none}
         
         /* Responsive */
@@ -384,7 +384,7 @@ function getTransactionStyle($type) {
                 <h3>No Transactions Found</h3>
                 <p>
                     <?php if ($filter_type !== 'all' || $filter_status !== 'all' || $filter_date !== 'all' || !empty($search)): ?>
-                        Try adjusting your filters. <a href="?" style="color:#667eea">Clear filters</a>
+                        Try adjusting your filters. <a href="?" style="color:#0ea5e9">Clear filters</a>
                     <?php else: ?>
                         Your transaction history will appear here.
                     <?php endif; ?>

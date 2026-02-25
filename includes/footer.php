@@ -7,7 +7,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-3 mb-3">
-                <h5>ReviewFlow</h5>
+                <h5>TaskHive</h5>
                 <p>Reviewer Task Management System</p>
                 <p>Helping reviewers get compensated for honest product feedback.</p>
             </div>
@@ -31,14 +31,14 @@
             </div>
             <div class="col-md-3 mb-3">
                 <h5>Contact Us</h5>
-                <p><i class="bi bi-envelope"></i> admin@reviewflow.com</p>
+                <p><i class="bi bi-envelope"></i> admin@taskhive.com</p>
                 <p><i class="bi bi-telephone"></i> +91-XXXXXXXXXX</p>
                 <p><i class="bi bi-clock"></i> Mon-Fri: 10:00 AM - 6:00 PM</p>
             </div>
         </div>
         <hr class="bg-white">
         <div class="text-center">
-            <p class="mb-0">&copy; <?php echo date('Y'); ?> ReviewFlow - Reviewer Task Management System. All rights reserved.</p>
+            <p class="mb-0">&copy; <?php echo date('Y'); ?> TaskHive - Reviewer Task Management System. All rights reserved.</p>
         </div>
     </div>
 </footer>

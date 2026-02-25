@@ -158,7 +158,7 @@ if ($selected_task >= 0 && isset($_GET['task_id'])) {
     <title>Messages - <?php echo APP_NAME; ?></title>
     <style>
         *{box-sizing:border-box;margin:0;padding:0}
-        body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:20px}
+        body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:linear-gradient(135deg,#0ea5e9 0%,#06b6d4 100%);min-height:100vh;padding:20px}
         
         .container{max-width:1100px;margin:0 auto}
         
@@ -178,14 +178,14 @@ if ($selected_task >= 0 && isset($_GET['task_id'])) {
         .sidebar-header{padding:20px;border-bottom:1px solid #eee;display:flex;justify-content:space-between;align-items:center}
         .sidebar-header h3{font-size:18px;color:#333;display:flex;align-items:center;gap:8px}
         .sidebar-header .badge{background:#e74c3c;color:#fff;padding:3px 10px;border-radius:10px;font-size:12px}
-        .new-msg-btn{padding:8px 15px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer}
+        .new-msg-btn{padding:8px 15px;background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer}
         
         .thread-list{flex:1;overflow-y:auto}
         .thread-item{display:flex;align-items:center;padding:15px 20px;border-bottom:1px solid #f5f5f5;cursor:pointer;transition:background 0.2s}
         .thread-item:hover{background:#f8f9fa}
-        .thread-item.active{background:#f0f4ff;border-left:4px solid #667eea}
+        .thread-item.active{background:#f0f4ff;border-left:4px solid #0ea5e9}
         .thread-item.unread{background:#fffbf0}
-        .thread-icon{width:45px;height:45px;background:linear-gradient(135deg,#667eea,#764ba2);border-radius:12px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;margin-right:12px;flex-shrink:0}
+        .thread-icon{width:45px;height:45px;background:linear-gradient(135deg,#0ea5e9,#06b6d4);border-radius:12px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;margin-right:12px;flex-shrink:0}
         .thread-icon.general{background:linear-gradient(135deg,#27ae60,#2ecc71)}
         .thread-info{flex:1;min-width:0}
         .thread-title{font-weight:600;color:#333;font-size:14px;margin-bottom:3px;display:flex;align-items:center;gap:8px}
@@ -210,7 +210,7 @@ if ($selected_task >= 0 && isset($_GET['task_id'])) {
         .message-item.received{justify-content:flex-start}
         
         .message-bubble{max-width:70%;padding:12px 16px;border-radius:18px;position:relative}
-        .message-item.sent .message-bubble{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border-bottom-right-radius:5px}
+        .message-item.sent .message-bubble{background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff;border-bottom-right-radius:5px}
         .message-item.received .message-bubble{background:#fff;color:#333;border-bottom-left-radius:5px;box-shadow:0 2px 5px rgba(0,0,0,0.05)}
         
         .message-text{font-size:14px;line-height:1.5;white-space:pre-wrap;word-wrap:break-word}
@@ -225,8 +225,8 @@ if ($selected_task >= 0 && isset($_GET['task_id'])) {
         .compose-form{display:flex;gap:10px;align-items:flex-end}
         .compose-input{flex:1}
         .compose-input textarea{width:100%;padding:12px 15px;border:2px solid #eee;border-radius:12px;font-size:14px;resize:none;min-height:50px;max-height:120px;font-family:inherit;transition:border-color 0.2s}
-        .compose-input textarea:focus{border-color:#667eea;outline:none}
-        .compose-btn{padding:12px 25px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border:none;border-radius:12px;font-weight:600;cursor:pointer;font-size:14px;display:flex;align-items:center;gap:8px;transition:transform 0.2s}
+        .compose-input textarea:focus{border-color:#0ea5e9;outline:none}
+        .compose-btn{padding:12px 25px;background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff;border:none;border-radius:12px;font-weight:600;cursor:pointer;font-size:14px;display:flex;align-items:center;gap:8px;transition:transform 0.2s}
         .compose-btn:hover{transform:translateY(-2px)}
         
         /* Empty/Welcome State */
@@ -246,11 +246,11 @@ if ($selected_task >= 0 && isset($_GET['task_id'])) {
         .form-group{margin-bottom:20px}
         .form-group label{display:block;font-weight:600;margin-bottom:8px;color:#333;font-size:14px}
         .form-control{width:100%;padding:12px 15px;border:2px solid #eee;border-radius:10px;font-size:14px}
-        .form-control:focus{border-color:#667eea;outline:none}
+        .form-control:focus{border-color:#0ea5e9;outline:none}
         textarea.form-control{min-height:120px;resize:vertical;font-family:inherit}
         
         .btn{padding:12px 25px;border:none;border-radius:10px;font-weight:600;cursor:pointer;font-size:14px}
-        .btn-primary{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;width:100%}
+        .btn-primary{background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff;width:100%}
         
         /* Responsive */
         @media(max-width:768px){

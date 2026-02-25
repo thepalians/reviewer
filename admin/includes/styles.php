@@ -15,7 +15,7 @@
     .sidebar-menu{list-style:none;padding:15px 0}
     .sidebar-menu li{margin-bottom:5px}
     .sidebar-menu a{display:flex;align-items:center;gap:12px;padding:12px 20px;color:#94a3b8;text-decoration:none;transition:all 0.2s;border-left:3px solid transparent}
-    .sidebar-menu a:hover,.sidebar-menu a.active{background:rgba(255,255,255,0.05);color:#fff;border-left-color:#667eea}
+    .sidebar-menu a:hover,.sidebar-menu a.active{background:rgba(255,255,255,0.05);color:#fff;border-left-color:#0ea5e9}
     .sidebar-menu .badge{background:#e74c3c;color:#fff;padding:2px 8px;border-radius:10px;font-size:11px;margin-left:auto}
     .sidebar-divider{height:1px;background:rgba(255,255,255,0.1);margin:15px 20px}
     .sidebar-menu a.logout{color:#e74c3c}
@@ -31,7 +31,7 @@
     .page-subtitle{color:#64748b;font-size:14px;margin-top:5px}
     .header-actions{display:flex;gap:10px}
     .header-btn{padding:10px 20px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;border:none;transition:all 0.2s;display:flex;align-items:center;gap:8px;text-decoration:none}
-    .header-btn.primary{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
+    .header-btn.primary{background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff}
     .header-btn.secondary{background:#fff;color:#64748b;border:1px solid #e2e8f0}
     .header-btn:hover{transform:translateY(-2px);box-shadow:0 5px 15px rgba(0,0,0,0.1)}
     
@@ -60,7 +60,7 @@
     /* Buttons */
     .btn{padding:8px 16px;border-radius:8px;font-size:13px;font-weight:500;border:none;cursor:pointer;transition:all 0.2s;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
     .btn-sm{padding:6px 12px;font-size:12px}
-    .btn-primary{background:#667eea;color:#fff}
+    .btn-primary{background:#0ea5e9;color:#fff}
     .btn-primary:hover{background:#5a67d8}
     .btn-success{background:#059669;color:#fff}
     .btn-success:hover{background:#047857}
@@ -68,8 +68,8 @@
     .btn-danger:hover{background:#b91c1c}
     .btn-secondary{background:#64748b;color:#fff}
     .btn-secondary:hover{background:#475569}
-    .btn-outline-primary{background:#fff;color:#667eea;border:1px solid #667eea}
-    .btn-outline-primary:hover{background:#667eea;color:#fff}
+    .btn-outline-primary{background:#fff;color:#0ea5e9;border:1px solid #0ea5e9}
+    .btn-outline-primary:hover{background:#0ea5e9;color:#fff}
     
     /* Alerts */
     .alert{padding:15px 20px;border-radius:12px;margin-bottom:20px;display:flex;align-items:flex-start;gap:10px}
@@ -83,7 +83,7 @@
     /* Forms */
     .form-label{display:block;margin-bottom:8px;font-weight:500;color:#334155;font-size:14px}
     .form-control{width:100%;padding:10px 15px;border:1px solid #e2e8f0;border-radius:8px;font-size:14px;transition:border-color 0.2s}
-    .form-control:focus{outline:none;border-color:#667eea;box-shadow:0 0 0 3px rgba(102,126,234,0.1)}
+    .form-control:focus{outline:none;border-color:#0ea5e9;box-shadow:0 0 0 3px rgba(102,126,234,0.1)}
     textarea.form-control{resize:vertical;min-height:80px}
     
     /* Nav Tabs */
@@ -91,19 +91,19 @@
     .nav-tabs .nav-item{list-style:none}
     .nav-tabs .nav-link{padding:12px 20px;text-decoration:none;color:#64748b;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all 0.2s;display:flex;align-items:center;gap:8px}
     .nav-tabs .nav-link:hover{color:#1e293b}
-    .nav-tabs .nav-link.active{color:#667eea;border-bottom-color:#667eea;font-weight:600}
+    .nav-tabs .nav-link.active{color:#0ea5e9;border-bottom-color:#0ea5e9;font-weight:600}
     
     /* Breadcrumb */
     .breadcrumb{display:flex;gap:8px;margin-bottom:15px;font-size:14px;color:#64748b}
     .breadcrumb-item{list-style:none}
     .breadcrumb-item+.breadcrumb-item::before{content:'/';padding-right:8px}
-    .breadcrumb-item a{color:#667eea;text-decoration:none}
+    .breadcrumb-item a{color:#0ea5e9;text-decoration:none}
     .breadcrumb-item.active{color:#334155}
     
     /* Utility */
     .text-center{text-align:center}
     .text-muted{color:#64748b}
-    .text-primary{color:#667eea}
+    .text-primary{color:#0ea5e9}
     .text-success{color:#059669}
     .text-danger{color:#dc2626}
     .text-warning{color:#f59e0b}

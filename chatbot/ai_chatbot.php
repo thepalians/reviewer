@@ -22,7 +22,7 @@ class AIChatbot {
                     [
                         'tag' => 'greeting',
                         'patterns' => ['Hi', 'Hello', 'Hey', 'Good morning', 'Good afternoon'],
-                        'responses' => ['Hello! How can I help you with ReviewFlow?', 'Hi there! Need assistance?']
+                        'responses' => ['Hello! How can I help you with TaskHive?', 'Hi there! Need assistance?']
                     ],
                     [
                         'tag' => 'how_to_register',
@@ -57,7 +57,7 @@ class AIChatbot {
         $defaultResponses = [
             "I'm not sure I understand. Could you rephrase your question?",
             "That's an interesting question. Let me connect you with a human agent for more specific help.",
-            "I'm still learning about ReviewFlow. Please contact admin for detailed assistance.",
+            "I'm still learning about TaskHive. Please contact admin for detailed assistance.",
             "Can you provide more details about your query?"
         ];
 

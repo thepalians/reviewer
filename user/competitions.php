@@ -39,14 +39,14 @@ $current_page = 'competitions';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Competitions - ReviewFlow</title>
+    <title>Competitions - TaskHive</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <style>
         * { box-sizing: border-box; }
         
         body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
             min-height: 100vh;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
@@ -222,7 +222,7 @@ $current_page = 'competitions';
             background: linear-gradient(135deg, #f8f9fa, #e9ecef);
             padding: 15px 20px;
             border-radius: 12px;
-            border-left: 4px solid #667eea;
+            border-left: 4px solid #0ea5e9;
         }
         
         .info-label {
@@ -252,7 +252,7 @@ $current_page = 'competitions';
         
         /* Countdown Timer */
         .countdown-timer {
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: linear-gradient(135deg, #0ea5e9, #06b6d4);
             color: white;
             padding: 20px;
             border-radius: 16px;
@@ -324,8 +324,8 @@ $current_page = 'competitions';
             min-width: 200px;
             padding: 15px 30px;
             background: white;
-            color: #667eea;
-            border: 2px solid #667eea;
+            color: #0ea5e9;
+            border: 2px solid #0ea5e9;
             border-radius: 50px;
             font-size: 1.1rem;
             font-weight: 700;
@@ -337,7 +337,7 @@ $current_page = 'competitions';
         }
         
         .btn-leaderboard:hover {
-            background: #667eea;
+            background: #0ea5e9;
             color: white;
             transform: translateY(-3px);
         }
@@ -426,7 +426,7 @@ $current_page = 'competitions';
             width: 45px;
             height: 45px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: linear-gradient(135deg, #0ea5e9, #06b6d4);
             color: white;
             display: inline-flex;
             align-items: center;
@@ -444,7 +444,7 @@ $current_page = 'competitions';
         
         /* Live Countdown Timer */
         .countdown-timer {
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: linear-gradient(135deg, #0ea5e9, #06b6d4);
             color: white;
             padding: 15px 25px;
             border-radius: 12px;
@@ -452,7 +452,7 @@ $current_page = 'competitions';
             align-items: center;
             gap: 15px;
             margin: 15px 0;
-            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 5px 20px rgba(14, 165, 233, 0.3);
         }
         
         .timer-icon {
@@ -477,7 +477,7 @@ $current_page = 'competitions';
             padding: 20px;
             background: linear-gradient(135deg, #f8f9fa, #e9ecef);
             border-radius: 12px;
-            border-left: 4px solid #667eea;
+            border-left: 4px solid #0ea5e9;
         }
         
         .position-progress h6 {
@@ -496,7 +496,7 @@ $current_page = 'competitions';
         
         .position-fill {
             height: 100%;
-            background: linear-gradient(90deg, #667eea, #764ba2);
+            background: linear-gradient(90deg, #0ea5e9, #06b6d4);
             border-radius: 15px;
             display: flex;
             align-items: center;
@@ -590,7 +590,7 @@ $current_page = 'competitions';
         .empty-state-cta {
             display: inline-block;
             padding: 15px 40px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: linear-gradient(135deg, #0ea5e9, #06b6d4);
             color: white;
             border-radius: 50px;
             font-weight: 700;
@@ -600,7 +600,7 @@ $current_page = 'competitions';
         
         .empty-state-cta:hover {
             transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 10px 30px rgba(14, 165, 233, 0.4);
         }
         
         /* History Table */

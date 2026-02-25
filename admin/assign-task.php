@@ -116,7 +116,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['bulk_assign'])) {
     }
     
     if (!empty($product_link) && !filter_var($product_link, FILTER_VALIDATE_URL)) {
-        $errors[] = 'Invalid product link URL';
+        $errors[] = 'Invalid task link URL';
     }
     
     if (empty($errors)) {
@@ -338,7 +338,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['single_assign'])) {
     }
     
     if (!filter_var($product_link, FILTER_VALIDATE_URL)) {
-        $errors[] = 'Invalid product link URL';
+        $errors[] = 'Invalid task link URL';
     }
     
     if ($commission < 0) {
@@ -549,8 +549,8 @@ $csrf_token = generateCSRFToken();
             color: white;
         }
         .sidebar-menu a.active {
-            background: rgba(102, 126, 234, 0.3);
-            border-left: 3px solid #667eea;
+            background: rgba(14, 165, 233, 0.3);
+            border-left: 3px solid #0ea5e9;
         }
         .admin-content {
             padding: 30px;
@@ -609,7 +609,7 @@ $csrf_token = generateCSRFToken();
             background: #e8e8e8;
         }
         .mode-tab.active {
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: linear-gradient(135deg, #0ea5e9, #06b6d4);
             color: #fff;
         }
         .mode-tab .badge {
@@ -646,7 +646,7 @@ $csrf_token = generateCSRFToken();
             position: relative;
         }
         .user-card:hover {
-            border-color: #667eea;
+            border-color: #0ea5e9;
             background: #f0f3ff;
         }
         .user-card.selected {
@@ -671,7 +671,7 @@ $csrf_token = generateCSRFToken();
             width: 45px;
             height: 45px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: linear-gradient(135deg, #0ea5e9, #06b6d4);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -810,9 +810,9 @@ $csrf_token = generateCSRFToken();
             transition: border-color 0.3s;
         }
         .form-control:focus {
-            border-color: #667eea;
+            border-color: #0ea5e9;
             outline: none;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
         }
         .form-text {
             font-size: 12px;
@@ -838,7 +838,7 @@ $csrf_token = generateCSRFToken();
             font-size: 14px;
         }
         .search-box input:focus {
-            border-color: #667eea;
+            border-color: #0ea5e9;
             outline: none;
         }
         .search-box::before {
@@ -912,7 +912,7 @@ $csrf_token = generateCSRFToken();
             display: inline-flex;
             align-items: center;
             gap: 5px;
-            color: #667eea;
+            color: #0ea5e9;
             text-decoration: none;
             font-size: 14px;
             margin-bottom: 20px;
@@ -967,7 +967,7 @@ $csrf_token = generateCSRFToken();
     <!-- Sidebar -->
     <div class="admin-sidebar">
         <div class="sidebar-brand">
-            <h3>⚙️ ReviewFlow</h3>
+            <h3>⚙️ TaskHive</h3>
             <small>Admin Panel</small>
         </div>
         <ul class="sidebar-menu">
@@ -1120,11 +1120,11 @@ $csrf_token = generateCSRFToken();
                         <input type="number" id="review_request_id" name="review_request_id" class="form-control"
                                placeholder="Enter review_request ID to auto-link seller/product"
                                value="<?php echo escape($_POST['review_request_id'] ?? ''); ?>">
-                        <p class="form-text">If provided, seller and product link will be auto-linked from this request</p>
+                        <p class="form-text">If provided, seller and task link will be auto-linked from this request</p>
                     </div>
                     
                     <div class="form-group">
-                        <label for="product_link">Product Link (Amazon/Flipkart) *</label>
+                        <label for="product_link">Task Link (Amazon/Flipkart) *</label>
                         <input type="url" id="product_link" name="product_link" class="form-control" 
                                placeholder="https://www.amazon.in/dp/XXXXXXXXXX or https://www.flipkart.com/..." required
                                value="<?php echo escape($_POST['product_link'] ?? ''); ?>">
@@ -1265,11 +1265,11 @@ $csrf_token = generateCSRFToken();
                         <label>Review Request ID (Optional)</label>
                         <input type="number" name="review_request_id" class="form-control"
                                placeholder="Enter review_request ID to auto-link seller/product">
-                        <p class="form-text">If provided, seller/product link will be auto-linked from this request</p>
+                        <p class="form-text">If provided, seller/task link will be auto-linked from this request</p>
                     </div>
                     
                     <div class="form-group">
-                        <label>Product Link (Amazon/Flipkart) *</label>
+                        <label>Task Link (Amazon/Flipkart) *</label>
                         <input type="url" name="product_link" class="form-control" 
                                placeholder="https://www.amazon.in/dp/XXXXXXXXXX" required>
                     </div>
@@ -1398,11 +1398,11 @@ $csrf_token = generateCSRFToken();
                         <label>Review Request ID (Optional)</label>
                         <input type="number" name="review_request_id" class="form-control"
                                placeholder="Enter review_request ID to auto-link seller/product">
-                        <p class="form-text">If provided, seller/product link will be auto-linked from this request</p>
+                        <p class="form-text">If provided, seller/task link will be auto-linked from this request</p>
                     </div>
                     
                     <div class="form-group">
-                        <label>Product Link (Amazon/Flipkart) *</label>
+                        <label>Task Link (Amazon/Flipkart) *</label>
                         <input type="url" name="product_link" class="form-control" 
                                placeholder="https://www.amazon.in/dp/XXXXXXXXXX" required>
                     </div>
@@ -1624,7 +1624,7 @@ document.getElementById('assignTaskForm').addEventListener('submit', function(e)
     
     if (!productLink) {
         e.preventDefault();
-        alert('Please enter a product link!');
+        alert('Please enter a task link!');
         return false;
     }
     

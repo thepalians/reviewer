@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * ReviewFlow - Complete Functions Library
+ * TaskHive - Complete Functions Library
  * All helper functions for the application
  * 
  * NOTE: Functions are wrapped with function_exists() to avoid 
@@ -752,9 +752,9 @@ if (!function_exists('sendTaskNotification')) {
                     'email_subject' => 'New Task Assigned - ' . APP_NAME
                 ],
                 'refund_processed' => [
-                    'title' => '💰 Refund Processed',
-                    'message' => "Your refund of ₹{$data['amount']} has been processed.",
-                    'email_subject' => 'Refund Processed - ' . APP_NAME
+                    'title' => '💰 Reward Processed',
+                    'message' => "Your reward of ₹{$data['amount']} has been processed.",
+                    'email_subject' => 'Reward Processed - ' . APP_NAME
                 ],
                 'withdrawal_approved' => [
                     'title' => '✅ Withdrawal Approved',
@@ -795,7 +795,7 @@ if (!function_exists('sendTaskNotification')) {
  */
 if (!function_exists('getEmailTemplate')) {
     function getEmailTemplate(string $title, string $message, string $name): string {
-        $app_name = defined('APP_NAME') ? APP_NAME : 'ReviewFlow';
+        $app_name = defined('APP_NAME') ? APP_NAME : 'TaskHive';
         $app_url = defined('APP_URL') ? APP_URL : '';
         
         return "
@@ -807,11 +807,11 @@ if (!function_exists('getEmailTemplate')) {
             <style>
                 body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; background: #f5f5f5; }
                 .container { max-width: 600px; margin: 20px auto; }
-                .header { background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }
+                .header { background: linear-gradient(135deg, #0ea5e9, #06b6d4); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }
                 .header h1 { margin: 0; font-size: 24px; }
                 .content { background: #ffffff; padding: 30px; border-radius: 0 0 10px 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
                 .content h2 { color: #333; margin-top: 0; }
-                .button { display: inline-block; padding: 12px 30px; background: linear-gradient(135deg, #667eea, #764ba2); color: white; text-decoration: none; border-radius: 5px; margin-top: 20px; }
+                .button { display: inline-block; padding: 12px 30px; background: linear-gradient(135deg, #0ea5e9, #06b6d4); color: white; text-decoration: none; border-radius: 5px; margin-top: 20px; }
                 .footer { text-align: center; margin-top: 20px; color: #999; font-size: 12px; padding: 20px; }
             </style>
         </head>

@@ -147,7 +147,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['change_admin_password
     $confirm_password = $_POST['confirm_password'] ?? '';
     
     // Admin credentials from environment
-    $admin_user = env('ADMIN_EMAIL', 'admin@reviewflow.com');
+    $admin_user = env('ADMIN_EMAIL', 'admin@taskhive.com');
     $admin_pass = env('ADMIN_PASSWORD', '');
     
     // Verify current password
@@ -274,7 +274,7 @@ try {
         .sidebar-menu{list-style:none;padding:15px 0}
         .sidebar-menu li{margin-bottom:5px}
         .sidebar-menu a{display:flex;align-items:center;gap:12px;padding:12px 20px;color:#94a3b8;text-decoration:none;transition:all 0.2s;border-left:3px solid transparent}
-        .sidebar-menu a:hover,.sidebar-menu a.active{background:rgba(255,255,255,0.05);color:#fff;border-left-color:#667eea}
+        .sidebar-menu a:hover,.sidebar-menu a.active{background:rgba(255,255,255,0.05);color:#fff;border-left-color:#0ea5e9}
         .sidebar-menu .badge{background:#e74c3c;color:#fff;padding:2px 8px;border-radius:10px;font-size:11px;margin-left:auto}
         .sidebar-divider{height:1px;background:rgba(255,255,255,0.1);margin:15px 20px}
         .sidebar-menu a.logout{color:#e74c3c}
@@ -299,7 +299,7 @@ try {
         .settings-nav{background:#fff;border-radius:12px;padding:15px;box-shadow:0 2px 10px rgba(0,0,0,0.04);height:fit-content;position:sticky;top:25px}
         .nav-item{display:flex;align-items:center;gap:12px;padding:12px 15px;border-radius:8px;text-decoration:none;color:#64748b;font-weight:500;font-size:14px;transition:all 0.2s;margin-bottom:5px}
         .nav-item:hover{background:#f8fafc;color:#1e293b}
-        .nav-item.active{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
+        .nav-item.active{background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff}
         .nav-item .icon{font-size:18px}
         
         /* Settings Card */
@@ -316,7 +316,7 @@ try {
         .form-group label{display:block;font-weight:600;margin-bottom:8px;color:#374151;font-size:14px}
         .form-group label span{color:#ef4444}
         .form-control{width:100%;padding:12px 15px;border:1px solid #e2e8f0;border-radius:10px;font-size:14px;transition:all 0.2s}
-        .form-control:focus{border-color:#667eea;outline:none;box-shadow:0 0 0 3px rgba(102,126,234,0.1)}
+        .form-control:focus{border-color:#0ea5e9;outline:none;box-shadow:0 0 0 3px rgba(102,126,234,0.1)}
         .form-control:disabled{background:#f8fafc;cursor:not-allowed}
         .form-hint{font-size:12px;color:#94a3b8;margin-top:5px}
         
@@ -333,13 +333,13 @@ try {
         .toggle-switch input{opacity:0;width:0;height:0}
         .toggle-slider{position:absolute;cursor:pointer;top:0;left:0;right:0;bottom:0;background:#cbd5e1;border-radius:28px;transition:0.3s}
         .toggle-slider:before{position:absolute;content:"";height:22px;width:22px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:0.3s;box-shadow:0 2px 5px rgba(0,0,0,0.2)}
-        .toggle-switch input:checked + .toggle-slider{background:linear-gradient(135deg,#667eea,#764ba2)}
+        .toggle-switch input:checked + .toggle-slider{background:linear-gradient(135deg,#0ea5e9,#06b6d4)}
         .toggle-switch input:checked + .toggle-slider:before{transform:translateX(22px)}
         
         /* Buttons */
         .btn{padding:12px 25px;border:none;border-radius:10px;font-weight:600;cursor:pointer;font-size:14px;transition:all 0.2s;display:inline-flex;align-items:center;gap:8px}
         .btn:hover{transform:translateY(-2px)}
-        .btn-primary{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
+        .btn-primary{background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff}
         .btn-primary:hover{box-shadow:0 5px 20px rgba(102,126,234,0.4)}
         .btn-secondary{background:#f1f5f9;color:#475569}
         .btn-danger{background:#ef4444;color:#fff}

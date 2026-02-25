@@ -13,8 +13,8 @@ class Database {
     
     public function __construct() {
         $this->host = env('DB_HOST', 'localhost');
-        $this->db_name = env('DB_NAME', 'reviewflow');
-        $this->username = env('DB_USER', 'reviewflow_user');
+        $this->db_name = env('DB_NAME', 'taskhive');
+        $this->username = env('DB_USER', 'taskhive_user');
         $this->password = env('DB_PASS', '');
     }
 

@@ -199,16 +199,16 @@ $csrf_token = generateCSRFToken();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Step 1: Submit Order - <?php echo APP_NAME; ?></title>
     <style>
-        body{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:20px;font-family:-apple-system,sans-serif;margin:0}
+        body{background:linear-gradient(135deg,#0ea5e9 0%,#06b6d4 100%);min-height:100vh;padding:20px;font-family:-apple-system,sans-serif;margin:0}
         .form-container{max-width:600px;margin:0 auto;background:#fff;padding:30px;border-radius:15px;box-shadow:0 10px 40px rgba(0,0,0,0.2)}
         .form-title{font-size:24px;font-weight:600;margin-bottom:30px;color:#333}
         .form-group{margin-bottom:20px}
         .form-group label{font-weight:600;color:#333;margin-bottom:8px;display:block}
         .form-control{width:100%;padding:12px;border:1px solid #ddd;border-radius:8px;font-size:14px;box-sizing:border-box}
-        .form-control:focus{border-color:#667eea;box-shadow:0 0 0 3px rgba(102,126,234,0.1);outline:none}
-        .btn-submit{width:100%;padding:12px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:16px}
+        .form-control:focus{border-color:#0ea5e9;box-shadow:0 0 0 3px rgba(102,126,234,0.1);outline:none}
+        .btn-submit{width:100%;padding:12px;background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:16px}
         .btn-submit:hover{transform:translateY(-2px);box-shadow:0 5px 20px rgba(102,126,234,0.4)}
-        .back-link{display:inline-block;margin-top:20px;color:#667eea;text-decoration:none;font-weight:600}
+        .back-link{display:inline-block;margin-top:20px;color:#0ea5e9;text-decoration:none;font-weight:600}
         .alert{margin-bottom:20px;padding:12px;border-radius:8px}
         .alert-success{background:#d4edda;color:#155724;border:1px solid #c3e6cb}
         .alert-danger{background:#f8d7da;color:#721c24;border:1px solid #f5c6cb}
@@ -246,7 +246,7 @@ $csrf_token = generateCSRFToken();
             </div>
             
             <div class="form-group">
-                <label>Product Name *</label>
+                <label>Task Title *</label>
                 <input type="text" name="product_name" class="form-control" value="<?php echo escape($step_data["product_name"] ?? ""); ?>" required>
             </div>
             
@@ -262,7 +262,7 @@ $csrf_token = generateCSRFToken();
             </div>
             
             <div class="form-group">
-                <label>Order Screenshot *</label>
+                <label>Task Screenshot *</label>
                 <input type="file" name="order_screenshot" class="form-control" accept="image/jpeg,image/jpg,image/png,image/gif,image/webp">
                 <div class="file-info">Max size: 5MB | Allowed: JPG, PNG, GIF, WebP</div>
                 

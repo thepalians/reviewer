@@ -122,7 +122,7 @@ if (!isset($current_page)) {
         <div class="sidebar-divider"></div>
         <li class="menu-section-label"><span>🏪 Sellers</span></li>
         <li><a href="<?php echo ADMIN_URL; ?>/sellers.php" class="<?= $current_page === 'sellers' ? 'active' : '' ?>">All Sellers</a></li>
-        <li><a href="<?php echo ADMIN_URL; ?>/review-requests.php" class="<?= $current_page === 'review-requests' ? 'active' : '' ?>">📝 Seller Requests <?php if($pending_review_requests > 0): ?><span class="badge"><?php echo $pending_review_requests; ?></span><?php endif; ?></a></li>
+        <li><a href="<?php echo ADMIN_URL; ?>/review-requests.php" class="<?= $current_page === 'review-requests' ? 'active' : '' ?>">📝 Client Requests <?php if($pending_review_requests > 0): ?><span class="badge"><?php echo $pending_review_requests; ?></span><?php endif; ?></a></li>
         
         <!-- Referrals (Phase 2) -->
         <div class="sidebar-divider"></div>
@@ -162,7 +162,7 @@ if (!isset($current_page)) {
         <div class="sidebar-divider"></div>
         <li class="menu-section-label"><span>📊 Reports & Export</span></li>
         <li><a href="<?php echo ADMIN_URL; ?>/reports.php" class="<?= $current_page === 'reports' ? 'active' : '' ?>">📈 Reports</a></li>
-        <li><a href="<?php echo ADMIN_URL; ?>/export-data.php" class="<?= $current_page === 'export-data' ? 'active' : '' ?>">📥 Export Review Data</a></li>
+        <li><a href="<?php echo ADMIN_URL; ?>/export-data.php" class="<?= $current_page === 'export-data' ? 'active' : '' ?>">📥 Export Task Data</a></li>
         <li><a href="<?php echo ADMIN_URL; ?>/export-reports.php" class="<?= $current_page === 'export-reports' ? 'active' : '' ?>">📊 Export Reports</a></li>
         
         <!-- Notifications (Phase 1) -->

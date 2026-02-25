@@ -143,7 +143,7 @@ $current_page = 'seo-settings';
         .card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;padding-bottom:15px;border-bottom:2px solid #f0f0f0}
         .card-header h4{margin:0;font-size:20px}
         .btn{padding:10px 20px;border-radius:8px;border:none;cursor:pointer;font-weight:600;transition:all 0.3s}
-        .btn-primary{background:#667eea;color:#fff}.btn-primary:hover{background:#5568d3}
+        .btn-primary{background:#0ea5e9;color:#fff}.btn-primary:hover{background:#5568d3}
         .btn-success{background:#27ae60;color:#fff}.btn-success:hover{background:#229954}
         .btn-warning{background:#f39c12;color:#fff}.btn-warning:hover{background:#e67e22}
         .btn-secondary{background:#6c757d;color:#fff}.btn-secondary:hover{background:#5a6268}
@@ -157,7 +157,7 @@ $current_page = 'seo-settings';
         textarea.form-control{min-height:80px;resize:vertical}
         .tabs{display:flex;gap:10px;margin-bottom:25px;border-bottom:2px solid #f0f0f0}
         .tab{padding:12px 20px;cursor:pointer;border:none;background:none;font-weight:600;color:#666;transition:all 0.3s}
-        .tab.active{color:#667eea;border-bottom:3px solid #667eea;margin-bottom:-2px}
+        .tab.active{color:#0ea5e9;border-bottom:3px solid #0ea5e9;margin-bottom:-2px}
         .tab-content{display:none}
         .tab-content.active{display:block}
         .info-box{background:#e3f2fd;padding:15px;border-radius:8px;margin-bottom:20px;border-left:4px solid #2196f3}

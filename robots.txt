@@ -1,4 +1,4 @@
-# robots.txt for ReviewFlow
+# robots.txt for TaskHive
 
 User-agent: *
 Allow: /

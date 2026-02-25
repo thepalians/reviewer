@@ -136,7 +136,7 @@ $is_user = isUser();
         <div class="container">
             <!-- Brand -->
             <a class="navbar-brand" href="<?php echo $is_logged_in ? ($is_admin ? BASE_URL . '/admin/dashboard.php' : BASE_URL . '/user/dashboard.php') : BASE_URL . '/'; ?>">
-                <i class="bi bi-check-circle-fill"></i> ReviewFlow
+                <i class="bi bi-check-circle-fill"></i> TaskHive
             </a>
             
             <!-- Mobile Toggle -->
@@ -376,8 +376,8 @@ $is_user = isUser();
                             <strong>Note:</strong> User registration is currently managed by admin. Please contact administrator to create an account.
                         </div>
                         <div class="text-center">
-                            <p>Contact Admin: admin@reviewflow.com</p>
-                            <a href="mailto:admin@reviewflow.com" class="btn btn-primary">Email Admin</a>
+                            <p>Contact Admin: admin@taskhive.com</p>
+                            <a href="mailto:admin@taskhive.com" class="btn btn-primary">Email Admin</a>
                         </div>
                     </div>
                 </div>

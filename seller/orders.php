@@ -395,7 +395,7 @@ try {
                                             <div class="modal-body">
                                                 <div class="row">
                                                     <div class="col-md-6 mb-3">
-                                                        <strong>Product Name:</strong>
+                                                        <strong>Task Title:</strong>
                                                         <p><?= htmlspecialchars($order['product_name']) ?></p>
                                                     </div>
                                                     <div class="col-md-6 mb-3">
@@ -403,7 +403,7 @@ try {
                                                         <p><?= htmlspecialchars($order['brand_name']) ?></p>
                                                     </div>
                                                     <div class="col-12 mb-3">
-                                                        <strong>Product Link:</strong>
+                                                        <strong>Task Link:</strong>
                                                         <p><a href="<?= htmlspecialchars($order['product_link']) ?>" target="_blank" class="text-break">
                                                             <?= htmlspecialchars($order['product_link']) ?>
                                                         </a></p>

@@ -129,7 +129,7 @@ $current_page = 'audit-logs';
         .pagination{display:flex;gap:5px;justify-content:center;margin-top:20px}
         .pagination a,.pagination span{padding:8px 12px;border:1px solid #ddd;border-radius:6px;text-decoration:none;color:#333}
         .pagination a:hover{background:#f0f0f0}
-        .pagination .active{background:#667eea;color:#fff;border-color:#667eea}
+        .pagination .active{background:#0ea5e9;color:#fff;border-color:#0ea5e9}
         @media(max-width:768px){.wrapper{grid-template-columns:1fr}.sidebar{display:none}}
     </style>
 </head>
@@ -315,7 +315,7 @@ $current_page = 'audit-logs';
                     <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px">
                         <?php foreach ($eventCounts as $event => $count): ?>
                             <div style="background:#f8f9fa;padding:12px;border-radius:8px;text-align:center">
-                                <div style="font-size:20px;font-weight:700;color:#667eea"><?= $count ?></div>
+                                <div style="font-size:20px;font-weight:700;color:#0ea5e9"><?= $count ?></div>
                                 <div style="font-size:11px;color:#666;text-transform:uppercase">
                                     <?= escape(str_replace('_', ' ', $event)) ?>
                                 </div>

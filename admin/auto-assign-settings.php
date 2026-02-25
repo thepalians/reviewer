@@ -195,7 +195,7 @@ $csrf_token = generateCSRFToken();
         .sidebar-menu{list-style:none;padding:15px 0}
         .sidebar-menu li{margin-bottom:5px}
         .sidebar-menu a{display:flex;align-items:center;gap:12px;padding:12px 20px;color:#94a3b8;text-decoration:none;transition:all 0.2s;border-left:3px solid transparent}
-        .sidebar-menu a:hover,.sidebar-menu a.active{background:rgba(255,255,255,0.05);color:#fff;border-left-color:#667eea}
+        .sidebar-menu a:hover,.sidebar-menu a.active{background:rgba(255,255,255,0.05);color:#fff;border-left-color:#0ea5e9}
         .sidebar-menu .badge{background:#e74c3c;color:#fff;padding:2px 8px;border-radius:10px;font-size:11px;margin-left:auto}
         .sidebar-divider{height:1px;background:rgba(255,255,255,0.1);margin:15px 20px}
         .sidebar-menu .menu-section-label{padding:8px 20px;font-size:11px;text-transform:uppercase;color:#64748b;letter-spacing:1px}
@@ -210,9 +210,9 @@ $csrf_token = generateCSRFToken();
         .card-title{font-size:18px;font-weight:600;color:#1e293b;margin-bottom:20px;padding-bottom:15px;border-bottom:1px solid #f1f5f9}
         .form-label{display:block;font-size:14px;font-weight:500;color:#374151;margin-bottom:6px}
         .form-control,.form-select{width:100%;padding:10px 14px;border:1px solid #e2e8f0;border-radius:8px;font-size:14px;transition:border 0.2s}
-        .form-control:focus,.form-select:focus{outline:none;border-color:#667eea}
+        .form-control:focus,.form-select:focus{outline:none;border-color:#0ea5e9}
         .btn{padding:10px 20px;border-radius:8px;font-size:14px;font-weight:500;cursor:pointer;border:none;transition:all 0.2s}
-        .btn-primary{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
+        .btn-primary{background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff}
         .btn-primary:hover{opacity:0.9}
         .btn-success{background:#10b981;color:#fff}
         .btn-danger{background:#ef4444;color:#fff}
@@ -387,7 +387,7 @@ $csrf_token = generateCSRFToken();
             <input type="hidden" name="csrf_token" value="<?php echo escape($csrf_token); ?>">
             <input type="hidden" name="add_task" value="1">
             <div style="margin-bottom:15px">
-                <label class="form-label">Product Link *</label>
+                <label class="form-label">Task Link *</label>
                 <input type="url" class="form-control" name="product_link" required placeholder="https://amazon.in/...">
             </div>
             <div class="grid-2" style="margin-bottom:15px">
@@ -440,7 +440,7 @@ $csrf_token = generateCSRFToken();
             <input type="hidden" name="edit_task" value="1">
             <input type="hidden" name="task_id" id="edit_task_id">
             <div style="margin-bottom:15px">
-                <label class="form-label">Product Link *</label>
+                <label class="form-label">Task Link *</label>
                 <input type="url" class="form-control" name="product_link" id="edit_product_link" required>
             </div>
             <div class="grid-2" style="margin-bottom:15px">

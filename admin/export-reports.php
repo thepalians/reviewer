@@ -243,7 +243,7 @@ $current_page = 'export-reports';
         .card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;padding-bottom:15px;border-bottom:2px solid #f0f0f0}
         .card-header h4{margin:0;font-size:20px}
         .btn{padding:10px 20px;border-radius:8px;border:none;cursor:pointer;font-weight:600;transition:all 0.3s}
-        .btn-primary{background:#667eea;color:#fff}.btn-primary:hover{background:#5568d3}
+        .btn-primary{background:#0ea5e9;color:#fff}.btn-primary:hover{background:#5568d3}
         .btn-success{background:#27ae60;color:#fff}.btn-success:hover{background:#229954}
         .btn-warning{background:#f39c12;color:#fff}.btn-warning:hover{background:#e67e22}
         .btn-sm{padding:8px 16px;font-size:13px}
@@ -254,7 +254,7 @@ $current_page = 'export-reports';
         .alert-success{background:#d4edda;color:#155724;border:1px solid #c3e6cb}
         .alert-danger{background:#f8d7da;color:#721c24;border:1px solid #f5c6cb}
         .quick-exports{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin-bottom:25px}
-        .quick-export{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;padding:20px;border-radius:12px;text-align:center;cursor:pointer;transition:transform 0.3s}
+        .quick-export{background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff;padding:20px;border-radius:12px;text-align:center;cursor:pointer;transition:transform 0.3s}
         .quick-export:hover{transform:translateY(-3px)}
         .quick-export h5{margin:0 0 10px 0}
         .quick-export p{margin:0;font-size:13px;opacity:0.9}

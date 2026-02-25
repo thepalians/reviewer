@@ -106,7 +106,7 @@ $csrf_token = generateCSRFToken();
         .admin-logo .logo-icon {
             width: 72px;
             height: 72px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: linear-gradient(135deg, #0ea5e9, #06b6d4);
             border-radius: 18px;
             display: inline-flex;
             align-items: center;
@@ -149,7 +149,7 @@ $csrf_token = generateCSRFToken();
             background: #fafafa;
         }
         .form-control:focus {
-            border-color: #667eea;
+            border-color: #0ea5e9;
             outline: none;
             box-shadow: 0 0 0 4px rgba(102,126,234,0.12);
             background: #fff;
@@ -157,7 +157,7 @@ $csrf_token = generateCSRFToken();
         .btn-login {
             width: 100%;
             padding: 14px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
             color: white;
             border: none;
             border-radius: 12px;
@@ -193,7 +193,7 @@ $csrf_token = generateCSRFToken();
             margin-top: 24px;
         }
         .back-link a {
-            color: #667eea;
+            color: #0ea5e9;
             text-decoration: none;
             font-size: 14px;
             font-weight: 500;

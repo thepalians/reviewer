@@ -83,7 +83,7 @@ $current_page = 'performance-monitor';
         .card{background:#fff;border-radius:12px;box-shadow:0 2px 10px rgba(0,0,0,0.05);padding:25px;margin-bottom:20px}
         .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:15px;margin-bottom:25px}
         .stat{background:#fff;padding:20px;border-radius:12px;text-align:center;box-shadow:0 2px 10px rgba(0,0,0,0.05)}
-        .stat .val{font-size:32px;font-weight:700;color:#667eea}
+        .stat .val{font-size:32px;font-weight:700;color:#0ea5e9}
         .stat .lbl{font-size:13px;color:#888;margin-top:5px}
         .stat.good .val{color:#10b981}
         .stat.warning .val{color:#f59e0b}

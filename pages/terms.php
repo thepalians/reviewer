@@ -1,7 +1,7 @@
 <?php
 /**
  * Terms & Conditions Page
- * ReviewFlow - Reviewer Task Management System
+ * TaskHive - Reviewer Task Management System
  */
 
 declare(strict_types=1);
@@ -15,7 +15,7 @@ $custom_content = getSetting('terms_content', '');
 $last_updated = getSetting('terms_updated', date('F d, Y'));
 
 $page_title = 'Terms & Conditions';
-$page_description = 'Terms and conditions for using ReviewFlow platform - rules, obligations, and policies governing our service.';
+$page_description = 'Terms and conditions for using TaskHive platform - rules, obligations, and policies governing our service.';
 ?>
 
 <!DOCTYPE html>
@@ -39,7 +39,7 @@ $page_description = 'Terms and conditions for using ReviewFlow platform - rules,
     
     <style>
         .legal-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
             color: white;
             padding: 60px 0 40px;
             margin-top: -70px;
@@ -52,14 +52,14 @@ $page_description = 'Terms and conditions for using ReviewFlow platform - rules,
             margin-bottom: 40px;
         }
         .legal-section h2 {
-            color: #667eea;
+            color: #0ea5e9;
             margin-top: 30px;
             margin-bottom: 20px;
             font-size: 1.8rem;
             font-weight: 600;
         }
         .legal-section h3 {
-            color: #764ba2;
+            color: #06b6d4;
             margin-top: 25px;
             margin-bottom: 15px;
             font-size: 1.4rem;
@@ -78,7 +78,7 @@ $page_description = 'Terms and conditions for using ReviewFlow platform - rules,
         .last-updated {
             background: #f8f9fa;
             padding: 15px 20px;
-            border-left: 4px solid #667eea;
+            border-left: 4px solid #0ea5e9;
             margin-bottom: 30px;
             border-radius: 5px;
         }
@@ -97,11 +97,11 @@ $page_description = 'Terms and conditions for using ReviewFlow platform - rules,
         }
         .table-of-contents a {
             text-decoration: none;
-            color: #667eea;
+            color: #0ea5e9;
             font-weight: 500;
         }
         .table-of-contents a:hover {
-            color: #764ba2;
+            color: #06b6d4;
             text-decoration: underline;
         }
         .highlight-box {

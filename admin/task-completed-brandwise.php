@@ -86,7 +86,7 @@ $current_page = 'task-completed';
         
         .brand-header {
             padding: 20px 25px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
             color: white;
             cursor: pointer;
             display: flex;
@@ -177,7 +177,7 @@ $current_page = 'task-completed';
         
         .task-id {
             font-weight: 700;
-            color: #667eea;
+            color: #0ea5e9;
             font-size: 16px;
         }
         
@@ -215,7 +215,7 @@ $current_page = 'task-completed';
         
         .btn-view {
             padding: 6px 12px;
-            background: #667eea;
+            background: #0ea5e9;
             color: white;
             border-radius: 6px;
             text-decoration: none;

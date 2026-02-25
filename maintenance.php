@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Under Maintenance - ReviewFlow</title>
+    <title>Under Maintenance - TaskHive</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
     <style>
@@ -11,7 +11,7 @@
             --primary: #6c5ce7;
             --secondary: #a29bfe;
             --accent: #fd79a8;
-            --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --bg-gradient: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -118,7 +118,7 @@
         </p>
         <div class="contact-info">
             <p><i class="bi bi-envelope"></i> Need help? Contact us at
-                <a href="mailto:support@reviewflow.com">support@reviewflow.com</a>
+                <a href="mailto:support@taskhive.com">support@taskhive.com</a>
             </p>
         </div>
     </div>

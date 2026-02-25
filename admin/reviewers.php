@@ -91,25 +91,25 @@ $total_wallet = array_sum(array_column($users, "wallet_balance"));
         .stat{background:#fff;padding:20px;border-radius:12px;text-align:center;box-shadow:0 2px 10px rgba(0,0,0,0.05)}
         .stat .val{font-size:28px;font-weight:700}
         .stat .lbl{font-size:13px;color:#888;margin-top:5px}
-        .stat.p .val{color:#667eea}.stat.s .val{color:#27ae60}.stat.w .val{color:#f39c12}.stat.d .val{color:#e74c3c}
-        .channel{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;padding:20px;border-radius:12px;margin-bottom:25px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:15px}
+        .stat.p .val{color:#0ea5e9}.stat.s .val{color:#27ae60}.stat.w .val{color:#f39c12}.stat.d .val{color:#e74c3c}
+        .channel{background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff;padding:20px;border-radius:12px;margin-bottom:25px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:15px}
         .channel h4{margin:0 0 5px 0}.channel p{margin:0;font-size:13px;opacity:0.9}
         .channel-links{display:flex;gap:10px}
         .channel-links a{padding:10px 20px;border-radius:8px;font-weight:600;text-decoration:none;color:#fff}
         .channel-links .wa{background:#25D366}.channel-links .tg{background:#0088cc}
         .search{background:#fff;padding:15px;border-radius:10px;margin-bottom:20px;display:flex;gap:15px;align-items:center;flex-wrap:wrap}
         .search input{flex:1;min-width:200px;padding:10px 15px;border:2px solid #e0e0e0;border-radius:8px}
-        .search input:focus{border-color:#667eea;outline:none}
+        .search input:focus{border-color:#0ea5e9;outline:none}
         .filters{display:flex;gap:8px}
         .filters button{padding:8px 15px;border:none;border-radius:6px;cursor:pointer;font-weight:600;background:#f5f5f5;color:#666}
-        .filters button:hover,.filters button.active{background:#667eea;color:#fff}
+        .filters button:hover,.filters button.active{background:#0ea5e9;color:#fff}
         .table-wrap{background:#fff;border-radius:12px;box-shadow:0 2px 10px rgba(0,0,0,0.1);overflow-x:auto}
         table{width:100%;border-collapse:collapse}
         th{background:#f8f9fa;border-bottom:2px solid #ddd;padding:15px;text-align:left;font-size:13px;color:#2c3e50}
         td{padding:15px;border-bottom:1px solid #f0f0f0;font-size:14px}
         tr:hover{background:#f9f9f9}
         .user-cell{display:flex;align-items:center;gap:12px}
-        .avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#667eea,#764ba2);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:bold}
+        .avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#0ea5e9,#06b6d4);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:bold}
         .user-info h4{margin:0;font-size:14px}.user-info p{margin:3px 0 0;font-size:12px;color:#888}
         .badge{padding:4px 10px;border-radius:15px;font-size:11px;font-weight:600}
         .badge.blue{background:#3498db;color:#fff}.badge.green{background:#27ae60;color:#fff}

@@ -7,8 +7,8 @@ ini_set('display_errors', 1);
 require_once __DIR__ . '/includes/env-loader.php';
 
 $host = env('DB_HOST', 'localhost');
-$dbname = env('DB_NAME', 'reviewflow');
-$username = env('DB_USER', 'reviewflow_user');
+$dbname = env('DB_NAME', 'taskhive');
+$username = env('DB_USER', 'taskhive_user');
 $password = env('DB_PASS', '');
 
 try {
@@ -92,7 +92,7 @@ try {
     ");
     
     // Insert default admin credentials from environment
-    $adminEmail = env('ADMIN_EMAIL', 'admin@reviewflow.com');
+    $adminEmail = env('ADMIN_EMAIL', 'admin@taskhive.com');
     $adminPasswordPlain = env('ADMIN_PASSWORD', 'ChangeMe123!');
     $adminPassword = password_hash($adminPasswordPlain, PASSWORD_DEFAULT);
     

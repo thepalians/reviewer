@@ -202,7 +202,7 @@ try {
         .sidebar-menu{list-style:none;padding:15px 0}
         .sidebar-menu li{margin-bottom:5px}
         .sidebar-menu a{display:flex;align-items:center;gap:12px;padding:12px 20px;color:#94a3b8;text-decoration:none;transition:all 0.2s;border-left:3px solid transparent}
-        .sidebar-menu a:hover,.sidebar-menu a.active{background:rgba(255,255,255,0.05);color:#fff;border-left-color:#667eea}
+        .sidebar-menu a:hover,.sidebar-menu a.active{background:rgba(255,255,255,0.05);color:#fff;border-left-color:#0ea5e9}
         .sidebar-menu .badge{background:#e74c3c;color:#fff;padding:2px 8px;border-radius:10px;font-size:11px;margin-left:auto}
         .sidebar-divider{height:1px;background:rgba(255,255,255,0.1);margin:15px 20px}
         .sidebar-menu a.logout{color:#e74c3c}
@@ -219,22 +219,22 @@ try {
         .conversations-header .badge{background:#ef4444;color:#fff;padding:3px 10px;border-radius:10px;font-size:12px}
         .header-actions{display:flex;gap:8px}
         .header-btn{padding:8px 12px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;border:none;transition:all 0.2s}
-        .header-btn.primary{background:#667eea;color:#fff}
+        .header-btn.primary{background:#0ea5e9;color:#fff}
         .header-btn.secondary{background:#f1f5f9;color:#64748b}
         
         .conversations-filters{padding:15px 20px;border-bottom:1px solid #e2e8f0;display:flex;gap:8px}
         .filter-btn{padding:8px 15px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid #e2e8f0;background:#fff;color:#64748b;transition:all 0.2s}
-        .filter-btn:hover{border-color:#667eea;color:#667eea}
-        .filter-btn.active{background:#667eea;color:#fff;border-color:#667eea}
+        .filter-btn:hover{border-color:#0ea5e9;color:#0ea5e9}
+        .filter-btn.active{background:#0ea5e9;color:#fff;border-color:#0ea5e9}
         
         .conversations-list{flex:1;overflow-y:auto}
         .conversation-item{display:flex;align-items:flex-start;padding:15px 20px;border-bottom:1px solid #f1f5f9;cursor:pointer;transition:background 0.2s;text-decoration:none}
         .conversation-item:hover{background:#f8fafc}
-        .conversation-item.active{background:#eff6ff;border-left:3px solid #667eea}
+        .conversation-item.active{background:#eff6ff;border-left:3px solid #0ea5e9}
         .conversation-item.unread{background:#fffbeb}
         .conversation-item.unread .conv-name{font-weight:700}
         
-        .conv-avatar{width:45px;height:45px;border-radius:12px;background:linear-gradient(135deg,#667eea,#764ba2);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:600;font-size:16px;margin-right:12px;flex-shrink:0}
+        .conv-avatar{width:45px;height:45px;border-radius:12px;background:linear-gradient(135deg,#0ea5e9,#06b6d4);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:600;font-size:16px;margin-right:12px;flex-shrink:0}
         .conv-content{flex:1;min-width:0}
         .conv-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
         .conv-name{font-weight:600;color:#1e293b;font-size:14px}
@@ -248,7 +248,7 @@ try {
         .chat-panel{display:flex;flex-direction:column;background:#f8fafc;overflow:hidden}
         
         .chat-header{padding:20px;background:#fff;border-bottom:1px solid #e2e8f0;display:flex;align-items:center;gap:15px}
-        .chat-avatar{width:50px;height:50px;border-radius:12px;background:linear-gradient(135deg,#667eea,#764ba2);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:600;font-size:18px}
+        .chat-avatar{width:50px;height:50px;border-radius:12px;background:linear-gradient(135deg,#0ea5e9,#06b6d4);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:600;font-size:18px}
         .chat-info{flex:1}
         .chat-name{font-size:16px;font-weight:600;color:#1e293b}
         .chat-details{font-size:13px;color:#64748b;margin-top:2px}
@@ -268,7 +268,7 @@ try {
         
         .message-bubble{max-width:70%;position:relative}
         .message-content{padding:12px 16px;border-radius:18px;font-size:14px;line-height:1.5}
-        .message-item.sent .message-content{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border-bottom-right-radius:5px}
+        .message-item.sent .message-content{background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff;border-bottom-right-radius:5px}
         .message-item.received .message-content{background:#fff;color:#1e293b;border-bottom-left-radius:5px;box-shadow:0 1px 3px rgba(0,0,0,0.1)}
         .message-time{font-size:11px;color:#94a3b8;margin-top:5px;text-align:right}
         .message-item.received .message-time{text-align:left}
@@ -277,8 +277,8 @@ try {
         .compose-form{display:flex;gap:12px;align-items:flex-end}
         .compose-input{flex:1}
         .compose-input textarea{width:100%;padding:12px 15px;border:1px solid #e2e8f0;border-radius:12px;font-size:14px;resize:none;min-height:50px;max-height:120px;font-family:inherit}
-        .compose-input textarea:focus{border-color:#667eea;outline:none}
-        .compose-btn{padding:12px 25px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border:none;border-radius:12px;font-weight:600;cursor:pointer;font-size:14px;display:flex;align-items:center;gap:8px;transition:all 0.2s}
+        .compose-input textarea:focus{border-color:#0ea5e9;outline:none}
+        .compose-btn{padding:12px 25px;background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff;border:none;border-radius:12px;font-weight:600;cursor:pointer;font-size:14px;display:flex;align-items:center;gap:8px;transition:all 0.2s}
         .compose-btn:hover{transform:translateY(-2px);box-shadow:0 5px 15px rgba(102,126,234,0.3)}
         
         /* Empty State */
@@ -298,12 +298,12 @@ try {
         .form-group{margin-bottom:20px}
         .form-group label{display:block;font-weight:600;margin-bottom:8px;color:#1e293b;font-size:14px}
         .form-control{width:100%;padding:12px 15px;border:1px solid #e2e8f0;border-radius:10px;font-size:14px}
-        .form-control:focus{border-color:#667eea;outline:none}
+        .form-control:focus{border-color:#0ea5e9;outline:none}
         select.form-control{cursor:pointer}
         textarea.form-control{min-height:120px;resize:vertical;font-family:inherit}
         
         .btn{padding:12px 25px;border:none;border-radius:10px;font-weight:600;cursor:pointer;font-size:14px}
-        .btn-primary{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;width:100%}
+        .btn-primary{background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff;width:100%}
         
         /* Alerts */
         .alert{padding:12px 20px;border-radius:10px;margin:15px 20px;font-size:14px}

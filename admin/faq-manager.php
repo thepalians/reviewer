@@ -1,6 +1,6 @@
 <?php
 /**
- * ReviewFlow - Admin FAQ Manager
+ * TaskHive - Admin FAQ Manager
  * Manage chatbot FAQ entries
  */
 
@@ -279,7 +279,7 @@ try {
         .sidebar-menu{list-style:none;padding:15px 0}
         .sidebar-menu li{margin-bottom:5px}
         .sidebar-menu a{display:flex;align-items:center;gap:12px;padding:12px 20px;color:#94a3b8;text-decoration:none;transition:all 0.2s;border-left:3px solid transparent}
-        .sidebar-menu a:hover,.sidebar-menu a.active{background:rgba(255,255,255,0.05);color:#fff;border-left-color:#667eea}
+        .sidebar-menu a:hover,.sidebar-menu a.active{background:rgba(255,255,255,0.05);color:#fff;border-left-color:#0ea5e9}
         .sidebar-menu .badge{background:#e74c3c;color:#fff;padding:2px 8px;border-radius:10px;font-size:11px;margin-left:auto}
         .sidebar-divider{height:1px;background:rgba(255,255,255,0.1);margin:15px 20px}
         .sidebar-menu a.logout{color:#e74c3c}
@@ -299,13 +299,13 @@ try {
         /* Stats */
         .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:15px;margin-bottom:25px}
         .stat-card{background:#fff;border-radius:12px;padding:20px;box-shadow:0 2px 10px rgba(0,0,0,0.04);text-align:center}
-        .stat-card.highlight{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
+        .stat-card.highlight{background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff}
         .stat-value{font-size:32px;font-weight:700;margin-bottom:5px}
         .stat-label{font-size:13px;opacity:0.8}
         
         /* Buttons */
         .btn{padding:10px 20px;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:13px;transition:all 0.2s;display:inline-flex;align-items:center;gap:6px;text-decoration:none}
-        .btn-primary{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
+        .btn-primary{background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff}
         .btn-secondary{background:#f1f5f9;color:#475569}
         .btn-success{background:#10b981;color:#fff}
         .btn-danger{background:#ef4444;color:#fff}
@@ -319,7 +319,7 @@ try {
         .filter-group{display:flex;flex-direction:column;gap:5px}
         .filter-group label{font-size:12px;font-weight:600;color:#64748b}
         .filter-group select,.filter-group input{padding:10px 15px;border:1px solid #e2e8f0;border-radius:8px;font-size:13px;min-width:150px}
-        .filter-group select:focus,.filter-group input:focus{border-color:#667eea;outline:none}
+        .filter-group select:focus,.filter-group input:focus{border-color:#0ea5e9;outline:none}
         .filter-actions{margin-left:auto;display:flex;gap:10px}
         
         /* Table */
@@ -363,7 +363,7 @@ try {
         .form-group{margin-bottom:20px}
         .form-group label{display:block;font-weight:600;margin-bottom:8px;color:#1e293b;font-size:14px}
         .form-control{width:100%;padding:12px 15px;border:1px solid #e2e8f0;border-radius:10px;font-size:14px}
-        .form-control:focus{border-color:#667eea;outline:none}
+        .form-control:focus{border-color:#0ea5e9;outline:none}
         select.form-control{cursor:pointer}
         textarea.form-control{min-height:120px;resize:vertical;font-family:inherit;line-height:1.6}
         
@@ -372,7 +372,7 @@ try {
         .form-hint{font-size:12px;color:#94a3b8;margin-top:5px}
         
         .checkbox-group{display:flex;align-items:center;gap:10px}
-        .checkbox-group input{width:18px;height:18px;accent-color:#667eea}
+        .checkbox-group input{width:18px;height:18px;accent-color:#0ea5e9}
         .checkbox-group label{font-size:14px;color:#1e293b;cursor:pointer}
         
         .btn-group{display:flex;gap:10px;margin-top:25px}
@@ -382,13 +382,13 @@ try {
         .variables-help{background:#f8fafc;border-radius:10px;padding:15px;margin-top:10px}
         .variables-help h4{font-size:13px;color:#64748b;margin-bottom:10px}
         .variables-help code{background:#e2e8f0;padding:2px 6px;border-radius:4px;font-size:12px;margin-right:8px;cursor:pointer}
-        .variables-help code:hover{background:#667eea;color:#fff}
+        .variables-help code:hover{background:#0ea5e9;color:#fff}
         
         /* Pagination */
         .pagination{display:flex;justify-content:center;gap:8px;padding:20px}
         .page-btn{width:40px;height:40px;border-radius:8px;display:flex;align-items:center;justify-content:center;background:#fff;color:#64748b;text-decoration:none;font-weight:600;font-size:14px;border:1px solid #e2e8f0;cursor:pointer}
-        .page-btn:hover{background:#667eea;color:#fff;border-color:#667eea}
-        .page-btn.active{background:#667eea;color:#fff;border-color:#667eea}
+        .page-btn:hover{background:#0ea5e9;color:#fff;border-color:#0ea5e9}
+        .page-btn.active{background:#0ea5e9;color:#fff;border-color:#0ea5e9}
         .page-btn.disabled{opacity:0.5;cursor:not-allowed;pointer-events:none}
         
         /* Empty State */
@@ -665,7 +665,7 @@ try {
                 <textarea name="import_data" class="form-control" rows="10" placeholder="Format: category|question|answer|keywords (one per line)
 
 Example:
-general|What is ReviewFlow?|ReviewFlow is a platform to earn money...|what, reviewflow, about
+general|What is TaskHive?|TaskHive is a platform to earn money...|what, taskhive, about
 tasks|How do tasks work?|Each task has 4 steps...|task, work, how"></textarea>
                 <div class="form-hint">Each line: category|question|answer|keywords (keywords optional)</div>
             </div>

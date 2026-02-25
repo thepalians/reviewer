@@ -47,7 +47,7 @@ class TelegramBot {
             $message .= "🏷️ <b>Brand:</b> {$this->escapeHtml($taskData['brand_name'])}\n";
         }
         
-        $message .= "💰 <b>Commission:</b> ₹" . number_format($taskData['commission'], 2) . "\n";
+        $message .= "💰 <b>Reward:</b> ₹" . number_format($taskData['commission'], 2) . "\n";
         
         if (!empty($taskData['deadline'])) {
             $message .= "⏰ <b>Deadline:</b> {$this->escapeHtml($taskData['deadline'])}\n";
@@ -55,7 +55,7 @@ class TelegramBot {
         
         $message .= "🎯 <b>Priority:</b> {$priorityEmoji} " . ucfirst($priority) . "\n";
         $message .= "👨‍💼 <b>Assigned By:</b> {$this->escapeHtml($taskData['assigned_by'])}\n\n";
-        $message .= "🔗 <b>Product:</b> <a href=\"{$this->escapeHtml($taskData['product_link'])}\">View Product</a>";
+        $message .= "🔗 <b>Task Link:</b> <a href=\"{$this->escapeHtml($taskData['product_link'])}\">View Task</a>";
         
         return $this->sendMessage($message);
     }
@@ -75,9 +75,9 @@ class TelegramBot {
             $message .= "🏷️ <b>Brand:</b> {$this->escapeHtml($taskData['brand_name'])}\n";
         }
         
-        $message .= "💰 <b>Commission:</b> ₹" . number_format($taskData['commission'], 2) . "\n";
+        $message .= "💰 <b>Reward:</b> ₹" . number_format($taskData['commission'], 2) . "\n";
         $message .= "👨‍💼 <b>Assigned By:</b> {$this->escapeHtml($taskData['assigned_by'])}\n\n";
-        $message .= "🔗 <b>Product:</b> <a href=\"{$this->escapeHtml($taskData['product_link'])}\">View Product</a>";
+        $message .= "🔗 <b>Task Link:</b> <a href=\"{$this->escapeHtml($taskData['product_link'])}\">View Task</a>";
         
         return $this->sendMessage($message);
     }
@@ -169,11 +169,11 @@ class TelegramBot {
         if (!empty($taskData['brand_name'])) {
             $message .= "🏷️ <b>Brand:</b> {$this->escapeHtml($taskData['brand_name'])}\n";
         }
-        $message .= "💰 <b>Commission:</b> ₹" . number_format($taskData['commission'], 2) . "\n";
+        $message .= "💰 <b>Reward:</b> ₹" . number_format($taskData['commission'], 2) . "\n";
         if (!empty($taskData['deadline'])) {
             $message .= "⏰ <b>Deadline:</b> {$this->escapeHtml($taskData['deadline'])}\n";
         }
-        $message .= "🔗 <b>Product:</b> <a href=\"{$this->escapeHtml($taskData['product_link'])}\">View Product</a>\n\n";
+        $message .= "🔗 <b>Task Link:</b> <a href=\"{$this->escapeHtml($taskData['product_link'])}\">View Task</a>\n\n";
         $message .= "👉 <a href=\"" . APP_URL . "/user/task-detail.php?id={$taskData['task_id']}\">Open Task</a>";
 
         return $this->sendPersonalMessage($chatId, $message);

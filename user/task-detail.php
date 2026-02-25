@@ -65,12 +65,12 @@ try {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-    <meta name="theme-color" content="#667eea">
+    <meta name="theme-color" content="#0ea5e9">
     <title>Task #<?php echo $task_id; ?> - <?php echo APP_NAME; ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         *{box-sizing:border-box;margin:0;padding:0}
-        body{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:15px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
+        body{background:linear-gradient(135deg,#0ea5e9 0%,#06b6d4 100%);min-height:100vh;padding:15px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
         .container{max-width:800px;margin:0 auto}
         .card{background:#fff;border-radius:15px;padding:20px;margin-bottom:15px;box-shadow:0 5px 20px rgba(0,0,0,0.1)}
         .task-header h1{font-size:22px;color:#2c3e50;margin-bottom:15px}
@@ -84,7 +84,7 @@ try {
         .status-processing{background:#74b9ff;color:#0984e3}
         .btn-group{display:flex;gap:10px;margin-top:15px;flex-wrap:wrap}
         .btn{padding:10px 18px;border-radius:8px;text-decoration:none;font-weight:600;font-size:14px;display:inline-block;text-align:center;border:none;cursor:pointer}
-        .btn-primary{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
+        .btn-primary{background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff}
         .btn-success{background:#27ae60;color:#fff}
         .btn-secondary{background:#95a5a6;color:#fff}
         
@@ -141,7 +141,7 @@ try {
                 </div>
             </div>
             <div class="meta-item">
-                <div class="meta-label">Product Link</div>
+                <div class="meta-label">Task Link</div>
                 <div class="meta-value">
                     <a href="<?php echo escape($task['product_link']); ?>" target="_blank" class="screenshot-link">Visit →</a>
                 </div>
@@ -158,7 +158,7 @@ try {
     <!-- STEP 1 -->
     <div class="card step-card <?php echo $step1_done ? 'done' : ''; ?>">
         <div class="step-header">
-            <div class="step-title">📦 Step 1: Order Placed</div>
+            <div class="step-title">📦 Step 1: Task Started</div>
             <span class="status-badge <?php echo $step1_done ? 'status-completed' : 'status-pending'; ?>">
                 <?php echo $step1_done ? '✓ Done' : 'Pending'; ?>
             </span>
@@ -183,7 +183,7 @@ try {
     <!-- STEP 2 -->
     <div class="card step-card <?php echo $step2_done ? 'done' : ($step1_done ? '' : 'locked'); ?>">
         <div class="step-header">
-            <div class="step-title">🚚 Step 2: Order Delivered</div>
+            <div class="step-title">🚚 Step 2: Work Submitted</div>
             <span class="status-badge <?php echo $step2_done ? 'status-completed' : ($step1_done ? 'status-pending' : 'status-pending'); ?>">
                 <?php echo $step2_done ? '✓ Done' : ($step1_done ? 'Ready' : '🔒 Locked'); ?>
             </span>
@@ -205,7 +205,7 @@ try {
     <!-- STEP 3 -->
     <div class="card step-card <?php echo $step3_done ? 'done' : ($step2_done ? '' : 'locked'); ?>">
         <div class="step-header">
-            <div class="step-title">⭐ Step 3: Review Submitted</div>
+            <div class="step-title">✅ Step 3: Work Verified</div>
             <span class="status-badge <?php echo $step3_done ? 'status-completed' : ($step2_done ? 'status-pending' : 'status-pending'); ?>">
                 <?php echo $step3_done ? '✓ Done' : ($step2_done ? 'Ready' : '🔒 Locked'); ?>
             </span>
@@ -224,8 +224,8 @@ try {
         <?php endif; ?>
     </div>
     
-    <!-- STEP 4 -->
-    <div class="card step-card <?php echo $step4_done ? 'done' : ($step4_pending ? 'pending' : ($step3_done ? '' : 'locked')); ?>">
+    <!-- STEP 4 - Hidden -->
+    <div class="card step-card" style="display:none">
         <div class="step-header">
             <div class="step-title">💰 Step 4: Refund Request</div>
             <span class="status-badge <?php echo $step4_done ? 'status-completed' : ($step4_pending ? 'status-processing' : ($step3_done ? 'status-pending' : 'status-pending')); ?>">

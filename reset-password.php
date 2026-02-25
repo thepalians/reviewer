@@ -1,6 +1,6 @@
 <?php
 /**
- * ReviewFlow - Password Reset Page
+ * TaskHive - Password Reset Page
  * Handles password reset via email token
  */
 
@@ -137,7 +137,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['reset_password'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#667eea">
+    <meta name="theme-color" content="#0ea5e9">
     <meta name="robots" content="noindex, nofollow">
     <title>Reset Password - <?php echo APP_NAME; ?></title>
     <link rel="manifest" href="<?php echo APP_URL; ?>/manifest.json">
@@ -150,7 +150,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['reset_password'])) {
         
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -175,7 +175,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['reset_password'])) {
         .logo-icon {
             width: 70px;
             height: 70px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: linear-gradient(135deg, #0ea5e9, #06b6d4);
             border-radius: 20px;
             display: flex;
             align-items: center;
@@ -272,9 +272,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['reset_password'])) {
         }
         
         .form-control:focus {
-            border-color: #667eea;
+            border-color: #0ea5e9;
             outline: none;
-            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+            box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.1);
         }
         
         .password-toggle {
@@ -366,13 +366,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['reset_password'])) {
         }
         
         .btn-primary {
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: linear-gradient(135deg, #0ea5e9, #06b6d4);
             color: #fff;
         }
         
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 10px 30px rgba(14, 165, 233, 0.4);
         }
         
         .btn-primary:disabled {
@@ -396,7 +396,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['reset_password'])) {
             display: block;
             text-align: center;
             margin-top: 25px;
-            color: #667eea;
+            color: #0ea5e9;
             text-decoration: none;
             font-size: 14px;
             font-weight: 500;

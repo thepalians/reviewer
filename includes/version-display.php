@@ -41,7 +41,7 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
 
 .version-display i {
     font-size: 14px;
-    color: var(--brand-primary, #667eea);
+    color: var(--brand-primary, #0ea5e9);
 }
 
 .version-number {
@@ -54,7 +54,7 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
 }
 
 .version-link {
-    color: var(--brand-primary, #667eea);
+    color: var(--brand-primary, #0ea5e9);
     text-decoration: none;
     padding: 2px 8px;
     border-radius: 4px;
@@ -62,8 +62,8 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
 }
 
 .version-link:hover {
-    background: rgba(102, 126, 234, 0.1);
-    color: var(--brand-primary, #667eea);
+    background: rgba(14, 165, 233, 0.1);
+    color: var(--brand-primary, #0ea5e9);
 }
 
 @media (max-width: 768px) {

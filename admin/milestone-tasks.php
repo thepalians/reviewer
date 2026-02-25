@@ -71,7 +71,7 @@ $current_page = 'milestone-tasks';
         .sidebar{background:linear-gradient(135deg,#2c3e50,#1a252f);color:#fff;padding:20px;position:sticky;top:0;height:100vh;overflow-y:auto}
         .content{padding:30px}
         .card{background:#fff;border-radius:12px;box-shadow:0 2px 10px rgba(0,0,0,0.05);padding:25px;margin-bottom:20px}
-        .milestone-card{background:#fff;border-radius:12px;box-shadow:0 2px 10px rgba(0,0,0,0.05);padding:20px;margin-bottom:20px;border-left:4px solid #667eea}
+        .milestone-card{background:#fff;border-radius:12px;box-shadow:0 2px 10px rgba(0,0,0,0.05);padding:20px;margin-bottom:20px;border-left:4px solid #0ea5e9}
         .milestone-card.completed{border-left-color:#10b981}
         .milestone-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:15px}
         .progress{height:20px;border-radius:10px}

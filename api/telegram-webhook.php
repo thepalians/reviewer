@@ -48,7 +48,7 @@ if (str_starts_with($text, '/start')) {
     $userId = isset($parts[1]) ? (int)trim($parts[1]) : 0;
 
     if ($userId <= 0) {
-        $bot->sendMessage('❌ Invalid link. Please use the Connect button from your ReviewFlow dashboard.', $chatId);
+        $bot->sendMessage('❌ Invalid link. Please use the Connect button from your TaskHive dashboard.', $chatId);
         exit;
     }
 
@@ -59,7 +59,7 @@ if (str_starts_with($text, '/start')) {
         $user = $stmt->fetch();
 
         if (!$user) {
-            $bot->sendMessage('❌ Invalid link. Please use the Connect button from your ReviewFlow dashboard.', $chatId);
+            $bot->sendMessage('❌ Invalid link. Please use the Connect button from your TaskHive dashboard.', $chatId);
             exit;
         }
 
@@ -96,7 +96,7 @@ if (str_starts_with($text, '/start')) {
             $connectedAt = date('d M Y', strtotime($user['telegram_connected_at']));
             $bot->sendMessage("✅ Connected! Account: {$user['name']}\nConnected since: {$connectedAt}", $chatId);
         } else {
-            $bot->sendMessage('❌ Not connected. Use the Connect button from your ReviewFlow dashboard.', $chatId);
+            $bot->sendMessage('❌ Not connected. Use the Connect button from your TaskHive dashboard.', $chatId);
         }
     } catch (PDOException $e) {
         error_log("Telegram webhook status error: " . $e->getMessage());

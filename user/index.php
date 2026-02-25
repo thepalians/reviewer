@@ -112,7 +112,7 @@ try {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="theme-color" content="#667eea">
+    <meta name="theme-color" content="#0ea5e9">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="manifest" href="<?php echo APP_URL; ?>/manifest.json">
@@ -120,7 +120,7 @@ try {
     <title>Dashboard - <?php echo APP_NAME; ?></title>
     <style>
         *{box-sizing:border-box;margin:0;padding:0}
-        body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding-bottom:80px}
+        body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:linear-gradient(135deg,#0ea5e9 0%,#06b6d4 100%);min-height:100vh;padding-bottom:80px}
         
         .dashboard{max-width:1200px;margin:0 auto;padding:20px}
         
@@ -141,7 +141,7 @@ try {
         .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:15px;margin-bottom:20px}
         .stat-card{background:#fff;border-radius:12px;padding:18px;box-shadow:0 3px 15px rgba(0,0,0,0.08);position:relative;overflow:hidden}
         .stat-card::after{content:'';position:absolute;top:0;right:0;width:80px;height:80px;background:linear-gradient(135deg,rgba(102,126,234,0.1),rgba(118,75,162,0.1));border-radius:0 0 0 80px}
-        .stat-card.wallet{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
+        .stat-card.wallet{background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff}
         .stat-card.wallet::after{background:rgba(255,255,255,0.1)}
         .stat-card.earnings{background:linear-gradient(135deg,#27ae60,#2ecc71);color:#fff}
         .stat-card.earnings::after{background:rgba(255,255,255,0.1)}
@@ -170,11 +170,11 @@ try {
         /* Section Card */
         .section-card{background:#fff;border-radius:15px;padding:20px;box-shadow:0 5px 20px rgba(0,0,0,0.08);margin-bottom:20px}
         .section-title{font-size:17px;font-weight:600;color:#333;margin-bottom:15px;display:flex;justify-content:space-between;align-items:center}
-        .section-title a{font-size:13px;color:#667eea;text-decoration:none;font-weight:500}
+        .section-title a{font-size:13px;color:#0ea5e9;text-decoration:none;font-weight:500}
         
         /* Task Cards */
         .task-card{border:1px solid #eee;border-radius:12px;padding:15px;margin-bottom:12px;transition:all 0.2s;position:relative}
-        .task-card:hover{border-color:#667eea;box-shadow:0 3px 15px rgba(102,126,234,0.15)}
+        .task-card:hover{border-color:#0ea5e9;box-shadow:0 3px 15px rgba(102,126,234,0.15)}
         .task-card.urgent{border-left:4px solid #e74c3c}
         .task-card.warning{border-left:4px solid #f39c12}
         .task-card.completed{border-left:4px solid #27ae60;opacity:0.8}
@@ -187,11 +187,11 @@ try {
         .badge-urgent{background:#fab1a0;color:#d63031}
         .badge-warning{background:#ffeaa7;color:#fdcb6e}
         .progress-bar{height:6px;background:#eee;border-radius:3px;overflow:hidden;margin:10px 0}
-        .progress-fill{height:100%;background:linear-gradient(90deg,#667eea,#764ba2);border-radius:3px;transition:width 0.3s}
+        .progress-fill{height:100%;background:linear-gradient(90deg,#0ea5e9,#06b6d4);border-radius:3px;transition:width 0.3s}
         .task-meta{display:flex;gap:12px;font-size:11px;color:#888;flex-wrap:wrap}
         .task-meta span{display:flex;align-items:center;gap:3px}
         .task-actions{margin-top:12px;display:flex;gap:8px}
-        .task-actions a{padding:8px 14px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border-radius:6px;text-decoration:none;font-size:12px;font-weight:600;transition:all 0.2s}
+        .task-actions a{padding:8px 14px;background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff;border-radius:6px;text-decoration:none;font-size:12px;font-weight:600;transition:all 0.2s}
         .task-actions a:hover{transform:translateY(-1px);box-shadow:0 3px 10px rgba(102,126,234,0.3)}
         .task-actions a.secondary{background:#f5f5f5;color:#666}
         
@@ -234,7 +234,7 @@ try {
         .notification-dropdown.show{display:block}
         .notification-header{padding:15px;border-bottom:1px solid #eee;display:flex;justify-content:space-between;align-items:center}
         .notification-header h4{font-size:14px;color:#333}
-        .notification-header a{font-size:12px;color:#667eea;text-decoration:none}
+        .notification-header a{font-size:12px;color:#0ea5e9;text-decoration:none}
         .notification-list{max-height:350px;overflow-y:auto}
         .notification-item{padding:12px 15px;border-bottom:1px solid #f5f5f5;cursor:pointer;transition:background 0.2s}
         .notification-item:hover{background:#f9f9f9}
@@ -245,12 +245,12 @@ try {
         .notification-empty{padding:30px;text-align:center;color:#999;font-size:13px}
         
         /* Chat Button & Window */
-        .chat-toggle{position:fixed;bottom:25px;right:25px;width:60px;height:60px;background:linear-gradient(135deg,#667eea,#764ba2);border-radius:50%;display:flex;align-items:center;justify-content:center;border:none;cursor:pointer;font-size:28px;box-shadow:0 5px 20px rgba(102,126,234,0.4);transition:transform 0.2s;z-index:999}
+        .chat-toggle{position:fixed;bottom:25px;right:25px;width:60px;height:60px;background:linear-gradient(135deg,#0ea5e9,#06b6d4);border-radius:50%;display:flex;align-items:center;justify-content:center;border:none;cursor:pointer;font-size:28px;box-shadow:0 5px 20px rgba(102,126,234,0.4);transition:transform 0.2s;z-index:999}
         .chat-toggle:hover{transform:scale(1.1)}
         
         .chat-window{position:fixed;bottom:100px;right:25px;width:380px;max-width:calc(100vw - 50px);height:500px;max-height:calc(100vh - 150px);background:#fff;border-radius:20px;box-shadow:0 10px 50px rgba(0,0,0,0.2);display:none;flex-direction:column;z-index:1000;overflow:hidden}
         .chat-window.show{display:flex}
-        .chat-header{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;padding:18px 20px;display:flex;justify-content:space-between;align-items:center}
+        .chat-header{background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff;padding:18px 20px;display:flex;justify-content:space-between;align-items:center}
         .chat-header h4{margin:0;font-size:16px;font-weight:600}
         .chat-close{background:none;border:none;color:#fff;font-size:28px;cursor:pointer;line-height:1;opacity:0.8}
         .chat-close:hover{opacity:1}
@@ -260,13 +260,13 @@ try {
         .chat-message.bot{justify-content:flex-start}
         .chat-bubble{max-width:80%;padding:12px 16px;border-radius:18px;font-size:14px;line-height:1.4}
         .chat-message.bot .chat-bubble{background:#fff;color:#333;border-bottom-left-radius:5px;box-shadow:0 2px 5px rgba(0,0,0,0.05)}
-        .chat-message.user .chat-bubble{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border-bottom-right-radius:5px}
+        .chat-message.user .chat-bubble{background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff;border-bottom-right-radius:5px}
         .chat-input-area{padding:15px;background:#fff;border-top:1px solid #eee;display:flex;gap:10px}
         .chat-input-area input{flex:1;padding:12px 16px;border:1px solid #ddd;border-radius:25px;font-size:14px;outline:none}
-        .chat-input-area input:focus{border-color:#667eea}
-        .chat-input-area button{width:45px;height:45px;background:linear-gradient(135deg,#667eea,#764ba2);border:none;border-radius:50%;color:#fff;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center}
+        .chat-input-area input:focus{border-color:#0ea5e9}
+        .chat-input-area button{width:45px;height:45px;background:linear-gradient(135deg,#0ea5e9,#06b6d4);border:none;border-radius:50%;color:#fff;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center}
         .typing-indicator{display:flex;gap:4px;padding:12px 16px;background:#fff;border-radius:18px;border-bottom-left-radius:5px;width:fit-content;box-shadow:0 2px 5px rgba(0,0,0,0.05)}
-        .typing-indicator span{width:8px;height:8px;background:#667eea;border-radius:50%;animation:typing 1s infinite}
+        .typing-indicator span{width:8px;height:8px;background:#0ea5e9;border-radius:50%;animation:typing 1s infinite}
         .typing-indicator span:nth-child(2){animation-delay:0.2s}
         .typing-indicator span:nth-child(3){animation-delay:0.4s}
         @keyframes typing{0%,100%{opacity:0.3;transform:scale(0.8)}50%{opacity:1;transform:scale(1)}}
@@ -393,7 +393,7 @@ try {
                 <h3 style="margin:0;font-size:18px;font-weight:700">🔔 Connect Telegram for Notifications</h3>
                 <p style="margin:5px 0 0;opacity:0.9;font-size:13px">Task updates, payment alerts aur reminders seedha Telegram pe paao — FREE!</p>
             </div>
-            <a href="https://t.me/reviewflow_tasks_bot?start=<?php echo $user_id; ?>" 
+            <a href="https://t.me/taskhive_tasks_bot?start=<?php echo $user_id; ?>" 
                target="_blank"
                style="background:#fff;color:#0088cc;padding:12px 24px;border-radius:25px;text-decoration:none;font-weight:700;font-size:14px;display:inline-flex;align-items:center;gap:8px;transition:transform 0.2s;box-shadow:0 3px 10px rgba(0,0,0,0.15)">
                 📲 Connect Now
@@ -534,7 +534,7 @@ try {
                 <div class="widget-title">🏆 Leaderboard</div>
                 <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
                     <div style="font-size:13px;color:#666">Your Rank</div>
-                    <div style="font-size:18px;font-weight:700;color:#667eea">#<?php echo $user_rank ?: '-'; ?></div>
+                    <div style="font-size:18px;font-weight:700;color:#0ea5e9">#<?php echo $user_rank ?: '-'; ?></div>
                 </div>
                 <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
                     <div style="font-size:13px;color:#666">Your Points</div>
@@ -558,7 +558,7 @@ try {
                         <?php endforeach; ?>
                     </div>
                 <?php endif; ?>
-                <a href="<?php echo APP_URL; ?>/user/leaderboard.php" style="display:block;text-align:center;margin-top:12px;color:#667eea;font-size:13px;text-decoration:none">View Full Leaderboard →</a>
+                <a href="<?php echo APP_URL; ?>/user/leaderboard.php" style="display:block;text-align:center;margin-top:12px;color:#0ea5e9;font-size:13px;text-decoration:none">View Full Leaderboard →</a>
             </div>
             <!-- Referral Widget -->
             <div class="widget">
@@ -594,7 +594,7 @@ try {
                             </div>
                         </div>
                     <?php endforeach; ?>
-                    <a href="<?php echo APP_URL; ?>/user/transactions.php" style="display:block;text-align:center;margin-top:15px;color:#667eea;font-size:13px;text-decoration:none">View All Transactions →</a>
+                    <a href="<?php echo APP_URL; ?>/user/transactions.php" style="display:block;text-align:center;margin-top:15px;color:#0ea5e9;font-size:13px;text-decoration:none">View All Transactions →</a>
                 <?php endif; ?>
             </div>
             
@@ -603,7 +603,7 @@ try {
                 <div class="widget-title">📊 Your Stats</div>
                 <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
                     <div style="background:#f8f9fa;padding:12px;border-radius:8px;text-align:center">
-                        <div style="font-size:20px;font-weight:700;color:#667eea"><?php echo $tasks_completed; ?></div>
+                        <div style="font-size:20px;font-weight:700;color:#0ea5e9"><?php echo $tasks_completed; ?></div>
                         <div style="font-size:11px;color:#666">Completed</div>
                     </div>
                     <div style="background:#f8f9fa;padding:12px;border-radius:8px;text-align:center">

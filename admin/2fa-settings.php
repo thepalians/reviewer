@@ -70,7 +70,7 @@ $users2FA = $conn->query("
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo $page_title; ?> - ReviewFlow Admin</title>
+    <title><?php echo $page_title; ?> - TaskHive Admin</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -95,7 +95,7 @@ $users2FA = $conn->query("
         }
         .stat-card {
             padding: 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
             color: white;
             border-radius: 8px;
             text-align: center;
@@ -116,7 +116,7 @@ $users2FA = $conn->query("
             font-size: 14px;
             margin: 5px;
         }
-        .btn-primary { background: #667eea; color: white; }
+        .btn-primary { background: #0ea5e9; color: white; }
         .btn-danger { background: #ef4444; color: white; }
         table {
             width: 100%;

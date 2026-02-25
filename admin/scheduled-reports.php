@@ -78,7 +78,7 @@ $templates = $conn->query("
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo $page_title; ?> - ReviewFlow Admin</title>
+    <title><?php echo $page_title; ?> - TaskHive Admin</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -124,7 +124,7 @@ $templates = $conn->query("
             font-size: 14px;
             margin: 5px;
         }
-        .btn-primary { background: #667eea; color: white; }
+        .btn-primary { background: #0ea5e9; color: white; }
         .btn-success { background: #10b981; color: white; }
         .btn-danger { background: #ef4444; color: white; }
         .btn-secondary { background: #6b7280; color: white; }
@@ -133,7 +133,7 @@ $templates = $conn->query("
             background: #f9fafb;
             border-radius: 8px;
             margin: 15px 0;
-            border-left: 4px solid #667eea;
+            border-left: 4px solid #0ea5e9;
         }
         .schedule-card.inactive {
             opacity: 0.6;

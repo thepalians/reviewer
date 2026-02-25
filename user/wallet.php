@@ -255,7 +255,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancel_withdrawal']))
     <title>Wallet - <?php echo APP_NAME; ?></title>
     <style>
         *{box-sizing:border-box;margin:0;padding:0}
-        body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:20px}
+        body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:linear-gradient(135deg,#0ea5e9 0%,#06b6d4 100%);min-height:100vh;padding:20px}
         
         .container{max-width:1000px;margin:0 auto}
         
@@ -291,7 +291,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancel_withdrawal']))
         /* Tabs */
         .tabs{display:flex;gap:5px;margin-bottom:20px;background:#f5f5f5;padding:5px;border-radius:10px}
         .tab{flex:1;padding:12px;text-align:center;background:transparent;border:none;border-radius:8px;cursor:pointer;font-weight:600;font-size:13px;color:#666;transition:all 0.2s}
-        .tab.active{background:#fff;color:#667eea;box-shadow:0 2px 10px rgba(0,0,0,0.1)}
+        .tab.active{background:#fff;color:#0ea5e9;box-shadow:0 2px 10px rgba(0,0,0,0.1)}
         .tab-content{display:none}
         .tab-content.active{display:block}
         
@@ -299,14 +299,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancel_withdrawal']))
         .form-group{margin-bottom:18px}
         .form-group label{display:block;font-weight:600;margin-bottom:8px;color:#333;font-size:14px}
         .form-control{width:100%;padding:12px 15px;border:2px solid #eee;border-radius:10px;font-size:14px;transition:border-color 0.2s}
-        .form-control:focus{border-color:#667eea;outline:none}
+        .form-control:focus{border-color:#0ea5e9;outline:none}
         .form-control:disabled{background:#f5f5f5;cursor:not-allowed}
         .form-hint{font-size:12px;color:#888;margin-top:5px}
         
         /* Buttons */
         .btn{padding:14px 25px;border:none;border-radius:10px;font-weight:600;cursor:pointer;font-size:14px;transition:all 0.2s;display:inline-flex;align-items:center;justify-content:center;gap:8px}
         .btn:disabled{opacity:0.6;cursor:not-allowed}
-        .btn-primary{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;width:100%}
+        .btn-primary{background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff;width:100%}
         .btn-primary:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 5px 20px rgba(102,126,234,0.4)}
         .btn-success{background:linear-gradient(135deg,#27ae60,#2ecc71);color:#fff}
         .btn-danger{background:#e74c3c;color:#fff;padding:8px 15px;font-size:12px}
@@ -317,7 +317,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancel_withdrawal']))
         .payment-methods{display:flex;gap:10px;margin-bottom:20px}
         .payment-method{flex:1;padding:15px;border:2px solid #eee;border-radius:12px;text-align:center;cursor:pointer;transition:all 0.2s}
         .payment-method:hover{border-color:#ddd;background:#fafafa}
-        .payment-method.active{border-color:#667eea;background:#f8f9ff}
+        .payment-method.active{border-color:#0ea5e9;background:#f8f9ff}
         .payment-method .icon{font-size:28px;margin-bottom:8px}
         .payment-method .name{font-size:13px;font-weight:600;color:#333}
         .payment-method .desc{font-size:11px;color:#888;margin-top:3px}
@@ -347,7 +347,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancel_withdrawal']))
         .txn-status.failed{background:#f8d7da;color:#721c24}
         
         /* Withdrawal Requests */
-        .withdrawal-item{background:#f8f9fa;border-radius:12px;padding:15px;margin-bottom:12px;border-left:4px solid #667eea}
+        .withdrawal-item{background:#f8f9fa;border-radius:12px;padding:15px;margin-bottom:12px;border-left:4px solid #0ea5e9}
         .withdrawal-item.pending{border-left-color:#f39c12}
         .withdrawal-item.approved{border-left-color:#3498db}
         .withdrawal-item.completed{border-left-color:#27ae60}
@@ -624,7 +624,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancel_withdrawal']))
                             </div>
                         <?php endforeach; ?>
                     </div>
-                    <a href="<?php echo APP_URL; ?>/user/transactions.php" style="display:block;text-align:center;margin-top:15px;color:#667eea;font-size:13px;text-decoration:none">View All Transactions →</a>
+                    <a href="<?php echo APP_URL; ?>/user/transactions.php" style="display:block;text-align:center;margin-top:15px;color:#0ea5e9;font-size:13px;text-decoration:none">View All Transactions →</a>
                 <?php endif; ?>
             </div>
         </div>

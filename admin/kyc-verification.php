@@ -170,7 +170,7 @@ try {
         .sidebar-menu{list-style:none;padding:15px 0}
         .sidebar-menu li{margin-bottom:5px}
         .sidebar-menu a{display:flex;align-items:center;gap:12px;padding:12px 20px;color:#94a3b8;text-decoration:none;transition:all 0.2s;border-left:3px solid transparent}
-        .sidebar-menu a:hover,.sidebar-menu a.active{background:rgba(255,255,255,0.05);color:#fff;border-left-color:#667eea}
+        .sidebar-menu a:hover,.sidebar-menu a.active{background:rgba(255,255,255,0.05);color:#fff;border-left-color:#0ea5e9}
         .sidebar-menu .badge{background:#e74c3c;color:#fff;padding:2px 8px;border-radius:10px;font-size:11px;margin-left:auto}
         .sidebar-divider{height:1px;background:rgba(255,255,255,0.1);margin:15px 20px}
         .sidebar-menu a.logout{color:#e74c3c}
@@ -204,8 +204,8 @@ try {
         
         .filter-tabs{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap}
         .filter-tab{padding:10px 20px;border-radius:10px;background:#fff;border:2px solid #e2e8f0;color:#64748b;text-decoration:none;font-weight:600;font-size:14px;transition:all 0.2s}
-        .filter-tab:hover{border-color:#667eea;color:#667eea}
-        .filter-tab.active{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border-color:transparent}
+        .filter-tab:hover{border-color:#0ea5e9;color:#0ea5e9}
+        .filter-tab.active{background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff;border-color:transparent}
         
         .table-card{background:#fff;border-radius:15px;box-shadow:0 2px 10px rgba(0,0,0,0.04);overflow:hidden}
         .table-header{padding:20px;border-bottom:1px solid #f1f5f9}
@@ -217,7 +217,7 @@ try {
         tr:hover{background:#f8fafc}
         
         .user-cell{display:flex;align-items:center;gap:12px}
-        .user-avatar{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,#667eea,#764ba2);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:600;font-size:14px}
+        .user-avatar{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,#0ea5e9,#06b6d4);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:600;font-size:14px}
         .user-info{line-height:1.4}
         .user-name{font-weight:600;color:#1e293b}
         .user-email{font-size:12px;color:#64748b}
@@ -249,9 +249,9 @@ try {
         .form-group{margin-bottom:15px}
         .form-label{display:block;font-size:14px;font-weight:600;color:#334155;margin-bottom:8px}
         .form-control{width:100%;padding:12px;border:1px solid #e2e8f0;border-radius:8px;font-size:14px}
-        .form-control:focus{outline:none;border-color:#667eea}
+        .form-control:focus{outline:none;border-color:#0ea5e9}
         .modal-footer{display:flex;gap:10px;justify-content:flex-end}
-        .btn-primary{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
+        .btn-primary{background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff}
         .btn-secondary{background:#e2e8f0;color:#64748b}
         
         @media(max-width:992px){

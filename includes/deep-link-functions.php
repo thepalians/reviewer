@@ -35,7 +35,7 @@ function createDeepLink(string $linkType, string $targetUrl, array $parameters =
                 'id' => $pdo->lastInsertId(),
                 'short_code' => $shortCode,
                 'url' => APP_URL . '/d/' . $shortCode,
-                'app_url' => 'reviewflow://open/' . $shortCode
+                'app_url' => 'taskhive://open/' . $shortCode
             ];
         }
         

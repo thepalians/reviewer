@@ -1,9 +1,9 @@
 /**
- * ReviewFlow Service Worker
+ * TaskHive Service Worker
  * Handles caching, offline support, and push notifications
  */
 
-const CACHE_NAME = 'reviewflow-v2.0.0';
+const CACHE_NAME = 'taskhive-v4.0.0';
 const OFFLINE_URL = '/reviewer/offline.html';
 
 // Files to cache for offline access
@@ -25,7 +25,7 @@ const STATIC_CACHE = [
 ];
 
 // Dynamic cache - pages that change frequently
-const DYNAMIC_CACHE = 'reviewflow-dynamic-v1';
+const DYNAMIC_CACHE = 'taskhive-dynamic-v1';
 const DYNAMIC_CACHE_LIMIT = 50;
 
 // Install event - cache static assets
@@ -168,7 +168,7 @@ self.addEventListener('push', (event) => {
   console.log('[SW] Push received');
   
   let data = {
-    title: 'ReviewFlow',
+    title: 'TaskHive',
     body: 'You have a new notification',
     icon: '/reviewer/assets/img/icon-192.png',
     badge: '/reviewer/assets/img/badge-72.png',
@@ -196,7 +196,7 @@ self.addEventListener('push', (event) => {
       { action: 'open', title: 'Open' },
       { action: 'close', title: 'Close' }
     ],
-    tag: 'reviewflow-notification',
+    tag: 'taskhive-notification',
     renotify: true
   };
   
@@ -251,7 +251,7 @@ self.addEventListener('sync', (event) => {
 // Sync messages when back online
 async function syncMessages() {
   try {
-    const cache = await caches.open('reviewflow-offline-data');
+    const cache = await caches.open('taskhive-offline-data');
     const requests = await cache.keys();
     
     for (const request of requests) {

@@ -98,7 +98,7 @@ class Auth {
     // Admin Login
     public function adminLogin($username, $password) {
         // Load admin credentials from environment
-        $admin_username = env('ADMIN_EMAIL', 'admin@reviewflow.com');
+        $admin_username = env('ADMIN_EMAIL', 'admin@taskhive.com');
         $admin_password = env('ADMIN_PASSWORD', '');
         
         // Support both plain text and hashed passwords

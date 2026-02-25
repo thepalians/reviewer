@@ -88,7 +88,7 @@ $current_page = 'session-management';
         .card{background:#fff;border-radius:12px;box-shadow:0 2px 10px rgba(0,0,0,0.05);padding:25px;margin-bottom:20px}
         .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:15px;margin-bottom:25px}
         .stat{background:#fff;padding:20px;border-radius:12px;text-align:center;box-shadow:0 2px 10px rgba(0,0,0,0.05)}
-        .stat .val{font-size:32px;font-weight:700;color:#667eea}
+        .stat .val{font-size:32px;font-weight:700;color:#0ea5e9}
         .stat .lbl{font-size:13px;color:#888;margin-top:5px}
         .stat.users .val{color:#3b82f6}
         .stat.sellers .val{color:#10b981}
@@ -103,7 +103,7 @@ $current_page = 'session-management';
         .badge.admin{background:#dbeafe;color:#1e40af}
         .badge.seller{background:#d1fae5;color:#065f46}
         .badge.user{background:#e0e7ff;color:#4338ca}
-        .device-icon{font-size:20px;color:#667eea}
+        .device-icon{font-size:20px;color:#0ea5e9}
         .session-info{font-size:12px;color:#666}
         @media(max-width:768px){.wrapper{grid-template-columns:1fr}.sidebar{display:none}.stats{grid-template-columns:repeat(2,1fr)}}
     </style>

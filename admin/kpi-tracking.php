@@ -127,7 +127,7 @@ $current_page = 'kpi-tracking';
         .kpi-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:15px}
         .kpi-title{font-size:16px;font-weight:600;color:#333;margin:0}
         .kpi-category{font-size:11px;text-transform:uppercase;color:#999;letter-spacing:0.5px}
-        .kpi-value{font-size:36px;font-weight:700;color:#667eea;margin:10px 0}
+        .kpi-value{font-size:36px;font-weight:700;color:#0ea5e9;margin:10px 0}
         .kpi-target{font-size:14px;color:#666}
         .kpi-progress{height:8px;background:#e9ecef;border-radius:10px;overflow:hidden;margin:15px 0}
         .kpi-progress-bar{height:100%;transition:width 0.5s}
