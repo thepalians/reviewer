@@ -181,6 +181,11 @@ if (!isset($current_page)) {
         <li class="menu-section-label"><span>📝 Content</span></li>
         <li><a href="<?php echo ADMIN_URL; ?>/blog-manage.php" class="<?= $current_page === 'blog-manage' ? 'active' : '' ?>"><i class="bi bi-journal-richtext"></i> Blog Manager</a></li>
         
+        <!-- Social Media Section -->
+        <div class="sidebar-divider"></div>
+        <li class="menu-section-label"><span>📱 Social Media</span></li>
+        <li><a href="<?php echo ADMIN_URL; ?>/social-campaigns.php" class="<?= $current_page === 'social-campaigns' ? 'active' : '' ?>">📢 Social Campaigns</a></li>
+        
         <!-- Settings Section -->
         <div class="sidebar-divider"></div>
         <li class="menu-section-label"><span>⚙️ Settings</span></li>
