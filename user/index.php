@@ -475,6 +475,10 @@ try {
             <div class="icon">📊</div>
             <div class="label">History</div>
         </a>
+        <a href="<?php echo APP_URL; ?>/user/social-hub.php" class="action-btn">
+            <div class="icon">📱</div>
+            <div class="label">Social Hub</div>
+        </a>
         <a href="<?php echo APP_URL; ?>/help.php" class="action-btn">
             <div class="icon">❓</div>
             <div class="label">Help</div>
