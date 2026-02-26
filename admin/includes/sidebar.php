@@ -66,6 +66,15 @@ if (!isset($pending_proofs)) {
     }
 }
 
+if (!isset($pending_social_campaigns)) {
+    try {
+        $stmt = $pdo->query("SELECT COUNT(*) FROM social_campaigns WHERE admin_approved = 0 AND status = 'pending'");
+        $pending_social_campaigns = (int)$stmt->fetchColumn();
+    } catch (PDOException $e) {
+        $pending_social_campaigns = 0;
+    }
+}
+
 // Set current page if not set
 if (!isset($current_page)) {
     $current_page = basename($_SERVER['PHP_SELF'], '.php');
@@ -184,7 +193,7 @@ if (!isset($current_page)) {
         <!-- Social Media Section -->
         <div class="sidebar-divider"></div>
         <li class="menu-section-label"><span>📱 Social Media</span></li>
-        <li><a href="<?php echo ADMIN_URL; ?>/social-campaigns.php" class="<?= $current_page === 'social-campaigns' ? 'active' : '' ?>">📢 Social Campaigns</a></li>
+        <li><a href="<?php echo ADMIN_URL; ?>/social-campaigns.php" class="<?= $current_page === 'social-campaigns' ? 'active' : '' ?>">📢 Social Campaigns <?php if($pending_social_campaigns > 0): ?><span class="badge"><?php echo $pending_social_campaigns; ?></span><?php endif; ?></a></li>
         
         <!-- Settings Section -->
         <div class="sidebar-divider"></div>
