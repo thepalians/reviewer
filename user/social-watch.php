@@ -350,10 +350,15 @@ window.onYouTubeIframeAPIReady = function() {
             onStateChange: function(e) {
                 if (e.data === YT.PlayerState.PLAYING) {
                     var ct = e.target.getCurrentTime();
-                    // Forward seek > 15s detected — pause client timer briefly
+                    // Forward seek > 15s detected — penalise by subtracting skipped seconds
                     if (ct > window._ytLastTime + 15) {
+                        var skipped = Math.floor(ct - window._ytLastTime);
+                        seconds = Math.max(0, seconds - skipped);
                         window._ytPlaying = false;
-                        setTimeout(function() { window._ytPlaying = true; }, 500);
+                        // Pause proportional to skipped time: 200ms per skipped second
+                        // (capped at 5s) so minor accidental seeks feel lighter
+                        // than large intentional skips.
+                        setTimeout(function() { window._ytPlaying = true; }, Math.min(5000, skipped * 200));
                     } else {
                         window._ytPlaying = true;
                     }
