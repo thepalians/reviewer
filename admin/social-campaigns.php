@@ -96,9 +96,6 @@ $csrf_token = generateCSRFToken();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>📱 Social Campaigns — <?php echo htmlspecialchars(APP_NAME); ?> Admin</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         *{box-sizing:border-box;margin:0;padding:0}
         body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f5f6fa;min-height:100vh}
@@ -111,10 +108,11 @@ $csrf_token = generateCSRFToken();
         .sidebar-menu a{display:flex;align-items:center;gap:10px;padding:10px 20px;color:rgba(255,255,255,0.75);text-decoration:none;border-radius:0 25px 25px 0;margin-right:15px;transition:all 0.2s;font-size:14px}
         .sidebar-menu a:hover,.sidebar-menu a.active{background:rgba(255,255,255,0.15);color:#fff}
         .sidebar-divider{height:1px;background:rgba(255,255,255,0.08);margin:10px 20px}
-        .badge{background:#e74c3c;color:#fff;font-size:10px;padding:2px 6px;border-radius:10px;margin-left:auto}
+        .sidebar-menu .badge{background:#e74c3c;color:#fff;font-size:10px;padding:2px 6px;border-radius:10px;margin-left:auto}
         .menu-section-label{padding:8px 20px;font-size:11px;font-weight:600;text-transform:uppercase;color:rgba(255,255,255,0.4);letter-spacing:1px;pointer-events:none}
         .main-content{padding:25px;overflow-x:auto}
         @media(max-width:900px){.admin-layout{grid-template-columns:1fr}.sidebar{display:none}}
+        /* Status / platform badges */
         .status-badge { padding:0.3rem 0.75rem;border-radius:20px;font-size:0.78rem;font-weight:600; }
         .status-active    { background:#d4edda;color:#155724; }
         .status-pending   { background:#fff3cd;color:#856404; }
@@ -122,6 +120,38 @@ $csrf_token = generateCSRFToken();
         .status-completed { background:#d1ecf1;color:#0c5460; }
         .status-rejected  { background:#f8d7da;color:#721c24; }
         .platform-badge { display:inline-flex;align-items:center;gap:0.3rem;padding:0.2rem 0.6rem;border-radius:20px;font-size:0.75rem;font-weight:600;color:white; }
+        /* Alert */
+        .alert { padding:0.75rem 1rem;border-radius:6px;margin-bottom:1rem; }
+        .alert-info { background:#d1ecf1;color:#0c5460;border:1px solid #bee5eb; }
+        /* Form controls */
+        .form-select,.form-control { display:inline-block;padding:0.375rem 0.75rem;font-size:0.875rem;border:1px solid #ced4da;border-radius:0.375rem;background:#fff;color:#1a1a1a;cursor:pointer; }
+        /* Buttons */
+        .btn { display:inline-block;padding:0.375rem 0.75rem;font-size:0.875rem;border-radius:0.375rem;border:1px solid transparent;cursor:pointer;font-weight:500;text-decoration:none; }
+        .btn-sm { padding:0.25rem 0.5rem;font-size:0.8rem; }
+        .btn-primary { background:#4f46e5;color:#fff;border-color:#4f46e5; }
+        .btn-primary:hover { background:#4338ca; }
+        .btn-success { background:#198754;color:#fff;border-color:#198754; }
+        .btn-success:hover { background:#157347; }
+        .btn-danger { background:#dc3545;color:#fff;border-color:#dc3545; }
+        .btn-danger:hover { background:#bb2d3b; }
+        .btn-warning { background:#ffc107;color:#000;border-color:#ffc107; }
+        .btn-warning:hover { background:#e0a800; }
+        .btn-outline-secondary { background:transparent;color:#6c757d;border-color:#6c757d; }
+        .btn-outline-secondary:hover { background:#6c757d;color:#fff; }
+        /* Table */
+        .table-responsive { overflow-x:auto; }
+        .table { width:100%;border-collapse:collapse;font-size:0.9rem; }
+        .table th,.table td { padding:0.75rem;vertical-align:middle;border-bottom:1px solid #dee2e6; }
+        .table thead th { background:#f8f9fa;font-weight:600; }
+        .table tbody tr:hover { background:rgba(0,0,0,0.025); }
+        /* Progress */
+        .progress { background:#e9ecef;border-radius:0.375rem;overflow:hidden;height:6px;min-width:80px; }
+        .progress-bar { height:100%;border-radius:0.375rem; }
+        /* Utilities */
+        .text-center { text-align:center; }
+        .text-muted { color:#6c757d; }
+        .py-5 { padding-top:3rem;padding-bottom:3rem; }
+        .small,.small * { font-size:0.82rem; }
     </style>
 </head>
 <body>

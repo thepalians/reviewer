@@ -43,7 +43,9 @@ try {
     $stmt = $pdo->prepare("
         SELECT stc.*, sc.watch_percent_required, sc.reward_per_task, sc.title,
                COALESCE(sc.video_duration, 300) AS video_duration,
-               COALESCE(sws.heartbeat_count, 0) AS heartbeat_count
+               COALESCE(sws.heartbeat_count, 0) AS heartbeat_count,
+               sws.created_at AS session_started_at,
+               sws.last_heartbeat
         FROM social_task_completions stc
         JOIN social_campaigns sc ON sc.id = stc.campaign_id
         LEFT JOIN social_watch_sessions sws ON sws.completion_id = stc.id
@@ -74,10 +76,25 @@ if (!$completion) {
     $heartbeat_count   = (int)$completion['heartbeat_count'];
     $assumed_duration  = max(1, (int)$completion['video_duration']);
     $watch_pct_req     = (float)$completion['watch_percent_required'];
-    $min_heartbeats    = (int)ceil($assumed_duration * ($watch_pct_req / 100) / 10);
+    $required_seconds  = (int)ceil($assumed_duration * ($watch_pct_req / 100));
+    $min_heartbeats    = (int)ceil($required_seconds / 10);
     if ($heartbeat_count < $min_heartbeats) {
         echo json_encode(['success' => false, 'message' => 'Minimum watch time not verified. Please continue watching the video.']);
         exit;
+    }
+
+    // Verify that wall-clock time elapsed between first and last heartbeat is plausible
+    if (!empty($completion['session_started_at']) && !empty($completion['last_heartbeat'])) {
+        $ts_start = strtotime($completion['session_started_at']);
+        $ts_end   = strtotime($completion['last_heartbeat']);
+        if ($ts_start !== false && $ts_end !== false) {
+            $elapsed_seconds = $ts_end - $ts_start;
+            if ($elapsed_seconds < ($required_seconds - 15)) {
+                // Allow 15-second grace for network delays
+                echo json_encode(['success' => false, 'message' => 'Watch time could not be verified. Please continue watching the video.']);
+                exit;
+            }
+        }
     }
 
     $watch_percent = (float)$completion['watch_percent'];
