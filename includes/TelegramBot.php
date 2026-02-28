@@ -94,9 +94,9 @@ class TelegramBot {
         $message .= "👤 <b>Name:</b> {$this->escapeHtml($userName)}\n";
         $message .= "🆔 <b>User ID:</b> #{$userId}\n";
         $message .= "📅 <b>Joined:</b> " . date('d M Y, h:i A') . "\n\n";
-        $message .= "✅ Welcome to ReviewFlow! 🚀\n";
+        $message .= "✅ Welcome to " . (defined('APP_NAME') ? APP_NAME : 'TestProduct') . "! 🚀\n";
         $message .= "━━━━━━━━━━━━━━━━━━\n";
-        $message .= "🤖 <i>ReviewFlow Task Bot</i>";
+        $message .= "🤖 <i>" . (defined('APP_NAME') ? APP_NAME : 'TestProduct') . " Task Bot</i>";
         
         return $this->sendMessage($message);
     }

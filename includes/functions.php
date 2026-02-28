@@ -795,7 +795,7 @@ if (!function_exists('sendTaskNotification')) {
  */
 if (!function_exists('getEmailTemplate')) {
     function getEmailTemplate(string $title, string $message, string $name): string {
-        $app_name = defined('APP_NAME') ? APP_NAME : 'ReviewFlow';
+        $app_name = defined('APP_NAME') ? APP_NAME : 'TestProduct';
         $app_url = defined('APP_URL') ? APP_URL : '';
         
         return "

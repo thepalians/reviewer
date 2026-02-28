@@ -82,7 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Two-Factor Authentication - ReviewFlow</title>
+    <title>Two-Factor Authentication - <?php echo APP_NAME; ?></title>
     <style>
         body {
             font-family: Arial, sans-serif;

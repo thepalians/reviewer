@@ -444,6 +444,28 @@ try {
     $total_tasks = 5000;
     $total_paid = 100000;
 }
+
+// Fetch recent product reviews for display
+$recent_reviews = [];
+$avg_rating = 0;
+try {
+    $stmt = $pdo->query("
+        SELECT ts.rating, ts.review_text, ts.created_at, u.name
+        FROM task_steps ts
+        JOIN tasks t ON ts.task_id = t.id
+        JOIN users u ON t.user_id = u.id
+        WHERE ts.step_number = 4 AND ts.rating IS NOT NULL AND ts.review_text IS NOT NULL AND ts.review_text != ''
+        ORDER BY ts.created_at DESC
+        LIMIT 6
+    ");
+    $recent_reviews = $stmt->fetchAll();
+    if (!empty($recent_reviews)) {
+        $stmt2 = $pdo->query("SELECT AVG(rating) FROM task_steps WHERE step_number = 4 AND rating IS NOT NULL");
+        $avg_rating = round((float)$stmt2->fetchColumn(), 1);
+    }
+} catch (PDOException $e) {
+    $recent_reviews = [];
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -567,6 +589,18 @@ try {
             .stats-row{flex-wrap:wrap}
             .stat-item{min-width:calc(50% - 10px)}
         }
+        
+        /* Customer Reviews Section */
+        .reviews-section{width:100%;max-width:1100px;margin:40px auto 20px;color:#fff}
+        .reviews-section h2{text-align:center;font-size:26px;font-weight:700;margin-bottom:8px}
+        .reviews-avg{text-align:center;font-size:18px;margin-bottom:25px;opacity:0.9}
+        .reviews-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+        @media(max-width:900px){.reviews-grid{grid-template-columns:repeat(2,1fr)}}
+        @media(max-width:600px){.reviews-grid{grid-template-columns:1fr}}
+        .review-card{background:rgba(255,255,255,0.15);backdrop-filter:blur(10px);border-radius:14px;padding:18px}
+        .review-stars{font-size:18px;margin-bottom:8px;color:#fbbf24}
+        .review-text{font-size:14px;opacity:0.95;line-height:1.6;margin-bottom:10px}
+        .review-author{font-size:12px;opacity:0.7;font-style:italic}
     </style>
 </head>
 <body>
@@ -843,5 +877,24 @@ if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('<?php echo APP_URL; ?>/sw.js').catch(() => {});
 }
 </script>
+
+<?php if (!empty($recent_reviews)): ?>
+<div style="width:100%;display:flex;justify-content:center;padding:0 20px">
+<div class="reviews-section">
+    <h2>⭐ Customer Reviews</h2>
+    <div class="reviews-avg">Average Rating: <?php echo $avg_rating; ?>/5 ⭐</div>
+    <div class="reviews-grid">
+        <?php foreach ($recent_reviews as $review): ?>
+        <div class="review-card">
+            <div class="review-stars"><?php echo str_repeat('★', (int)$review['rating']) . str_repeat('☆', 5 - (int)$review['rating']); ?></div>
+            <div class="review-text"><?php echo escape(mb_substr($review['review_text'], 0, 200)); ?><?php echo mb_strlen($review['review_text']) > 200 ? '...' : ''; ?></div>
+            <div class="review-author">— <?php echo escape(explode(' ', $review['name'])[0]); ?> · <?php echo date('d M Y', strtotime($review['created_at'])); ?></div>
+        </div>
+        <?php endforeach; ?>
+    </div>
+</div>
+</div>
+<?php endif; ?>
+
 </body>
 </html>

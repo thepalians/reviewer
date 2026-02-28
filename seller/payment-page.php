@@ -34,7 +34,7 @@ $wallet_balance = $wallet ? (float)$wallet['balance'] : 0;
 $has_sufficient_balance = $wallet_balance >= $request['grand_total'];
 
 $razorpay_key = getSetting('razorpay_key_id', '');
-$site_name = getSetting('site_name', 'ReviewFlow');
+$site_name = getSetting('site_name', APP_NAME);
 
 require_once __DIR__ . '/includes/header.php';
 ?>
