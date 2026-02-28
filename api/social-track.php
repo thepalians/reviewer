@@ -57,9 +57,12 @@ try {
     }
 
     // Find or create completion record
-    $stmt = $pdo->prepare("SELECT id FROM social_task_completions WHERE campaign_id = ? AND user_id = ?");
+    $stmt = $pdo->prepare("SELECT id, watch_duration FROM social_task_completions WHERE campaign_id = ? AND user_id = ?");
     $stmt->execute([$campaign_id, $user_id]);
     $completion = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    $prev_watch_seconds = 0;
+    $session            = null;
 
     if (!$completion) {
         // Start a new completion
@@ -74,6 +77,7 @@ try {
         $server_heartbeats = 0;
     } else {
         $completion_id = (int)$completion['id'];
+        $prev_watch_seconds = (int)($completion['watch_duration'] ?? 0);
 
         // Check status — don't update if already claimed
         $stmt = $pdo->prepare("SELECT status, watch_duration FROM social_task_completions WHERE id = ?");
@@ -85,7 +89,7 @@ try {
         }
 
         // Rate limit: check last heartbeat on session
-        $stmt = $pdo->prepare("SELECT last_heartbeat, heartbeat_count FROM social_watch_sessions WHERE completion_id = ? ORDER BY id DESC LIMIT 1");
+        $stmt = $pdo->prepare("SELECT id, last_heartbeat, heartbeat_count, last_watch_seconds FROM social_watch_sessions WHERE completion_id = ? ORDER BY id DESC LIMIT 1");
         $stmt->execute([$completion_id]);
         $session = $stmt->fetch(PDO::FETCH_ASSOC);
         $server_heartbeats = $session ? (int)$session['heartbeat_count'] : 0;
@@ -100,6 +104,22 @@ try {
                 exit;
             }
         }
+    }
+
+    // Anti-cheat: cap client-reported watch_seconds to 2× elapsed real time per interval
+    // This prevents impossible jumps regardless of whether a prior session exists
+    if ($session && $session['last_heartbeat']) {
+        $diff       = time() - strtotime($session['last_heartbeat']);
+        $last_watch = (int)($session['last_watch_seconds'] ?? $prev_watch_seconds);
+        $client_jump = $watch_seconds - $last_watch;
+        $max_allowed = $diff * 2 + 5; // 2× real time + 5s grace
+        if ($diff > 0 && $client_jump > $max_allowed) {
+            // Cap to maximum allowed seconds for this interval
+            $watch_seconds = $last_watch + $max_allowed;
+        }
+    } elseif ($prev_watch_seconds === 0 && $watch_seconds > 20) {
+        // First heartbeat: client should not report > ~20 seconds on very first call
+        $watch_seconds = min($watch_seconds, 20);
     }
 
     // Server-side anti-cheat: calculate watch percent from server-tracked heartbeats
@@ -120,11 +140,11 @@ try {
     $ws = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($ws) {
-        $pdo->prepare("UPDATE social_watch_sessions SET heartbeat_count = heartbeat_count + 1, last_heartbeat = NOW(), tab_active = ? WHERE completion_id = ?")
-            ->execute([$tab_active, $completion_id]);
+        $pdo->prepare("UPDATE social_watch_sessions SET heartbeat_count = heartbeat_count + 1, last_heartbeat = NOW(), tab_active = ?, last_watch_seconds = ? WHERE completion_id = ?")
+            ->execute([$tab_active, $watch_seconds, $completion_id]);
     } else {
-        $pdo->prepare("INSERT INTO social_watch_sessions (completion_id, heartbeat_count, last_heartbeat, tab_active) VALUES (?, 1, NOW(), ?)")
-            ->execute([$completion_id, $tab_active]);
+        $pdo->prepare("INSERT INTO social_watch_sessions (completion_id, heartbeat_count, last_heartbeat, tab_active, last_watch_seconds) VALUES (?, 1, NOW(), ?, ?)")
+            ->execute([$completion_id, $tab_active, $watch_seconds]);
     }
 
     echo json_encode([

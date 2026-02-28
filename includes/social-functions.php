@@ -236,11 +236,11 @@ if (!function_exists('completeSocialTask')) {
     }
 }
 
-if (!function_exists('createCampaign')) {
+if (!function_exists('createSocialCampaign')) {
     /**
      * Create a new social campaign and deduct seller wallet
      */
-    function createCampaign(PDO $pdo, int $seller_id, array $data): array {
+    function createSocialCampaign(PDO $pdo, int $seller_id, array $data): array {
         try {
             $pdo->beginTransaction();
 
@@ -315,7 +315,7 @@ if (!function_exists('createCampaign')) {
             if ($pdo->inTransaction()) {
                 $pdo->rollBack();
             }
-            error_log("createCampaign error: " . $e->getMessage());
+            error_log("createSocialCampaign error: " . $e->getMessage());
             return ['success' => false, 'message' => 'Failed to create campaign. Please try again.'];
         }
     }

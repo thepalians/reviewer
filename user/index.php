@@ -105,6 +105,19 @@ try {
     $blog_count = 0;
 }
 
+// Get active social campaigns count for dashboard banner
+$social_campaigns_count = 0;
+$social_max_reward = 0.0;
+try {
+    $soc_stmt = $pdo->query("SELECT COUNT(*) AS cnt, COALESCE(MAX(reward_per_task), 0) AS max_reward FROM social_campaigns WHERE status = 'active' AND admin_approved = 1 AND tasks_completed < total_tasks_needed");
+    $soc_row = $soc_stmt->fetch(PDO::FETCH_ASSOC);
+    $social_campaigns_count = (int)($soc_row['cnt'] ?? 0);
+    $social_max_reward = (float)($soc_row['max_reward'] ?? 0);
+} catch (PDOException $e) {
+    $social_campaigns_count = 0;
+    $social_max_reward = 0.0;
+}
+
 // Leaderboard summary
 try {
     $user_points = getUserPoints($pdo, $user_id);
@@ -448,6 +461,22 @@ try {
                 </div>
                 <div style="background:rgba(255,255,255,0.2);color:#fff;padding:12px 24px;border-radius:25px;font-weight:700;font-size:14px;display:inline-flex;align-items:center;gap:8px">
                     🔓 Read Now →
+                </div>
+            </div>
+        </div>
+    </a>
+
+    <!-- Social Hub Promo Card -->
+    <a href="<?php echo APP_URL; ?>/user/social-hub.php" style="text-decoration:none;display:block">
+        <div style="background:linear-gradient(135deg,#11998e,#38ef7d);border-radius:15px;padding:20px;margin-bottom:20px;box-shadow:0 5px 20px rgba(17,153,142,0.3);cursor:pointer;transition:transform 0.2s">
+            <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:15px">
+                <div style="color:#fff">
+                    <h3 style="margin:0;font-size:18px;font-weight:700">📱 Social Hub — Watch &amp; Earn!</h3>
+                    <p style="margin:5px 0 0;opacity:0.9;font-size:13px">🎬 <?php echo $social_campaigns_count; ?> active campaigns<?php if ($social_max_reward > 0): ?> • 💰 Earn up to ₹<?php echo number_format($social_max_reward, 2); ?>/task<?php endif; ?></p>
+                    <p style="margin:3px 0 0;opacity:0.8;font-size:12px">Watch videos on YouTube, Instagram &amp; more to earn rewards!</p>
+                </div>
+                <div style="background:rgba(255,255,255,0.2);color:#fff;padding:12px 24px;border-radius:25px;font-weight:700;font-size:14px;display:inline-flex;align-items:center;gap:8px">
+                    🚀 Start Earning →
                 </div>
             </div>
         </div>
