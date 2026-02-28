@@ -336,37 +336,87 @@ $embed_html = $campaign['embed_code'] ?: generateEmbed($campaign['platform_slug'
 </script>
 <?php if ($campaign['platform_slug'] === 'youtube'): ?>
 <script>
-// YouTube IFrame API — detect playback state and forward seeks
+// YouTube IFrame API — track actual play time and detect seeking
 window._ytPlaying = false;
 window._ytLastTime = 0;
+window._ytCreditedSeconds = 0; // cumulative genuinely-watched seconds
+window._ytLastRealTime = 0;    // wall-clock ms when last position was recorded
+
 window.onYouTubeIframeAPIReady = function() {
     var iframe = document.getElementById('yt-player');
     if (!iframe) return;
-    new YT.Player('yt-player', {
+    var player = new YT.Player('yt-player', {
         events: {
             onReady: function(e) {
                 window._ytLastTime = 0;
+                window._ytLastRealTime = Date.now();
             },
             onStateChange: function(e) {
+                var ct = (e.target && e.target.getCurrentTime) ? e.target.getCurrentTime() : 0;
                 if (e.data === YT.PlayerState.PLAYING) {
-                    var ct = e.target.getCurrentTime();
-                    // Forward seek > 15s detected — pause client timer briefly
-                    if (ct > window._ytLastTime + 15) {
+                    var seekDelta = ct - window._ytLastTime;
+                    // Detect forward seek: video jumped ahead more than 3s beyond expected play position
+                    if (seekDelta > 3) {
+                        // Penalise: reset credited seconds back by the skipped amount so
+                        // the user must genuinely watch from the new position
+                        window._ytCreditedSeconds = Math.max(0, window._ytCreditedSeconds - seekDelta);
+                        // Override the main seconds counter to match credited seconds
+                        if (typeof seconds !== 'undefined') {
+                            seconds = Math.max(0, Math.min(seconds, window._ytCreditedSeconds));
+                        }
                         window._ytPlaying = false;
-                        setTimeout(function() { window._ytPlaying = true; }, 500);
+                        setTimeout(function() { window._ytPlaying = true; }, 800);
                     } else {
                         window._ytPlaying = true;
                     }
                     window._ytLastTime = ct;
+                    window._ytLastRealTime = Date.now();
                 } else {
+                    // Paused / buffering / ended — accumulate credited seconds up to this point
+                    if (window._ytPlaying && window._ytLastRealTime > 0) {
+                        var elapsed = (Date.now() - window._ytLastRealTime) / 1000;
+                        // Only credit if elapsed time is reasonable (≤ 2× real time, max 30s per interval)
+                        var creditGain = Math.min(elapsed, 30);
+                        window._ytCreditedSeconds += creditGain;
+                    }
                     if (e.target && e.target.getCurrentTime) {
                         window._ytLastTime = e.target.getCurrentTime();
                     }
                     window._ytPlaying = false;
+                    window._ytLastRealTime = 0;
                 }
             }
         }
     });
+
+    // Poll every second to accumulate credits while playing
+    setInterval(function() {
+        if (!window._ytPlaying || !player || typeof player.getCurrentTime !== 'function') return;
+        var ct = player.getCurrentTime();
+        var now = Date.now();
+        if (window._ytLastRealTime > 0) {
+            var elapsed = (now - window._ytLastRealTime) / 1000;
+            var posDelta = ct - window._ytLastTime;
+            // Accept position delta only if it is close to elapsed wall-clock time (≤ 2×)
+            if (posDelta >= 0 && posDelta <= elapsed * 2 + 1) {
+                // Credit actual playback progress, capped to elapsed real time
+                window._ytCreditedSeconds += Math.min(posDelta, elapsed);
+                // Keep main seconds counter in sync with credited time
+                if (typeof seconds !== 'undefined') {
+                    seconds = Math.max(seconds, Math.floor(window._ytCreditedSeconds));
+                }
+            } else if (posDelta > elapsed * 2 + 1) {
+                // Position advanced too fast — likely a seek, penalise by removing excess
+                var excess = Math.max(0, posDelta - elapsed);
+                window._ytCreditedSeconds = Math.max(0, window._ytCreditedSeconds - excess);
+                if (typeof seconds !== 'undefined') {
+                    seconds = Math.max(0, Math.min(seconds, Math.floor(window._ytCreditedSeconds)));
+                }
+            }
+        }
+        window._ytLastTime = ct;
+        window._ytLastRealTime = now;
+    }, 1000);
 };
 </script>
 <script src="https://www.youtube.com/iframe_api"></script>
