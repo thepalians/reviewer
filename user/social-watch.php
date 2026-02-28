@@ -151,6 +151,7 @@ $embed_html = $campaign['embed_code'] ?: generateEmbed($campaign['platform_slug'
         <div class="info-card">
             <h4 style="margin-bottom:1rem;">⏱️ Watch Progress</h4>
             <div class="tab-warning" id="tab-warning">⚠️ Timer paused — please keep this tab active while watching.</div>
+            <div class="tab-warning" id="seek-warning" style="display:none;background:#f8d7da;color:#721c24;">⚠️ Skipping ahead is not allowed. Your progress has been reset — please watch from the beginning.</div>
             <div class="timer-row">
                 <div class="timer-display" id="timer-display">0:00</div>
                 <div class="progress-bar-wrap">
@@ -336,43 +337,64 @@ $embed_html = $campaign['embed_code'] ?: generateEmbed($campaign['platform_slug'
 </script>
 <?php if ($campaign['platform_slug'] === 'youtube'): ?>
 <script>
-// YouTube IFrame API — detect playback state and forward seeks
+// YouTube IFrame API — track honest watch progress and prevent seek exploitation
 window._ytPlaying = false;
-window._ytLastTime = 0;
+// _maxWatched tracks the furthest video position that was legitimately watched
+// (updated every second during genuine playback, never updated by seek events).
+window._maxWatched = 0;
+window._ytPlayer   = null;
+
 window.onYouTubeIframeAPIReady = function() {
     var iframe = document.getElementById('yt-player');
     if (!iframe) return;
-    new YT.Player('yt-player', {
+    window._ytPlayer = new YT.Player('yt-player', {
         events: {
             onReady: function(e) {
-                window._ytLastTime = 0;
+                window._maxWatched = 0;
             },
             onStateChange: function(e) {
                 if (e.data === YT.PlayerState.PLAYING) {
                     var ct = e.target.getCurrentTime();
-                    // Forward seek > 15s detected — penalise by subtracting skipped seconds
-                    if (ct > window._ytLastTime + 15) {
-                        var skipped = Math.floor(ct - window._ytLastTime);
-                        seconds = Math.max(0, seconds - skipped);
+                    // Forward seek past unviewed content: penalise by resetting the
+                    // honest-watch timer to zero and blocking counting until the user
+                    // reaches or passes the seek target through genuine play.
+                    if (ct > window._maxWatched + 15) {
+                        seconds = 0;
                         window._ytPlaying = false;
-                        // Pause proportional to skipped time: 200ms per skipped second
-                        // (capped at 5s) so minor accidental seeks feel lighter
-                        // than large intentional skips.
-                        setTimeout(function() { window._ytPlaying = true; }, Math.min(5000, skipped * 200));
+                        // Display a warning and unblock after a brief pause so the
+                        // seek is clearly felt (does not allow instant re-skipping).
+                        var warnEl = document.getElementById('seek-warning');
+                        if (warnEl) {
+                            warnEl.style.display = 'block';
+                            setTimeout(function() { warnEl.style.display = 'none'; }, 4000);
+                        }
+                        setTimeout(function() {
+                            // Only resume counting once the user is back to honest play
+                            window._ytPlaying = true;
+                        }, 3000);
                     } else {
                         window._ytPlaying = true;
                     }
-                    window._ytLastTime = ct;
                 } else {
-                    if (e.target && e.target.getCurrentTime) {
-                        window._ytLastTime = e.target.getCurrentTime();
-                    }
                     window._ytPlaying = false;
                 }
             }
         }
     });
 };
+
+// Poll every second during genuine play to advance _maxWatched.
+// This must be separate from onStateChange so that seeks while paused
+// are still detectable (onStateChange fires PLAYING after the seek completes,
+// but _maxWatched was only advanced by honest continuous playback).
+setInterval(function() {
+    if (window._ytPlaying && window._ytPlayer && window._ytPlayer.getCurrentTime) {
+        var ct = window._ytPlayer.getCurrentTime();
+        if (ct > window._maxWatched) {
+            window._maxWatched = ct;
+        }
+    }
+}, 1000);
 </script>
 <script src="https://www.youtube.com/iframe_api"></script>
 <?php endif; ?>

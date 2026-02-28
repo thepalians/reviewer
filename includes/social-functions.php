@@ -241,6 +241,43 @@ if (!function_exists('createCampaign')) {
      * Create a new social campaign and deduct seller wallet
      */
     function createCampaign(PDO $pdo, int $seller_id, array $data): array {
+        // Validate platform slug before entering the transaction
+        $platform_slug = $data['platform_slug'] ?? '';
+        if (empty($platform_slug)) {
+            return ['success' => false, 'message' => 'Platform not recognised. Please select a valid platform.'];
+        }
+
+        // Ensure the wallet transaction log table exists (DDL auto-commits in MySQL,
+        // so this must run BEFORE beginTransaction() to avoid breaking the transaction).
+        $ddlError = null;
+        try {
+            $pdo->exec("
+                CREATE TABLE IF NOT EXISTS seller_wallet_transactions (
+                    id INT PRIMARY KEY AUTO_INCREMENT,
+                    seller_id INT NOT NULL,
+                    type ENUM('credit','debit') NOT NULL,
+                    amount DECIMAL(10,2) NOT NULL,
+                    description TEXT,
+                    reference_id INT DEFAULT NULL,
+                    reference_type VARCHAR(50) DEFAULT NULL,
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    INDEX idx_seller (seller_id),
+                    FOREIGN KEY (seller_id) REFERENCES sellers(id)
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+            ");
+        } catch (PDOException $e) {
+            $ddlError = $e->getMessage();
+            error_log("createCampaign: could not ensure seller_wallet_transactions table: " . $ddlError);
+            // If the table truly cannot be created or accessed, fail early with a clear message.
+            // Check whether the table already exists before giving up.
+            try {
+                $pdo->query("SELECT 1 FROM seller_wallet_transactions LIMIT 1");
+                $ddlError = null; // table exists despite the DDL warning — safe to continue
+            } catch (PDOException $e2) {
+                return ['success' => false, 'message' => 'A required database table is missing. Please run the latest migration scripts and try again.'];
+            }
+        }
+
         try {
             $pdo->beginTransaction();
 
@@ -257,11 +294,10 @@ if (!function_exists('createCampaign')) {
 
             if ($balance < $budget) {
                 $pdo->rollBack();
-                return ['success' => false, 'message' => 'Insufficient wallet balance. Required: ₹' . number_format($budget, 2)];
+                return ['success' => false, 'message' => 'Insufficient wallet balance. Required: ₹' . number_format($budget, 2) . ', available: ₹' . number_format($balance, 2)];
             }
 
             // Extract embed code and thumbnail
-            $platform_slug = $data['platform_slug'] ?? '';
             $embed_code    = generateEmbed($platform_slug, $data['content_url']);
             $thumbnail_url = $data['thumbnail_url'] ?? '';
 
@@ -301,21 +337,7 @@ if (!function_exists('createCampaign')) {
             // Deduct seller wallet
             $pdo->prepare("UPDATE seller_wallet SET balance = balance - ? WHERE seller_id = ?")->execute([$budget, $seller_id]);
 
-            // Ensure transaction log table exists, then log the debit
-            $pdo->exec("
-                CREATE TABLE IF NOT EXISTS seller_wallet_transactions (
-                    id INT PRIMARY KEY AUTO_INCREMENT,
-                    seller_id INT NOT NULL,
-                    type ENUM('credit','debit') NOT NULL,
-                    amount DECIMAL(10,2) NOT NULL,
-                    description TEXT,
-                    reference_id INT DEFAULT NULL,
-                    reference_type VARCHAR(50) DEFAULT NULL,
-                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                    INDEX idx_seller (seller_id),
-                    FOREIGN KEY (seller_id) REFERENCES sellers(id)
-                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
-            ");
+            // Log the wallet debit
             $stmt = $pdo->prepare("
                 INSERT INTO seller_wallet_transactions (seller_id, type, amount, description, created_at)
                 VALUES (?, 'debit', ?, ?, NOW())
@@ -330,7 +352,7 @@ if (!function_exists('createCampaign')) {
                 $pdo->rollBack();
             }
             error_log("createCampaign error: " . $e->getMessage());
-            return ['success' => false, 'message' => 'Failed to create campaign. Please try again.'];
+            return ['success' => false, 'message' => 'Campaign could not be saved. Please check your inputs and try again.'];
         }
     }
 }
