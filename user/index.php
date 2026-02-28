@@ -166,7 +166,7 @@ try {
         .stat-action a:hover{opacity:1}
         
         /* Quick Actions */
-        .quick-actions{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-bottom:20px}
+        .quick-actions{display:grid;grid-template-columns:repeat(7,1fr);gap:10px;margin-bottom:20px}
         .action-btn{background:#fff;border-radius:12px;padding:15px 10px;text-align:center;text-decoration:none;color:#333;transition:all 0.2s;box-shadow:0 3px 10px rgba(0,0,0,0.08)}
         .action-btn:hover{transform:translateY(-3px);box-shadow:0 5px 20px rgba(0,0,0,0.12)}
         .action-btn .icon{font-size:24px;margin-bottom:6px}

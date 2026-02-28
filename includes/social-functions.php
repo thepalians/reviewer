@@ -301,7 +301,21 @@ if (!function_exists('createCampaign')) {
             // Deduct seller wallet
             $pdo->prepare("UPDATE seller_wallet SET balance = balance - ? WHERE seller_id = ?")->execute([$budget, $seller_id]);
 
-            // Log transaction
+            // Ensure transaction log table exists, then log the debit
+            $pdo->exec("
+                CREATE TABLE IF NOT EXISTS seller_wallet_transactions (
+                    id INT PRIMARY KEY AUTO_INCREMENT,
+                    seller_id INT NOT NULL,
+                    type ENUM('credit','debit') NOT NULL,
+                    amount DECIMAL(10,2) NOT NULL,
+                    description TEXT,
+                    reference_id INT DEFAULT NULL,
+                    reference_type VARCHAR(50) DEFAULT NULL,
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    INDEX idx_seller (seller_id),
+                    FOREIGN KEY (seller_id) REFERENCES sellers(id)
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+            ");
             $stmt = $pdo->prepare("
                 INSERT INTO seller_wallet_transactions (seller_id, type, amount, description, created_at)
                 VALUES (?, 'debit', ?, ?, NOW())
