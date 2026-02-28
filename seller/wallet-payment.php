@@ -141,7 +141,7 @@ try {
         $seller['company_name'] ?? $seller['name'],
         $seller['billing_address'] ?? '',
         $gst_settings['gst_number'] ?? '',
-        $gst_settings['legal_name'] ?? 'ReviewFlow',
+        $gst_settings['legal_name'] ?? 'TestProduct',
         $gst_settings['registered_address'] ?? '',
         $request['total_amount'],
         $cgst,

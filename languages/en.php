@@ -6,7 +6,7 @@
 
 return [
     // General
-    'general.app_name' => 'ReviewFlow',
+    'general.app_name' => 'TestProduct',
     'general.welcome' => 'Welcome',
     'general.dashboard' => 'Dashboard',
     'general.profile' => 'Profile',

@@ -7,7 +7,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-3 mb-3">
-                <h5>ReviewFlow</h5>
+                <h5><?php echo htmlspecialchars(APP_NAME); ?></h5>
                 <p>Reviewer Task Management System</p>
                 <p>Helping reviewers get compensated for honest product feedback.</p>
             </div>
@@ -38,7 +38,7 @@
         </div>
         <hr class="bg-white">
         <div class="text-center">
-            <p class="mb-0">&copy; <?php echo date('Y'); ?> ReviewFlow - Reviewer Task Management System. All rights reserved.</p>
+            <p class="mb-0">&copy; <?php echo date('Y'); ?> <?php echo htmlspecialchars(APP_NAME); ?> - Reviewer Task Management System. All rights reserved.</p>
         </div>
     </div>
 </footer>

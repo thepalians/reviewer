@@ -136,7 +136,7 @@ $is_user = isUser();
         <div class="container">
             <!-- Brand -->
             <a class="navbar-brand" href="<?php echo $is_logged_in ? ($is_admin ? BASE_URL . '/admin/dashboard.php' : BASE_URL . '/user/dashboard.php') : BASE_URL . '/'; ?>">
-                <i class="bi bi-check-circle-fill"></i> ReviewFlow
+                <i class="bi bi-check-circle-fill"></i> <?php echo htmlspecialchars(APP_NAME); ?>
             </a>
             
             <!-- Mobile Toggle -->

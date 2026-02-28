@@ -59,7 +59,7 @@ foreach ($allLanguages as $lang) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo $page_title; ?> - ReviewFlow Admin</title>
+    <title><?php echo $page_title; ?> - <?php echo APP_NAME; ?> Admin</title>
     <style>
         body {
             font-family: Arial, sans-serif;

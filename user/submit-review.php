@@ -41,6 +41,12 @@ try {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Check if user clicked Skip
+    if (isset($_POST['skip_review'])) {
+        header('Location: ' . APP_URL . '/user/submit-refund.php?task_id=' . $task_id);
+        exit;
+    }
+
     $review_screenshot = $step_data['review_screenshot'] ?? '';
     
     if (isset($_FILES['review_screenshot']) && $_FILES['review_screenshot']['error'] === UPLOAD_ERR_OK) {
@@ -69,9 +75,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $errors[] = 'Upload failed';
             }
         }
-    } elseif (empty($review_screenshot)) {
-        $errors[] = 'Screenshot required';
     }
+    // Screenshot is optional — if no new file uploaded and no existing screenshot, that's fine
     
     if (empty($errors) && !empty($review_screenshot)) {
         try {
@@ -89,6 +94,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } catch (PDOException $e) {
             $errors[] = 'Save failed';
         }
+    } elseif (empty($errors) && empty($review_screenshot)) {
+        // No screenshot submitted — skip to Step 4
+        header('Location: ' . APP_URL . '/user/submit-refund.php?task_id=' . $task_id);
+        exit;
     }
 }
 ?>
@@ -120,8 +129,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body>
 <div class="form-box">
-    <h2>⭐ Step 3: Review Submitted</h2>
-    <div class="info-box">📌 Task #<?php echo $task_id; ?><br><small>Upload screenshot of your submitted review</small></div>
+    <h2>⭐ Step 3: Amazon Review (Optional)</h2>
+    <div class="info-box">📌 Task #<?php echo $task_id; ?><br><small>If you submit a review on Amazon, it would be greatly appreciated and helps us grow!</small></div>
     
     <?php if ($success): ?>
         <div class="alert alert-success">✓ Saved! <a href="<?php echo APP_URL; ?>/user/submit-refund.php?task_id=<?php echo $task_id; ?>">Continue to Step 4 →</a></div>
@@ -130,14 +139,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     <form method="POST" enctype="multipart/form-data">
         <div class="form-group">
-            <label>Review Screenshot *</label>
-            <input type="file" name="review_screenshot" accept="image/*" <?php echo empty($step_data['review_screenshot']) ? 'required' : ''; ?>>
-            <div class="file-info">Max 5MB • JPG, PNG, WebP</div>
+            <label>Amazon Review Screenshot <span style="color:#888;font-weight:normal">(optional)</span></label>
+            <input type="file" name="review_screenshot" accept="image/*">
+            <div class="file-info">Max 5MB • JPG, PNG, WebP — Leave empty to skip this step</div>
             <?php if (!empty($step_data['review_screenshot'])): ?>
                 <div class="preview"><img src="<?php echo escape($step_data['review_screenshot']); ?>" alt="Preview"></div>
             <?php endif; ?>
         </div>
-        <button type="submit" class="btn btn-primary">Submit Step 3</button>
+        <button type="submit" class="btn btn-primary">Submit Amazon Review</button>
+    </form>
+    <form method="POST" style="margin-top:10px">
+        <button type="submit" name="skip_review" value="1" class="btn" style="background:#95a5a6;color:#fff">Skip — Continue to Step 4 →</button>
     </form>
     <div class="links">
         <a href="<?php echo APP_URL; ?>/user/">← Dashboard</a>
