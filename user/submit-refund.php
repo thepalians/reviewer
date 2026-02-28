@@ -266,9 +266,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         .spinner{width:50px;height:50px;border:4px solid #fff;border-top-color:#667eea;border-radius:50%;animation:spin 1s linear infinite}
         .loading-text{color:#fff;margin-top:15px}
         .star-rating{display:flex;gap:8px;margin-bottom:10px}
-        .star-rating input[type=radio]{display:none}
-        .star-rating label{font-size:30px;cursor:pointer;color:#ddd;transition:color 0.2s}
-        .star-rating input[type=radio]:checked ~ label,.star-rating label:hover,.star-rating label:hover ~ label{color:#f59e0b}
+        .star-rating input[type=radio]{position:absolute;opacity:0;width:0;height:0}
+        .star-rating label{font-size:30px;cursor:pointer;color:#ddd;transition:color 0.2s;outline:none}
+        .star-rating label:focus-visible{outline:2px solid #667eea;border-radius:4px}
+        .star-rating input[type=radio]:checked ~ label,.star-rating label:hover,.star-rating label:hover ~ label{color:#f59e0b;text-shadow:0 0 3px rgba(245,158,11,0.4)}
+        .star-rating input[type=radio]:checked + label{font-weight:bold}
         .star-rating{flex-direction:row-reverse;justify-content:flex-end}
         @keyframes spin{to{transform:rotate(360deg)}}
     </style>
@@ -300,16 +302,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <div class="upload-desc">Rate the product quality (1 = Poor, 5 = Excellent)</div>
                     <div class="star-rating">
                         <?php $existing_rating = intval($step_data['rating'] ?? 0); ?>
-                        <input type="radio" id="star5" name="rating" value="5" <?php echo $existing_rating === 5 ? 'checked' : ''; ?> required>
-                        <label for="star5" title="5 stars">★</label>
-                        <input type="radio" id="star4" name="rating" value="4" <?php echo $existing_rating === 4 ? 'checked' : ''; ?>>
-                        <label for="star4" title="4 stars">★</label>
-                        <input type="radio" id="star3" name="rating" value="3" <?php echo $existing_rating === 3 ? 'checked' : ''; ?>>
-                        <label for="star3" title="3 stars">★</label>
-                        <input type="radio" id="star2" name="rating" value="2" <?php echo $existing_rating === 2 ? 'checked' : ''; ?>>
-                        <label for="star2" title="2 stars">★</label>
-                        <input type="radio" id="star1" name="rating" value="1" <?php echo $existing_rating === 1 ? 'checked' : ''; ?>>
-                        <label for="star1" title="1 star">★</label>
+                        <input type="radio" id="star5" name="rating" value="5" <?php echo $existing_rating === 5 ? 'checked' : ''; ?> required aria-label="5 stars - Excellent">
+                        <label for="star5" title="5 stars - Excellent">★</label>
+                        <input type="radio" id="star4" name="rating" value="4" <?php echo $existing_rating === 4 ? 'checked' : ''; ?> aria-label="4 stars - Good">
+                        <label for="star4" title="4 stars - Good">★</label>
+                        <input type="radio" id="star3" name="rating" value="3" <?php echo $existing_rating === 3 ? 'checked' : ''; ?> aria-label="3 stars - Average">
+                        <label for="star3" title="3 stars - Average">★</label>
+                        <input type="radio" id="star2" name="rating" value="2" <?php echo $existing_rating === 2 ? 'checked' : ''; ?> aria-label="2 stars - Poor">
+                        <label for="star2" title="2 stars - Poor">★</label>
+                        <input type="radio" id="star1" name="rating" value="1" <?php echo $existing_rating === 1 ? 'checked' : ''; ?> aria-label="1 star - Very Poor">
+                        <label for="star1" title="1 star - Very Poor">★</label>
                     </div>
                 </div>
                 
