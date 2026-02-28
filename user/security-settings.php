@@ -74,7 +74,7 @@ $qrCodeUrl = !empty($tempSecret) ? get2FAQRCodeUrl($tempSecret, $user_email) : '
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Security Settings - ReviewFlow</title>
+    <title>Security Settings - <?php echo APP_NAME; ?></title>
     <style>
         body {
             font-family: Arial, sans-serif;

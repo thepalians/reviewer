@@ -51,6 +51,8 @@ try {
     $step3_done = $step3 && $step3['step_status'] === 'completed';
     $step4_done = $step4 && $step4['step_status'] === 'completed';
     $step4_pending = $step4 && $step4['step_status'] === 'pending_admin';
+    // Step 4 is accessible once Step 2 is done (Step 3 is optional)
+    $step4_unlocked = $step2_done;
     
     // Check if user has verified KYC
     $kyc_approved = isKYCApproved($pdo, $user_id);
@@ -205,31 +207,36 @@ try {
     <!-- STEP 3 -->
     <div class="card step-card <?php echo $step3_done ? 'done' : ($step2_done ? '' : 'locked'); ?>">
         <div class="step-header">
-            <div class="step-title">⭐ Step 3: Review Submitted</div>
+            <div class="step-title">⭐ Step 3: Amazon Review <span style="font-size:11px;background:#f0f4ff;color:#667eea;padding:2px 8px;border-radius:10px;margin-left:6px">Optional</span></div>
             <span class="status-badge <?php echo $step3_done ? 'status-completed' : ($step2_done ? 'status-pending' : 'status-pending'); ?>">
-                <?php echo $step3_done ? '✓ Done' : ($step2_done ? 'Ready' : '🔒 Locked'); ?>
+                <?php echo $step3_done ? '✓ Done' : ($step2_done ? 'Optional' : '🔒 Locked'); ?>
             </span>
         </div>
+        <?php if ($step2_done): ?>
+            <p style="color:#27ae60;font-size:13px;background:#f0fff4;padding:10px;border-radius:8px;margin-bottom:12px">
+                💡 If you submit a review on Amazon, it would be greatly appreciated and helps us grow!
+            </p>
+        <?php endif; ?>
         <?php if ($step3 && !empty($step3['review_submitted_screenshot'])): ?>
             <div class="field"><div class="field-label">Screenshot</div><div class="field-value"><a href="<?php echo escape($step3['review_submitted_screenshot']); ?>" target="_blank" class="screenshot-link">View Review Proof →</a></div></div>
         <?php elseif ($step2_done): ?>
-            <p style="color:#666">Upload review screenshot to complete this step</p>
+            <p style="color:#666">Optionally upload your Amazon review screenshot</p>
         <?php else: ?>
             <p style="color:#999">Complete Step 2 first</p>
         <?php endif; ?>
         <?php if ($step2_done && !$task['refund_requested']): ?>
-            <a href="<?php echo APP_URL; ?>/user/submit-review.php?task_id=<?php echo $task_id; ?>" class="action-btn"><?php echo $step3 ? '✎ Edit' : 'Submit'; ?> Step 3</a>
+            <a href="<?php echo APP_URL; ?>/user/submit-review.php?task_id=<?php echo $task_id; ?>" class="action-btn" style="background:#667eea"><?php echo $step3 ? '✎ Edit' : 'Submit'; ?> Amazon Review (Optional)</a>
         <?php elseif (!$step2_done): ?>
             <span class="action-btn locked">🔒 Complete Step 2 First</span>
         <?php endif; ?>
     </div>
     
     <!-- STEP 4 -->
-    <div class="card step-card <?php echo $step4_done ? 'done' : ($step4_pending ? 'pending' : ($step3_done ? '' : 'locked')); ?>">
+    <div class="card step-card <?php echo $step4_done ? 'done' : ($step4_pending ? 'pending' : ($step4_unlocked ? '' : 'locked')); ?>">
         <div class="step-header">
-            <div class="step-title">💰 Step 4: Refund Request</div>
-            <span class="status-badge <?php echo $step4_done ? 'status-completed' : ($step4_pending ? 'status-processing' : ($step3_done ? 'status-pending' : 'status-pending')); ?>">
-                <?php echo $step4_done ? '✓ Completed' : ($step4_pending ? '⏳ Processing' : ($step3_done ? 'Ready' : '🔒 Locked')); ?>
+            <div class="step-title">💰 Step 4: Product Feedback & Refund</div>
+            <span class="status-badge <?php echo $step4_done ? 'status-completed' : ($step4_pending ? 'status-processing' : ($step4_unlocked ? 'status-pending' : 'status-pending')); ?>">
+                <?php echo $step4_done ? '✓ Completed' : ($step4_pending ? '⏳ Processing' : ($step4_unlocked ? 'Ready' : '🔒 Locked')); ?>
             </span>
         </div>
         
@@ -281,24 +288,24 @@ try {
                 </div>
             <?php endif; ?>
             
-        <?php elseif ($step3_done): ?>
-            <p style="color:#666">Submit review live screenshot and your QR code to request refund</p>
+        <?php elseif ($step4_unlocked): ?>
+            <p style="color:#666">Provide your product feedback and QR code to request refund</p>
         <?php else: ?>
-            <p style="color:#999">Complete Step 3 first</p>
+            <p style="color:#999">Complete Step 2 first</p>
         <?php endif; ?>
         
-        <?php if ($step3_done && !$task['refund_requested']): ?>
+        <?php if ($step4_unlocked && !$task['refund_requested']): ?>
             <?php if ($kyc_approved): ?>
-                <a href="<?php echo APP_URL; ?>/user/submit-refund.php?task_id=<?php echo $task_id; ?>" class="action-btn" style="background:#27ae60">💰 Request Refund</a>
+                <a href="<?php echo APP_URL; ?>/user/submit-refund.php?task_id=<?php echo $task_id; ?>" class="action-btn" style="background:#27ae60">💰 Submit Feedback & Request Refund</a>
             <?php else: ?>
                 <div style="background:#fff3cd;border:2px solid #f39c12;padding:15px;border-radius:8px;margin-top:15px;text-align:center">
                     <strong>🔐 KYC Required</strong><br>
-                    <small>Step 4 complete karne ke liye KYC verification zaroori hai</small>
+                    <small>Please complete your KYC verification to proceed to Step 4</small>
                     <a href="<?php echo APP_URL; ?>/user/kyc.php" class="action-btn" style="background:#f39c12;margin-top:10px">📋 Complete KYC Now</a>
                 </div>
             <?php endif; ?>
-        <?php elseif (!$step3_done && !$step4): ?>
-            <span class="action-btn locked">🔒 Complete Step 3 First</span>
+        <?php elseif (!$step4_unlocked && !$step4): ?>
+            <span class="action-btn locked">🔒 Complete Step 2 First</span>
         <?php endif; ?>
     </div>
 </div>

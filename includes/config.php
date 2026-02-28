@@ -19,7 +19,7 @@ define('DB_NAME', env('DB_NAME', 'reviewflow'));
 define('DB_CHARSET', env('DB_CHARSET', 'utf8mb4'));
 
 // Application Settings
-define('APP_NAME', env('APP_NAME', 'ReviewFlow'));
+define('APP_NAME', env('APP_NAME', 'TestProduct'));
 define('APP_URL', env('APP_URL', 'https://palians.com/reviewer'));
 define('BASE_URL', APP_URL); // Alias for shared header/footer templates (legacy usage).
 define('ADMIN_URL', env('ADMIN_URL', 'https://palians.com/reviewer/admin'));
@@ -55,7 +55,7 @@ define('SMTP_PORT', (int)env('SMTP_PORT', 587));
 define('SMTP_USER', env('SMTP_USER', ''));
 define('SMTP_PASS', env('SMTP_PASS', ''));
 define('SMTP_FROM', env('SMTP_FROM', 'noreply@palians.com'));
-define('SMTP_FROM_NAME', env('SMTP_FROM_NAME', 'ReviewFlow'));
+define('SMTP_FROM_NAME', env('SMTP_FROM_NAME', 'TestProduct'));
 
 // Payment Gateway Settings (Override with database settings)
 define('RAZORPAY_KEY_ID', env('RAZORPAY_KEY_ID', ''));

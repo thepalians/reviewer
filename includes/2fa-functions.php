@@ -47,7 +47,7 @@ function generateBackupCodes(int $count = 10): array {
  * @param string $issuer
  * @return string QR code URL
  */
-function get2FAQRCodeUrl(string $secret, string $email, string $issuer = 'ReviewFlow'): string {
+function get2FAQRCodeUrl(string $secret, string $email, string $issuer = 'TestProduct'): string {
     $encodedIssuer = rawurlencode($issuer);
     $encodedEmail = rawurlencode($email);
     

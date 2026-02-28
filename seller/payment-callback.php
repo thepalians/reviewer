@@ -251,7 +251,7 @@ if ($action === 'initiate') {
             $seller['company_name'] ?? $seller['name'],
             $seller['address'] ?? '',
             $gst_settings['gst_number'] ?? '',
-            $gst_settings['legal_name'] ?? 'ReviewFlow',
+            $gst_settings['legal_name'] ?? 'TestProduct',
             $gst_settings['address'] ?? '',
             $request['total_amount'],
             $cgst,

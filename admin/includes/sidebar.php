@@ -126,6 +126,7 @@ if (!isset($current_page)) {
         <li><a href="<?php echo ADMIN_URL; ?>/withdrawals.php" class="<?= $current_page === 'withdrawals' ? 'active' : '' ?>">💸 Withdrawals <?php if($pending_withdrawals > 0): ?><span class="badge"><?php echo $pending_withdrawals; ?></span><?php endif; ?></a></li>
         <li><a href="<?php echo ADMIN_URL; ?>/wallet-requests.php" class="<?= $current_page === 'wallet-requests' ? 'active' : '' ?>">💳 Wallet Recharges <?php if($pending_wallet_recharges > 0): ?><span class="badge"><?php echo $pending_wallet_recharges; ?></span><?php endif; ?></a></li>
         <li><a href="<?php echo ADMIN_URL; ?>/seller-wallet-manage.php" class="<?= $current_page === 'seller-wallet-manage' ? 'active' : '' ?>">🏦 Manage Seller Wallet</a></li>
+        <li><a href="<?php echo ADMIN_URL; ?>/add-bonus.php" class="<?= $current_page === 'add-bonus' ? 'active' : '' ?>">🎁 Add User Bonus</a></li>
         
         <!-- Sellers Section -->
         <div class="sidebar-divider"></div>
