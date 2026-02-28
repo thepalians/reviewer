@@ -112,6 +112,7 @@ $csrf_token = generateCSRFToken();
         .sidebar-menu a:hover,.sidebar-menu a.active{background:rgba(255,255,255,0.15);color:#fff}
         .sidebar-divider{height:1px;background:rgba(255,255,255,0.08);margin:10px 20px}
         .badge{background:#e74c3c;color:#fff;font-size:10px;padding:2px 6px;border-radius:10px;margin-left:auto}
+        .menu-section-label{padding:8px 20px;font-size:11px;font-weight:600;text-transform:uppercase;color:rgba(255,255,255,0.4);letter-spacing:1px;pointer-events:none}
         .main-content{padding:25px;overflow-x:auto}
         @media(max-width:900px){.admin-layout{grid-template-columns:1fr}.sidebar{display:none}}
         .status-badge { padding:0.3rem 0.75rem;border-radius:20px;font-size:0.78rem;font-weight:600; }
