@@ -65,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $watch_percent_required = max(25, min(100, $watch_percent_required));
 
-            $result = createCampaign($pdo, $seller_id, [
+            $result = createSocialCampaign($pdo, $seller_id, [
                 'platform_id'            => $platform_id,
                 'platform_slug'          => $platform_slug,
                 'title'                  => $title,

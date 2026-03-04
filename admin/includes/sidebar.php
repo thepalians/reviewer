@@ -144,6 +144,7 @@ if (!isset($current_page)) {
         <li class="menu-section-label"><span>🎮 Gamification</span></li>
         <li><a href="<?php echo ADMIN_URL; ?>/gamification-settings.php" class="<?= $current_page === 'gamification-settings' ? 'active' : '' ?>">⚙️ Gamification Settings</a></li>
         <li><a href="<?php echo ADMIN_URL; ?>/leaderboard.php" class="<?= $current_page === 'leaderboard' ? 'active' : '' ?>">🏆 Leaderboard</a></li>
+        <li><a href="<?php echo ADMIN_URL; ?>/monthly-bonus.php" class="<?= $current_page === 'monthly-bonus' ? 'active' : '' ?>">🏅 Monthly Bonus</a></li>
         
         <!-- Support (Phase 2) -->
         <div class="sidebar-divider"></div>
