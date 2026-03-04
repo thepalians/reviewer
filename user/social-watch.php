@@ -340,12 +340,11 @@ $embed_html = $campaign['embed_code'] ?: generateEmbed($campaign['platform_slug'
 </script>
 <?php if ($campaign['platform_slug'] === 'youtube'): ?>
 <script>
-// YouTube IFrame API — track honest watch progress and prevent seek exploitation
-window._ytPlaying = false;
-// _maxWatched tracks the furthest video position that was legitimately watched
-// (updated every second during genuine playback, never updated by seek events).
-window._maxWatched = 0;
-window._ytPlayer   = null;
+// YouTube IFrame API — improved anti-cheat with credited-seconds tracking
+window._ytPlaying    = false;
+window._ytCreditedSeconds = 0;
+window._ytLastRealTime    = 0;
+window._ytPlayer     = null;
 
 window.onYouTubeIframeAPIReady = function() {
     var iframe = document.getElementById('yt-player');
@@ -353,50 +352,75 @@ window.onYouTubeIframeAPIReady = function() {
     window._ytPlayer = new YT.Player('yt-player', {
         events: {
             onReady: function(e) {
-                window._maxWatched = 0;
+                window._ytCreditedSeconds = 0;
+                window._ytLastRealTime    = 0;
+                window._ytLastRealPos     = 0;
             },
             onStateChange: function(e) {
                 if (e.data === YT.PlayerState.PLAYING) {
-                    var ct = e.target.getCurrentTime();
-                    // Forward seek past unviewed content: penalise by resetting the
-                    // honest-watch timer to zero and blocking counting until the user
-                    // reaches or passes the seek target through genuine play.
-                    if (ct > window._maxWatched + 15) {
-                        seconds = 0;
-                        window._ytPlaying = false;
-                        // Display a warning and unblock after a brief pause so the
-                        // seek is clearly felt (does not allow instant re-skipping).
+                    var ct  = e.target.getCurrentTime();
+                    var now = Date.now() / 1000;
+                    // Detect a forward seek of more than 3 seconds
+                    var lastPos   = window._ytLastRealPos || 0;
+                    var seekDelta = ct - lastPos;
+                    if (lastPos > 0 && seekDelta > 3) {
+                        // Penalise: subtract the skipped amount from credited seconds
+                        var skipped = seekDelta - 3;
+                        window._ytCreditedSeconds = Math.max(0, window._ytCreditedSeconds - skipped);
+                        seconds = Math.floor(window._ytCreditedSeconds);
                         var warnEl = document.getElementById('seek-warning');
                         if (warnEl) {
                             warnEl.style.display = 'block';
                             setTimeout(function() { warnEl.style.display = 'none'; }, 4000);
                         }
-                        setTimeout(function() {
-                            // Only resume counting once the user is back to honest play
-                            window._ytPlaying = true;
-                        }, 3000);
-                    } else {
-                        window._ytPlaying = true;
                     }
+                    window._ytLastRealPos  = ct;
+                    window._ytLastRealTime = now;
+                    window._ytPlaying      = true;
+                } else if (e.data === YT.PlayerState.PAUSED) {
+                    // Accumulate credited seconds on pause, capped to 30s per interval
+                    if (window._ytLastRealTime > 0 && window._ytPlaying) {
+                        var elapsed = Math.min(30, Date.now() / 1000 - window._ytLastRealTime);
+                        window._ytCreditedSeconds += Math.max(0, elapsed);
+                        seconds = Math.floor(window._ytCreditedSeconds);
+                    }
+                    window._ytPlaying      = false;
+                    window._ytLastRealTime = 0;
                 } else {
-                    window._ytPlaying = false;
+                    if (window._ytLastRealTime > 0 && window._ytPlaying) {
+                        var elapsed = Math.min(30, Date.now() / 1000 - window._ytLastRealTime);
+                        window._ytCreditedSeconds += Math.max(0, elapsed);
+                        seconds = Math.floor(window._ytCreditedSeconds);
+                    }
+                    window._ytPlaying      = false;
+                    window._ytLastRealTime = 0;
                 }
             }
         }
     });
 };
 
-// Poll every second during genuine play to advance _maxWatched.
-// This must be separate from onStateChange so that seeks while paused
-// are still detectable (onStateChange fires PLAYING after the seek completes,
-// but _maxWatched was only advanced by honest continuous playback).
+// 1-second polling: credit only genuine playback, penalise impossible speed jumps
 setInterval(function() {
-    if (window._ytPlaying && window._ytPlayer && window._ytPlayer.getCurrentTime) {
-        var ct = window._ytPlayer.getCurrentTime();
-        if (ct > window._maxWatched) {
-            window._maxWatched = ct;
-        }
+    if (!window._ytPlaying || !window._ytPlayer || !window._ytPlayer.getCurrentTime) return;
+    var now     = Date.now() / 1000;
+    var ct      = window._ytPlayer.getCurrentTime();
+    var lastPos = window._ytLastRealPos  || ct;
+    var lastT   = window._ytLastRealTime || now;
+    var posDelta  = ct - lastPos;
+    var elapsed   = now - lastT;
+    // Only credit the minimum of position-delta and elapsed wall-clock time
+    var credit = Math.min(posDelta, elapsed);
+    // Penalise impossible speed (>1.5× real time)
+    if (elapsed > 0 && posDelta / elapsed > 1.5) {
+        credit = elapsed;
     }
+    if (credit > 0) {
+        window._ytCreditedSeconds += credit;
+        seconds = Math.floor(window._ytCreditedSeconds);
+    }
+    window._ytLastRealPos  = ct;
+    window._ytLastRealTime = now;
 }, 1000);
 </script>
 <script src="https://www.youtube.com/iframe_api"></script>
