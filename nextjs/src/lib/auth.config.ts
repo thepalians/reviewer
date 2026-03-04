@@ -5,7 +5,6 @@ import type { NextAuthConfig } from "next-auth";
  * Does NOT import bcryptjs or Prisma (Node.js-only modules).
  */
 export const authConfig: NextAuthConfig = {
-  basePath: "/reviewer/nextjs/api/auth",
   pages: {
     signIn: "/login",
     error: "/login",

@@ -26,6 +26,7 @@ const navItems: NavItem[] = [
   { href: "/user/referrals", label: "My Referrals", emoji: "🔗", section: "🔗 Referrals" },
   // Gamification
   { href: "/user/rewards", label: "Rewards & Points", emoji: "🎮", section: "🎮 Gamification" },
+  { href: "/user/badges", label: "Badges", emoji: "🏅" },
   { href: "/user/spin-wheel", label: "Daily Spin Wheel", emoji: "🎰" },
   { href: "/user/leaderboard", label: "Leaderboard", emoji: "🏆" },
   { href: "/user/competitions", label: "Competitions", emoji: "🏅" },
