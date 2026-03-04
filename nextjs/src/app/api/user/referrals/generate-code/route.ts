@@ -42,6 +42,10 @@ export async function POST(_req: NextRequest) {
       attempts++;
     }
 
+    if (attempts >= 10) {
+      return NextResponse.json({ error: "Failed to generate a unique code. Please try again." }, { status: 500 });
+    }
+
     const updated = await prisma.user.update({
       where: { id: userId },
       data: { referralCode: code },

@@ -16,10 +16,11 @@ interface BlogPost {
   createdAt: string;
 }
 
+const AVERAGE_WORDS_PER_MINUTE = 200;
+
 function estimateReadingTime(content: string): number {
-  const wordsPerMinute = 200;
   const wordCount = content.trim().split(/\s+/).length;
-  return Math.max(1, Math.ceil(wordCount / wordsPerMinute));
+  return Math.max(1, Math.ceil(wordCount / AVERAGE_WORDS_PER_MINUTE));
 }
 
 export default function BlogDetailPage() {

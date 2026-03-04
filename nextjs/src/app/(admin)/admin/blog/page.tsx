@@ -12,6 +12,7 @@ interface BlogPost {
   id: number;
   title: string;
   slug: string;
+  content: string;
   excerpt: string | null;
   status: string;
   createdAt: string;
@@ -78,11 +79,11 @@ export default function AdminBlogPage() {
     setIsModalOpen(true);
   };
 
-  const openEdit = (post: BlogPost & { content?: string }) => {
+  const openEdit = (post: BlogPost) => {
     setForm({
       title: post.title,
       slug: post.slug,
-      content: (post as BlogPost & { content?: string }).content ?? "",
+      content: post.content,
       excerpt: post.excerpt ?? "",
       featuredImage: "",
       status: post.status,
