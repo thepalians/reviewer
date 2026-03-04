@@ -1,6 +1,11 @@
 .env
 vendor/
 node_modules/
+nextjs/.next/
+nextjs/.env.local
+nextjs/.env
+nextjs/node_modules/
+nextjs/tsconfig.tsbuildinfo
 storage/logs/*
 uploads/wallet_screenshots/*
 !uploads/wallet_screenshots/.gitkeep
