@@ -162,7 +162,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $errors[] = 'Review: ' . $result['error'];
         }
     } elseif (empty($review_ss)) {
-        $errors[] = 'Review screenshot required';
+        // Review screenshot is optional — skip if not provided
     }
     
     // Upload QR Code locally
@@ -185,7 +185,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors[] = 'QR code required';
     }
     
-    if (empty($errors) && !empty($review_ss) && !empty($qr_code)) {
+    if (empty($errors) && !empty($qr_code)) {
         try {
             $pdo->beginTransaction();
             
@@ -323,9 +323,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
                 
                 <div class="upload-box">
-                    <div class="upload-title">📸 Review Live Screenshot *</div>
+                    <div class="upload-title">📸 Review Live Screenshot (Optional)</div>
                     <div class="upload-desc">Screenshot showing your review is live</div>
-                    <input type="file" name="review_screenshot" accept="image/*" <?php echo empty($step_data['review_live_screenshot']) ? 'required' : ''; ?>>
+                    <input type="file" name="review_screenshot" accept="image/*">
                     <div class="file-hint">Max 5MB</div>
                     <?php if (!empty($step_data['review_live_screenshot'])): ?>
                         <div class="preview"><small>✓ Uploaded</small><br><a href="<?php echo escape($step_data['review_live_screenshot']); ?>" target="_blank">View Screenshot →</a></div>

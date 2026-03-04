@@ -57,6 +57,9 @@ if ($already_done) {
 // CSRF token
 $csrf_token = generateCSRFToken();
 
+// Allow YouTube/social embeds for social watch
+header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://wa.me; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self'; frame-src 'self' https://www.youtube.com https://youtube.com https://www.youtube-nocookie.com https://player.vimeo.com https://www.instagram.com https://www.facebook.com https://platform.twitter.com; frame-ancestors 'self';");
+
 include '../includes/security.php';
 
 // Build embed based on platform
