@@ -21,7 +21,7 @@ export default function TierBadge({ points, size = "md" }: TierBadgeProps) {
     <span
       className={cn(
         "inline-flex items-center gap-1 rounded-full font-semibold text-white bg-gradient-to-r",
-        `bg-gradient-to-r ${tier.gradient}`,
+        tier.gradient,
         sizeClasses[size]
       )}
     >
