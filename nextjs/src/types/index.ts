@@ -62,7 +62,7 @@ export interface TaskStep {
   taskId: number;
   stepNumber: number;
   stepName?: string;
-  stepStatus: "pending" | "approved" | "rejected" | "completed";
+  stepStatus: "pending" | "submitted" | "approved" | "rejected" | "completed";
   submittedByUser: boolean;
   orderScreenshot?: string;
   deliveryScreenshot?: string;
