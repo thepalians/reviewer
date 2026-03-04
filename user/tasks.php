@@ -26,14 +26,15 @@ switch ($filter) {
         break;
 }
 
-$query .= " ORDER BY FIELD(status, 'assigned', 'step1_completed', 'step2_completed', 'step3_completed', 'refund_requested', 'completed'), deadline ASC";
+$query .= " ORDER BY created_at DESC";
 
 try {
     $stmt = $pdo->prepare($query);
     $stmt->execute($params);
     $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
-    die("Database error: " . $e->getMessage());
+    error_log("Tasks query error: " . $e->getMessage());
+    $tasks = [];
 }
 
 // Count tasks by status
