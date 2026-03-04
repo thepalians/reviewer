@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
-import { prisma } from "@/lib/db";
+import { PrismaClient } from "@prisma/client";
+
+// Use a fresh PrismaClient to avoid any caching/import issues
+const prisma = new PrismaClient();
 
 export async function POST(request: NextRequest) {
   try {
@@ -58,8 +61,14 @@ export async function POST(request: NextRequest) {
       success: true,
       user: { id: user.id, name: user.name, email: user.email, userType: user.userType },
     });
-  } catch (error) {
-    console.error("Login error:", error);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : "Unknown error";
+    const errorStack = error instanceof Error ? error.stack : "";
+    console.error("Login API error:", errorMessage);
+    console.error("Login API stack:", errorStack);
+    return NextResponse.json({
+      error: "Internal server error",
+      debug: process.env.NODE_ENV === "development" ? errorMessage : undefined,
+    }, { status: 500 });
   }
 }
