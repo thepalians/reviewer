@@ -1,0 +1,358 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            Int       @id @default(autoincrement())
+  name          String    @db.VarChar(100)
+  email         String    @unique @db.VarChar(100)
+  mobile        String    @unique @db.VarChar(15)
+  password      String    @db.VarChar(255)
+  userType      String    @default("user") @map("user_type") @db.VarChar(10)
+  status        String    @default("active") @db.VarChar(10)
+  walletBalance Decimal   @default(0) @map("wallet_balance") @db.Decimal(10, 2)
+  referralCode  String?   @unique @map("referral_code") @db.VarChar(20)
+  referredBy    Int?      @map("referred_by")
+  accountName   String?   @map("account_name") @db.VarChar(100)
+  accountNumber String?   @map("account_number") @db.VarChar(50)
+  bankName      String?   @map("bank_name") @db.VarChar(100)
+  ifscCode      String?   @map("ifsc_code") @db.VarChar(20)
+  upiId         String?   @map("upi_id") @db.VarChar(100)
+  lastLogin     DateTime? @map("last_login")
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+
+  tasks             Task[]
+  walletTransactions WalletTransaction[]
+  chatMessages      ChatMessage[]
+  socialCompletions SocialTaskCompletion[]
+  socialSessions    SocialWatchSession[]
+  points            UserPoint[]
+  badges            UserBadge[]
+  kycDocuments      KycDocument[]
+  referrals         Referral[]            @relation("referrer")
+  referredUsers     Referral[]            @relation("referred")
+  announcementViews AnnouncementView[]
+  wallet            UserWallet?
+
+  @@map("users")
+}
+
+model Seller {
+  id        Int      @id @default(autoincrement())
+  name      String   @db.VarChar(100)
+  email     String   @unique @db.VarChar(100)
+  password  String   @db.VarChar(255)
+  status    String   @default("active") @db.VarChar(10)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  campaigns SocialCampaign[]
+  wallet    SellerWallet?
+
+  @@map("sellers")
+}
+
+model Task {
+  id               Int       @id @default(autoincrement())
+  userId           Int       @map("user_id")
+  orderId          String?   @unique @map("order_id") @db.VarChar(50)
+  productName      String?   @map("product_name") @db.VarChar(255)
+  productLink      String?   @map("product_link") @db.Text
+  platform         String?   @db.VarChar(50)
+  instructions     String?   @db.Text
+  status           String    @default("assigned") @db.VarChar(30)
+  commission       Decimal?  @db.Decimal(10, 2)
+  deadline         DateTime?
+  refundRequested  Boolean   @default(false) @map("refund_requested")
+  refundDate       DateTime? @map("refund_date")
+  reviewText       String?   @map("review_text") @db.Text
+  reviewRating     Int?      @map("review_rating")
+  createdAt        DateTime  @default(now()) @map("created_at")
+  updatedAt        DateTime  @updatedAt @map("updated_at")
+
+  user  User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  steps TaskStep[]
+
+  @@index([userId, status])
+  @@map("tasks")
+}
+
+model TaskStep {
+  id                        Int       @id @default(autoincrement())
+  taskId                    Int       @map("task_id")
+  stepNumber                Int       @map("step_number")
+  stepName                  String?   @map("step_name") @db.VarChar(100)
+  stepStatus                String    @default("pending") @map("step_status") @db.VarChar(20)
+  submittedByUser           Boolean   @default(false) @map("submitted_by_user")
+  orderScreenshot           String?   @map("order_screenshot") @db.Text
+  deliveryScreenshot        String?   @map("delivery_screenshot") @db.Text
+  reviewScreenshot          String?   @map("review_screenshot") @db.Text
+  reviewSubmittedScreenshot String?   @map("review_submitted_screenshot") @db.Text
+  reviewLiveScreenshot      String?   @map("review_live_screenshot") @db.Text
+  paymentQrCode             String?   @map("payment_qr_code") @db.Text
+  refundAmount              Decimal?  @map("refund_amount") @db.Decimal(10, 2)
+  adminPaymentScreenshot    String?   @map("admin_payment_screenshot") @db.Text
+  refundProcessedAt         DateTime? @map("refund_processed_at")
+  refundProcessedBy         String?   @map("refund_processed_by") @db.VarChar(100)
+  completedAt               DateTime? @map("completed_at")
+  createdAt                 DateTime  @default(now()) @map("created_at")
+  updatedAt                 DateTime  @updatedAt @map("updated_at")
+
+  task Task @relation(fields: [taskId], references: [id], onDelete: Cascade)
+
+  @@index([taskId, stepNumber])
+  @@map("task_steps")
+}
+
+model WalletTransaction {
+  id              Int      @id @default(autoincrement())
+  userId          Int      @map("user_id")
+  type            String   @db.VarChar(30)
+  amount          Decimal  @db.Decimal(10, 2)
+  description     String?  @db.VarChar(255)
+  referenceId     Int?     @map("reference_id")
+  referenceType   String?  @map("reference_type") @db.VarChar(50)
+  balanceBefore   Decimal? @map("balance_before") @db.Decimal(10, 2)
+  balanceAfter    Decimal? @map("balance_after") @db.Decimal(10, 2)
+  createdAt       DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("wallet_transactions")
+}
+
+model UserWallet {
+  id        Int      @id @default(autoincrement())
+  userId    Int      @unique @map("user_id")
+  balance   Decimal  @default(0) @db.Decimal(10, 2)
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_wallet")
+}
+
+model SellerWallet {
+  id        Int      @id @default(autoincrement())
+  sellerId  Int      @unique @map("seller_id")
+  balance   Decimal  @default(0) @db.Decimal(10, 2)
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  seller       Seller                  @relation(fields: [sellerId], references: [id], onDelete: Cascade)
+  transactions SellerWalletTransaction[]
+
+  @@map("seller_wallet")
+}
+
+model SellerWalletTransaction {
+  id          Int      @id @default(autoincrement())
+  walletId    Int      @map("wallet_id")
+  type        String   @db.VarChar(30)
+  amount      Decimal  @db.Decimal(10, 2)
+  description String?  @db.VarChar(255)
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  wallet SellerWallet @relation(fields: [walletId], references: [id], onDelete: Cascade)
+
+  @@map("seller_wallet_transactions")
+}
+
+model SocialPlatform {
+  id          Int      @id @default(autoincrement())
+  name        String   @db.VarChar(100)
+  slug        String   @unique @db.VarChar(50)
+  icon        String?  @db.VarChar(255)
+  isActive    Boolean  @default(true) @map("is_active")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  campaigns SocialCampaign[]
+
+  @@map("social_platforms")
+}
+
+model SocialCampaign {
+  id             Int      @id @default(autoincrement())
+  sellerId       Int      @map("seller_id")
+  platformId     Int      @map("platform_id")
+  title          String   @db.VarChar(255)
+  description    String?  @db.Text
+  url            String?  @db.Text
+  rewardAmount   Decimal  @default(0) @map("reward_amount") @db.Decimal(10, 2)
+  requiredTime   Int?     @map("required_time")
+  status         String   @default("pending") @db.VarChar(20)
+  adminApproved  Boolean  @default(false) @map("admin_approved")
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  seller      Seller                 @relation(fields: [sellerId], references: [id], onDelete: Cascade)
+  platform    SocialPlatform         @relation(fields: [platformId], references: [id])
+  completions SocialTaskCompletion[]
+  sessions    SocialWatchSession[]
+
+  @@map("social_campaigns")
+}
+
+model SocialTaskCompletion {
+  id          Int      @id @default(autoincrement())
+  userId      Int      @map("user_id")
+  campaignId  Int      @map("campaign_id")
+  completedAt DateTime @default(now()) @map("completed_at")
+  reward      Decimal? @db.Decimal(10, 2)
+
+  user     User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  campaign SocialCampaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, campaignId])
+  @@map("social_task_completions")
+}
+
+model SocialWatchSession {
+  id         Int      @id @default(autoincrement())
+  userId     Int      @map("user_id")
+  campaignId Int      @map("campaign_id")
+  startedAt  DateTime @default(now()) @map("started_at")
+  endedAt    DateTime? @map("ended_at")
+  duration   Int?
+
+  user     User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  campaign SocialCampaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+
+  @@map("social_watch_sessions")
+}
+
+model BlogPost {
+  id          Int      @id @default(autoincrement())
+  title       String   @db.VarChar(255)
+  slug        String   @unique @db.VarChar(255)
+  content     String   @db.LongText
+  excerpt     String?  @db.Text
+  featuredImage String? @map("featured_image") @db.VarChar(255)
+  status      String   @default("draft") @db.VarChar(20)
+  authorId    Int?     @map("author_id")
+  publishedAt DateTime? @map("published_at")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("blog_posts")
+}
+
+model Announcement {
+  id             Int      @id @default(autoincrement())
+  title          String   @db.VarChar(255)
+  content        String   @db.Text
+  targetAudience String   @default("all") @map("target_audience") @db.VarChar(20)
+  isActive       Boolean  @default(true) @map("is_active")
+  startDate      DateTime? @map("start_date")
+  endDate        DateTime? @map("end_date")
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  views AnnouncementView[]
+
+  @@map("announcements")
+}
+
+model AnnouncementView {
+  id             Int      @id @default(autoincrement())
+  announcementId Int      @map("announcement_id")
+  userId         Int      @map("user_id")
+  viewedAt       DateTime @default(now()) @map("viewed_at")
+
+  announcement Announcement @relation(fields: [announcementId], references: [id], onDelete: Cascade)
+  user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([announcementId, userId])
+  @@map("announcement_views")
+}
+
+model ChatMessage {
+  id        Int      @id @default(autoincrement())
+  userId    Int      @map("user_id")
+  sender    String   @db.VarChar(10)
+  message   String   @db.Text
+  isRead    Boolean  @default(false) @map("is_read")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("chat_messages")
+}
+
+model UserPoint {
+  id          Int      @id @default(autoincrement())
+  userId      Int      @map("user_id")
+  points      Int      @default(0)
+  type        String   @db.VarChar(50)
+  description String?  @db.VarChar(255)
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("user_points")
+}
+
+model UserBadge {
+  id        Int      @id @default(autoincrement())
+  userId    Int      @map("user_id")
+  badgeId   Int      @map("badge_id")
+  awardedAt DateTime @default(now()) @map("awarded_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("user_badges")
+}
+
+model Competition {
+  id          Int       @id @default(autoincrement())
+  title       String    @db.VarChar(255)
+  description String?   @db.Text
+  startDate   DateTime  @map("start_date")
+  endDate     DateTime  @map("end_date")
+  prizePool   Decimal?  @map("prize_pool") @db.Decimal(10, 2)
+  status      String    @default("active") @db.VarChar(20)
+  createdAt   DateTime  @default(now()) @map("created_at")
+
+  @@map("competitions")
+}
+
+model KycDocument {
+  id           Int       @id @default(autoincrement())
+  userId       Int       @map("user_id")
+  documentType String    @map("document_type") @db.VarChar(50)
+  documentPath String    @map("document_path") @db.VarChar(255)
+  status       String    @default("pending") @db.VarChar(20)
+  reviewedBy   Int?      @map("reviewed_by")
+  reviewedAt   DateTime? @map("reviewed_at")
+  notes        String?   @db.Text
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime  @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("kyc_documents")
+}
+
+model Referral {
+  id           Int      @id @default(autoincrement())
+  referrerId   Int      @map("referrer_id")
+  referredId   Int      @map("referred_id")
+  rewardPaid   Boolean  @default(false) @map("reward_paid")
+  rewardAmount Decimal? @map("reward_amount") @db.Decimal(10, 2)
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  referrer User @relation("referrer", fields: [referrerId], references: [id], onDelete: Cascade)
+  referred User @relation("referred", fields: [referredId], references: [id], onDelete: Cascade)
+
+  @@unique([referrerId, referredId])
+  @@map("referrals")
+}
