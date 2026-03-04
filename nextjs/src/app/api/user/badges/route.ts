@@ -1,6 +1,14 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
-import { prisma } from "@/lib/db";
+import { query } from "@/lib/db";
+import type { RowDataPacket } from "mysql2";
+
+interface UserBadgeRow extends RowDataPacket {
+  id: number;
+  user_id: number;
+  badge_id: number;
+  created_at: Date;
+}
 
 export async function GET() {
   const session = await auth();
@@ -12,19 +20,19 @@ export async function GET() {
   const userId = parseInt(session.user.id);
 
   try {
-    const userBadges = await prisma.userBadge.findMany({
-      where: { userId },
-      orderBy: { awardedAt: "desc" },
-    });
+    const userBadges = await query<UserBadgeRow>(
+      "SELECT * FROM user_badges WHERE user_id = ? ORDER BY created_at DESC",
+      [userId]
+    );
 
     return NextResponse.json({
       success: true,
       data: {
-        earnedBadgeIds: userBadges.map((b) => b.badgeId),
+        earnedBadgeIds: userBadges.map((b) => b.badge_id),
         badges: userBadges.map((b) => ({
           id: b.id,
-          badgeId: b.badgeId,
-          awardedAt: b.awardedAt.toISOString(),
+          badgeId: b.badge_id,
+          awardedAt: b.created_at instanceof Date ? b.created_at.toISOString() : String(b.created_at),
         })),
       },
     });

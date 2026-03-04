@@ -1,6 +1,24 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
-import { prisma } from "@/lib/db";
+import { queryOne, execute } from "@/lib/db";
+import type { RowDataPacket } from "mysql2";
+
+interface KycRow extends RowDataPacket {
+  id: number;
+  user_id: number;
+  full_name: string;
+  dob: string | null;
+  aadhaar_number: string | null;
+  aadhaar_file: string | null;
+  pan_number: string | null;
+  pan_file: string | null;
+  status: string;
+  rejection_reason: string | null;
+  verified_at: string | null;
+  verified_by: number | null;
+  created_at: string;
+  updated_at: string;
+}
 
 export async function PUT(
   request: NextRequest,
@@ -29,23 +47,39 @@ export async function PUT(
       );
     }
 
-    const document = await prisma.kycDocument.update({
-      where: { id: docId },
-      data: {
-        status,
-        notes: notes ?? null,
-        reviewedBy: parseInt(session.user.id),
-        reviewedAt: new Date(),
-      },
-    });
+    await execute(
+      `UPDATE kyc_documents
+       SET status = ?, rejection_reason = ?, verified_by = ?, verified_at = NOW(), updated_at = NOW()
+       WHERE id = ?`,
+      [status, notes ?? null, parseInt(session.user.id), docId]
+    );
+
+    const document = await queryOne<KycRow>(
+      "SELECT * FROM kyc_documents WHERE id = ?",
+      [docId]
+    );
+
+    if (!document) {
+      return NextResponse.json({ error: "Document not found" }, { status: 404 });
+    }
 
     return NextResponse.json({
       success: true,
       data: {
-        ...document,
-        createdAt: document.createdAt.toISOString(),
-        updatedAt: document.updatedAt.toISOString(),
-        reviewedAt: document.reviewedAt ? document.reviewedAt.toISOString() : null,
+        id: document.id,
+        userId: document.user_id,
+        fullName: document.full_name,
+        dob: document.dob,
+        aadhaarNumber: document.aadhaar_number,
+        aadhaarFile: document.aadhaar_file,
+        panNumber: document.pan_number,
+        panFile: document.pan_file,
+        status: document.status,
+        rejectionReason: document.rejection_reason,
+        verifiedAt: document.verified_at,
+        verifiedBy: document.verified_by,
+        createdAt: document.created_at,
+        updatedAt: document.updated_at,
       },
     });
   } catch (error) {

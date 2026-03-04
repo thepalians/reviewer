@@ -1,10 +1,17 @@
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import { prisma } from "@/lib/db";
+import { query } from "@/lib/db";
 import type { Metadata } from "next";
 import LeaderboardPageClient from "./LeaderboardPageClient";
+import type { RowDataPacket } from "mysql2";
 
 export const metadata: Metadata = { title: "Leaderboard" };
+
+interface RankingRow extends RowDataPacket {
+  user_id: number;
+  total_points: number;
+  name: string;
+}
 
 export default async function LeaderboardPage() {
   const session = await auth();
@@ -12,30 +19,21 @@ export default async function LeaderboardPage() {
 
   const currentUserId = parseInt(session.user.id);
 
-  const aggregated = await prisma.userPoint.groupBy({
-    by: ["userId"],
-    _sum: { points: true },
-    orderBy: { _sum: { points: "desc" } },
-    take: 50,
-  });
+  const rankingRows = await query<RankingRow>(
+    `SELECT up.user_id, SUM(up.points) AS total_points, u.name
+     FROM user_points up
+     JOIN users u ON u.id = up.user_id
+     GROUP BY up.user_id, u.name
+     ORDER BY total_points DESC
+     LIMIT 50`,
+    []
+  );
 
-  const userIds = aggregated.map((a) => a.userId);
-
-  const users =
-    userIds.length > 0
-      ? await prisma.user.findMany({
-          where: { id: { in: userIds } },
-          select: { id: true, name: true },
-        })
-      : [];
-
-  const userMap = new Map(users.map((u) => [u.id, u.name]));
-
-  const rankings = aggregated.map((a, idx) => ({
+  const rankings = rankingRows.map((row, idx) => ({
     rank: idx + 1,
-    userId: a.userId,
-    name: userMap.get(a.userId) ?? "Unknown",
-    points: a._sum.points ?? 0,
+    userId: row.user_id,
+    name: row.name ?? "Unknown",
+    points: Number(row.total_points ?? 0),
   }));
 
   return (

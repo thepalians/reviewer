@@ -1,6 +1,21 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
-import { prisma } from "@/lib/db";
+import { queryOne, query } from "@/lib/db";
+import type { RowDataPacket } from "mysql2";
+
+interface SellerWalletRow extends RowDataPacket {
+  wallet_balance: string | number;
+  updated_at: Date;
+}
+
+interface WalletTransactionRow extends RowDataPacket {
+  id: number;
+  seller_id: number;
+  type: string;
+  amount: string | number;
+  description: string | null;
+  created_at: Date;
+}
 
 export async function GET() {
   const session = await auth();
@@ -11,24 +26,34 @@ export async function GET() {
   const sellerId = parseInt(session.user.id);
 
   try {
-    const [wallet, transactions] = await Promise.all([
-      prisma.sellerWallet.findUnique({
-        where: { sellerId },
-        select: { balance: true, updatedAt: true },
-      }),
-      prisma.sellerWalletTransaction.findMany({
-        where: { wallet: { sellerId } },
-        orderBy: { createdAt: "desc" },
-        take: 50,
-      }),
+    const [seller, transactions] = await Promise.all([
+      queryOne<SellerWalletRow>(
+        "SELECT wallet_balance, updated_at FROM sellers WHERE id = ?",
+        [sellerId]
+      ),
+      query<WalletTransactionRow>(
+        `SELECT id, seller_id, type, amount, description, created_at
+         FROM seller_wallet_transactions
+         WHERE seller_id = ?
+         ORDER BY created_at DESC
+         LIMIT 50`,
+        [sellerId]
+      ),
     ]);
 
     return NextResponse.json({
       success: true,
       data: {
-        balance: Number(wallet?.balance ?? 0),
-        updatedAt: wallet?.updatedAt,
-        transactions,
+        balance: Number(seller?.wallet_balance ?? 0),
+        updatedAt: seller?.updated_at ?? null,
+        transactions: transactions.map((t) => ({
+          id: t.id,
+          sellerId: t.seller_id,
+          type: t.type,
+          amount: Number(t.amount),
+          description: t.description,
+          createdAt: t.created_at,
+        })),
       },
     });
   } catch (error) {

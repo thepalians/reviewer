@@ -1,9 +1,24 @@
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
-import { PrismaClient } from "@prisma/client";
+import { queryOne } from "@/lib/db";
+import type { RowDataPacket } from "mysql2";
 
-// Use a fresh PrismaClient to avoid any caching/import issues
-const prisma = new PrismaClient();
+interface UserRow extends RowDataPacket {
+  id: number;
+  name: string;
+  email: string;
+  password: string;
+  user_type: string;
+  status: string;
+}
+
+interface SellerRow extends RowDataPacket {
+  id: number;
+  name: string;
+  email: string;
+  password: string;
+  status: string;
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -15,18 +30,16 @@ export async function POST(request: NextRequest) {
     }
 
     if (userType === "seller") {
-      const seller = await prisma.seller.findFirst({
-        where: { email: login, status: "active" },
-        select: { id: true, name: true, email: true, password: true, status: true },
-      });
-      if (!seller) {
-        return NextResponse.json({ error: "Invalid credentials" }, { status: 401 });
-      }
+      const seller = await queryOne<SellerRow>(
+        "SELECT id, name, email, password, status FROM sellers WHERE email = ? AND status = 'active' LIMIT 1",
+        [login]
+      );
+      if (!seller) return NextResponse.json({ error: "Invalid credentials" }, { status: 401 });
+
       const fixedHash = seller.password.replace(/^\$2y\$/, "$2a$");
       const match = await bcrypt.compare(password, fixedHash);
-      if (!match) {
-        return NextResponse.json({ error: "Invalid credentials" }, { status: 401 });
-      }
+      if (!match) return NextResponse.json({ error: "Invalid credentials" }, { status: 401 });
+
       return NextResponse.json({
         success: true,
         user: { id: seller.id, name: seller.name, email: seller.email, userType: "seller" },
@@ -34,42 +47,34 @@ export async function POST(request: NextRequest) {
     }
 
     const isEmail = login.includes("@");
-    const user = await prisma.user.findFirst({
-      where: isEmail
-        ? { email: login, status: "active" }
-        : { mobile: login, status: "active" },
-      select: { id: true, name: true, email: true, password: true, userType: true, status: true },
-    });
+    const user = await queryOne<UserRow>(
+      isEmail
+        ? "SELECT id, name, email, password, user_type, status FROM users WHERE email = ? AND status = 'active' LIMIT 1"
+        : "SELECT id, name, email, password, user_type, status FROM users WHERE mobile = ? AND status = 'active' LIMIT 1",
+      [login]
+    );
 
-    if (!user) {
-      return NextResponse.json({ error: "Invalid credentials" }, { status: 401 });
-    }
+    if (!user) return NextResponse.json({ error: "Invalid credentials" }, { status: 401 });
 
     const fixedHash = user.password.replace(/^\$2y\$/, "$2a$");
     const match = await bcrypt.compare(password, fixedHash);
-    if (!match) {
-      return NextResponse.json({ error: "Invalid credentials" }, { status: 401 });
-    }
+    if (!match) return NextResponse.json({ error: "Invalid credentials" }, { status: 401 });
 
-    if (userType === "admin" && user.userType !== "admin") {
+    if (userType === "admin" && user.user_type !== "admin")
       return NextResponse.json({ error: "Not an admin account" }, { status: 401 });
-    }
-    if (userType === "user" && user.userType !== "user") {
+    if (userType === "user" && user.user_type !== "user")
       return NextResponse.json({ error: "Not a user account" }, { status: 401 });
-    }
 
     return NextResponse.json({
       success: true,
-      user: { id: user.id, name: user.name, email: user.email, userType: user.userType },
+      user: { id: user.id, name: user.name, email: user.email, userType: user.user_type },
     });
   } catch (error: unknown) {
-    const errorMessage = error instanceof Error ? error.message : "Unknown error";
-    const errorStack = error instanceof Error ? error.stack : "";
-    console.error("Login API error:", errorMessage);
-    console.error("Login API stack:", errorStack);
-    return NextResponse.json({
-      error: "Internal server error",
-      debug: process.env.NODE_ENV === "development" ? errorMessage : undefined,
-    }, { status: 500 });
+    const msg = error instanceof Error ? error.message : "Unknown error";
+    console.error("Login API error:", msg);
+    return NextResponse.json(
+      { error: "Internal server error", debug: process.env.NODE_ENV === "development" ? msg : undefined },
+      { status: 500 }
+    );
   }
 }

@@ -1,7 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
-import { prisma } from "@/lib/db";
+import { queryOne, transaction } from "@/lib/db";
+import type { RowDataPacket } from "mysql2";
 import { z } from "zod";
+
+interface UserRow extends RowDataPacket {
+  wallet_balance: number;
+}
 
 const withdrawSchema = z.object({
   amount: z.number().positive().min(1),
@@ -41,61 +46,69 @@ export async function POST(req: NextRequest) {
     parsed.data;
 
   try {
-    // Check balance (use user's walletBalance as source of truth)
-    const user = await prisma.user.findUnique({
-      where: { id: userId },
-      select: { walletBalance: true },
-    });
+    // Check balance (use user's wallet_balance as source of truth)
+    const user = await queryOne<UserRow>(
+      "SELECT wallet_balance FROM users WHERE id = ?",
+      [userId]
+    );
 
-    if (!user || Number(user.walletBalance) < amount) {
+    if (!user || Number(user.wallet_balance) < amount) {
       return NextResponse.json(
         { error: "Insufficient wallet balance" },
         { status: 400 }
       );
     }
 
-    // Record a pending withdrawal transaction
     const description =
       paymentMethod === "upi"
         ? `Withdrawal request via UPI (${upiId ?? ""})`
         : `Withdrawal request via Bank Transfer (${accountNumber ?? ""})`;
 
     const roundedAmount = Math.round(amount * 100) / 100;
+    const balanceBefore = Number(user.wallet_balance);
+    const balanceAfter = balanceBefore - roundedAmount;
 
-    await prisma.$transaction(async (tx) => {
-      await tx.walletTransaction.create({
-        data: {
-          userId,
-          type: "debit",
-          amount: roundedAmount,
-          description,
-          referenceType: "withdrawal_request",
-          balanceBefore: user.walletBalance,
-          balanceAfter: Number(user.walletBalance) - roundedAmount,
-        },
-      });
+    await transaction(async (conn) => {
+      // Insert wallet transaction record
+      await conn.execute(
+        `INSERT INTO wallet_transactions (user_id, type, amount, description, balance_before, balance_after, created_at)
+         VALUES (?, 'debit', ?, ?, ?, ?, NOW())`,
+        [userId, roundedAmount, description, balanceBefore, balanceAfter]
+      );
 
       // Deduct from user wallet balance
-      await tx.user.update({
-        where: { id: userId },
-        data: { walletBalance: { decrement: roundedAmount } },
-      });
+      await conn.execute(
+        "UPDATE users SET wallet_balance = wallet_balance - ?, updated_at = NOW() WHERE id = ?",
+        [roundedAmount, userId]
+      );
 
-      // Update UserWallet if exists
-      await tx.userWallet.updateMany({
-        where: { userId },
-        data: { balance: { decrement: roundedAmount } },
-      });
+      // Insert into withdrawal_requests
+      await conn.execute(
+        `INSERT INTO withdrawal_requests (user_id, amount, method, upi_id, account_number, ifsc_code, bank_name, status, created_at, updated_at)
+         VALUES (?, ?, ?, ?, ?, ?, ?, 'pending', NOW(), NOW())`,
+        [
+          userId,
+          roundedAmount,
+          paymentMethod,
+          upiId ?? null,
+          accountNumber ?? null,
+          ifscCode ?? null,
+          bankName ?? null,
+        ]
+      );
     });
 
-    // Persist payment details
+    // Persist payment details on user profile
     if (paymentMethod === "upi" && upiId) {
-      await prisma.user.update({ where: { id: userId }, data: { upiId } });
+      await queryOne(
+        "UPDATE users SET upi_id = ?, updated_at = NOW() WHERE id = ?",
+        [upiId, userId]
+      );
     } else if (paymentMethod === "bank" && accountNumber) {
-      await prisma.user.update({
-        where: { id: userId },
-        data: { accountName, accountNumber, bankName, ifscCode },
-      });
+      await queryOne(
+        "UPDATE users SET bank_account = ?, bank_name = ?, bank_ifsc = ?, updated_at = NOW() WHERE id = ?",
+        [accountNumber, bankName ?? null, ifscCode ?? null, userId]
+      );
     }
 
     return NextResponse.json({

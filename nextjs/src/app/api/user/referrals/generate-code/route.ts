@@ -1,6 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
-import { prisma } from "@/lib/db";
+import { queryOne, execute } from "@/lib/db";
+import type { RowDataPacket } from "mysql2";
+
+interface UserRow extends RowDataPacket {
+  referral_code: string | null;
+}
 
 function generateCode(length = 8): string {
   const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -20,15 +25,15 @@ export async function POST(_req: NextRequest) {
   const userId = parseInt(session.user.id);
 
   try {
-    const user = await prisma.user.findUnique({
-      where: { id: userId },
-      select: { referralCode: true },
-    });
+    const user = await queryOne<UserRow>(
+      "SELECT referral_code FROM users WHERE id = ?",
+      [userId]
+    );
 
-    if (user?.referralCode) {
+    if (user?.referral_code) {
       return NextResponse.json({
         success: true,
-        data: { referralCode: user.referralCode },
+        data: { referralCode: user.referral_code },
       });
     }
 
@@ -36,25 +41,30 @@ export async function POST(_req: NextRequest) {
     let code = generateCode();
     let attempts = 0;
     while (attempts < 10) {
-      const existing = await prisma.user.findUnique({ where: { referralCode: code } });
+      const existing = await queryOne<UserRow>(
+        "SELECT referral_code FROM users WHERE referral_code = ?",
+        [code]
+      );
       if (!existing) break;
       code = generateCode();
       attempts++;
     }
 
     if (attempts >= 10) {
-      return NextResponse.json({ error: "Failed to generate a unique code. Please try again." }, { status: 500 });
+      return NextResponse.json(
+        { error: "Failed to generate a unique code. Please try again." },
+        { status: 500 }
+      );
     }
 
-    const updated = await prisma.user.update({
-      where: { id: userId },
-      data: { referralCode: code },
-      select: { referralCode: true },
-    });
+    await execute(
+      "UPDATE users SET referral_code = ?, updated_at = NOW() WHERE id = ?",
+      [code, userId]
+    );
 
     return NextResponse.json({
       success: true,
-      data: { referralCode: updated.referralCode },
+      data: { referralCode: code },
     });
   } catch (error) {
     console.error("Generate referral code error:", error);

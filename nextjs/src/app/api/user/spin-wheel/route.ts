@@ -1,6 +1,11 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
-import { prisma } from "@/lib/db";
+import { queryOne, execute, transaction } from "@/lib/db";
+import type { RowDataPacket } from "mysql2";
+
+interface SpinCheckRow extends RowDataPacket {
+  id: number;
+}
 
 const WHEEL_SEGMENTS = [
   { label: "₹5", type: "cash", value: 5 },
@@ -26,21 +31,18 @@ export async function POST() {
     // Check last spin — allow only 1 per day
     const todayStart = new Date();
     todayStart.setHours(0, 0, 0, 0);
+    const todayStartStr = todayStart.toISOString().slice(0, 19).replace("T", " ");
 
-    const lastSpin = await prisma.userPoint.findFirst({
-      where: { userId, type: "spin_wheel", createdAt: { gte: todayStart } },
-      orderBy: { createdAt: "desc" },
-    });
+    const lastSpin = await queryOne<SpinCheckRow>(
+      "SELECT id FROM user_points WHERE user_id = ? AND type = 'spin_wheel' AND created_at >= ?",
+      [userId, todayStartStr]
+    );
 
     // Also check wallet transactions for cash rewards today
-    const lastCashSpin = await prisma.walletTransaction.findFirst({
-      where: {
-        userId,
-        referenceType: "spin_wheel",
-        createdAt: { gte: todayStart },
-      },
-      orderBy: { createdAt: "desc" },
-    });
+    const lastCashSpin = await queryOne<SpinCheckRow>(
+      "SELECT id FROM wallet_transactions WHERE user_id = ? AND description LIKE 'Spin Wheel%' AND created_at >= ?",
+      [userId, todayStartStr]
+    );
 
     if (lastSpin || lastCashSpin) {
       return NextResponse.json(
@@ -54,41 +56,30 @@ export async function POST() {
     const reward = WHEEL_SEGMENTS[segmentIndex];
 
     if (reward.type === "points" && reward.value > 0) {
-      await prisma.userPoint.create({
-        data: {
-          userId,
-          points: reward.value,
-          type: "spin_wheel",
-          description: `Spin Wheel reward: ${reward.label}`,
-        },
-      });
+      await execute(
+        `INSERT INTO user_points (user_id, points, type, description, created_at)
+         VALUES (?, ?, 'spin_wheel', ?, NOW())`,
+        [userId, reward.value, `Spin Wheel reward: ${reward.label}`]
+      );
     } else if (reward.type === "cash" && reward.value > 0) {
-      // Add to wallet
-      await prisma.$transaction(async (tx) => {
-        await tx.user.update({
-          where: { id: userId },
-          data: { walletBalance: { increment: reward.value } },
-        });
-        await tx.walletTransaction.create({
-          data: {
-            userId,
-            type: "credit",
-            amount: reward.value,
-            description: `Spin Wheel reward: ${reward.label}`,
-            referenceType: "spin_wheel",
-          },
-        });
+      await transaction(async (conn) => {
+        await conn.execute(
+          "UPDATE users SET wallet_balance = wallet_balance + ?, updated_at = NOW() WHERE id = ?",
+          [reward.value, userId]
+        );
+        await conn.execute(
+          `INSERT INTO wallet_transactions (user_id, type, amount, description, created_at)
+           VALUES (?, 'credit', ?, ?, NOW())`,
+          [userId, reward.value, `Spin Wheel reward: ${reward.label}`]
+        );
       });
     } else {
       // "Better Luck" — record a spin so they can't spin again today
-      await prisma.userPoint.create({
-        data: {
-          userId,
-          points: 0,
-          type: "spin_wheel",
-          description: "Spin Wheel: Better Luck Next Time",
-        },
-      });
+      await execute(
+        `INSERT INTO user_points (user_id, points, type, description, created_at)
+         VALUES (?, 0, 'spin_wheel', 'Spin Wheel: Better Luck Next Time', NOW())`,
+        [userId]
+      );
     }
 
     return NextResponse.json({

@@ -1,5 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/lib/db";
+import { queryOne } from "@/lib/db";
+import type { RowDataPacket } from "mysql2";
+
+interface BlogPostRow extends RowDataPacket {
+  id: number;
+  title: string;
+  slug: string;
+  content: string | null;
+  excerpt: string | null;
+  status: string;
+  created_at: Date;
+  updated_at: Date;
+}
 
 export async function GET(
   _req: NextRequest,
@@ -8,9 +20,12 @@ export async function GET(
   const { slug } = await params;
 
   try {
-    const post = await prisma.blogPost.findFirst({
-      where: { slug, status: "published" },
-    });
+    const post = await queryOne<BlogPostRow>(
+      `SELECT id, title, slug, content, excerpt, status, created_at, updated_at
+       FROM blog_posts
+       WHERE slug = ? AND status = 'published'`,
+      [slug]
+    );
 
     if (!post) {
       return NextResponse.json({ error: "Post not found" }, { status: 404 });
@@ -19,10 +34,16 @@ export async function GET(
     return NextResponse.json({
       success: true,
       data: {
-        ...post,
-        createdAt: post.createdAt.toISOString(),
-        updatedAt: post.updatedAt.toISOString(),
-        publishedAt: post.publishedAt ? post.publishedAt.toISOString() : null,
+        id: post.id,
+        title: post.title,
+        slug: post.slug,
+        content: post.content,
+        excerpt: post.excerpt,
+        status: post.status,
+        createdAt:
+          post.created_at instanceof Date ? post.created_at.toISOString() : post.created_at,
+        updatedAt:
+          post.updated_at instanceof Date ? post.updated_at.toISOString() : post.updated_at,
       },
     });
   } catch (error) {

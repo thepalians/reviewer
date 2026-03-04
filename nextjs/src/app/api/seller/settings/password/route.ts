@@ -1,7 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { auth } from "@/lib/auth";
-import { prisma } from "@/lib/db";
+import { queryOne, execute } from "@/lib/db";
+import type { RowDataPacket } from "mysql2";
+
+interface SellerPasswordRow extends RowDataPacket {
+  password: string;
+}
 
 export async function PUT(request: NextRequest) {
   const session = await auth();
@@ -29,10 +34,10 @@ export async function PUT(request: NextRequest) {
       );
     }
 
-    const seller = await prisma.seller.findUnique({
-      where: { id: sellerId },
-      select: { password: true },
-    });
+    const seller = await queryOne<SellerPasswordRow>(
+      "SELECT password FROM sellers WHERE id = ?",
+      [sellerId]
+    );
 
     if (!seller) {
       return NextResponse.json({ error: "Seller not found" }, { status: 404 });
@@ -45,10 +50,11 @@ export async function PUT(request: NextRequest) {
     }
 
     const hashedPassword = await bcrypt.hash(newPassword, 12);
-    await prisma.seller.update({
-      where: { id: sellerId },
-      data: { password: hashedPassword },
-    });
+
+    await execute(
+      "UPDATE sellers SET password = ?, updated_at = NOW() WHERE id = ?",
+      [hashedPassword, sellerId]
+    );
 
     return NextResponse.json({ success: true, message: "Password updated successfully" });
   } catch (error) {

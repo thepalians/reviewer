@@ -1,6 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
-import { prisma } from "@/lib/db";
+import { query, execute } from "@/lib/db";
+import type { RowDataPacket } from "mysql2";
+
+interface AnnouncementRow extends RowDataPacket {
+  id: number;
+  title: string;
+  content: string;
+  target_audience: string;
+  status: string;
+  start_date: string | null;
+  end_date: string | null;
+  created_at: string;
+  updated_at: string;
+}
 
 export async function GET(_req: NextRequest) {
   const session = await auth();
@@ -9,10 +22,9 @@ export async function GET(_req: NextRequest) {
   }
 
   try {
-    const announcements = await prisma.announcement.findMany({
-      include: { _count: { select: { views: true } } },
-      orderBy: { createdAt: "desc" },
-    });
+    const announcements = await query<AnnouncementRow>(
+      "SELECT * FROM announcements ORDER BY created_at DESC"
+    );
 
     return NextResponse.json({
       success: true,
@@ -20,13 +32,12 @@ export async function GET(_req: NextRequest) {
         id: a.id,
         title: a.title,
         content: a.content,
-        targetAudience: a.targetAudience,
-        isActive: a.isActive,
-        startDate: a.startDate ? a.startDate.toISOString() : null,
-        endDate: a.endDate ? a.endDate.toISOString() : null,
-        createdAt: a.createdAt.toISOString(),
-        updatedAt: a.updatedAt.toISOString(),
-        viewCount: a._count.views,
+        targetAudience: a.target_audience,
+        status: a.status,
+        startDate: a.start_date,
+        endDate: a.end_date,
+        createdAt: a.created_at,
+        updatedAt: a.updated_at,
       })),
     });
   } catch (error) {
@@ -43,31 +54,42 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json();
-    const { title, content, targetAudience, isActive, startDate, endDate } = body;
+    const { title, content, targetAudience, status, startDate, endDate } = body;
 
     if (!title || !content) {
       return NextResponse.json({ error: "title and content are required" }, { status: 400 });
     }
 
-    const announcement = await prisma.announcement.create({
-      data: {
-        title,
-        content,
-        targetAudience: targetAudience ?? "all",
-        isActive: isActive ?? true,
-        startDate: startDate ? new Date(startDate) : null,
-        endDate: endDate ? new Date(endDate) : null,
-      },
-    });
+    const audience = targetAudience ?? "all";
+    const announcementStatus = status ?? "active";
+    const parsedStartDate = startDate ? new Date(startDate).toISOString().slice(0, 19).replace("T", " ") : null;
+    const parsedEndDate = endDate ? new Date(endDate).toISOString().slice(0, 19).replace("T", " ") : null;
+
+    const result = await execute(
+      `INSERT INTO announcements (title, content, target_audience, status, start_date, end_date, created_at, updated_at)
+       VALUES (?, ?, ?, ?, ?, ?, NOW(), NOW())`,
+      [title, content, audience, announcementStatus, parsedStartDate, parsedEndDate]
+    );
+
+    const rows = await query<AnnouncementRow>(
+      "SELECT * FROM announcements WHERE id = ?",
+      [result.insertId]
+    );
+
+    const a = rows[0];
 
     return NextResponse.json({
       success: true,
       data: {
-        ...announcement,
-        startDate: announcement.startDate ? announcement.startDate.toISOString() : null,
-        endDate: announcement.endDate ? announcement.endDate.toISOString() : null,
-        createdAt: announcement.createdAt.toISOString(),
-        updatedAt: announcement.updatedAt.toISOString(),
+        id: a.id,
+        title: a.title,
+        content: a.content,
+        targetAudience: a.target_audience,
+        status: a.status,
+        startDate: a.start_date,
+        endDate: a.end_date,
+        createdAt: a.created_at,
+        updatedAt: a.updated_at,
       },
     });
   } catch (error) {

@@ -1,6 +1,23 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
-import { prisma } from "@/lib/db";
+import { queryOne } from "@/lib/db";
+import type { RowDataPacket } from "mysql2";
+
+interface CampaignRow extends RowDataPacket {
+  id: number;
+  title: string;
+  description: string | null;
+  platform_id: number | null;
+  reward_amount: number;
+  status: string;
+  admin_approved: boolean;
+  seller_id: number | null;
+  created_at: Date;
+  updated_at: Date;
+  // platform join fields
+  platform_name: string | null;
+  platform_icon: string | null;
+}
 
 export async function GET(
   _req: NextRequest,
@@ -19,10 +36,13 @@ export async function GET(
   }
 
   try {
-    const campaign = await prisma.socialCampaign.findFirst({
-      where: { id: campaignId, status: "active", adminApproved: true },
-      include: { platform: true },
-    });
+    const campaign = await queryOne<CampaignRow>(
+      `SELECT sc.*, sp.name AS platform_name, sp.icon AS platform_icon
+       FROM social_campaigns sc
+       LEFT JOIN social_platforms sp ON sp.id = sc.platform_id
+       WHERE sc.id = ? AND sc.status = 'active' AND sc.admin_approved = 1`,
+      [campaignId]
+    );
 
     if (!campaign) {
       return NextResponse.json({ error: "Campaign not found" }, { status: 404 });
@@ -31,10 +51,23 @@ export async function GET(
     return NextResponse.json({
       success: true,
       data: {
-        ...campaign,
-        rewardAmount: Number(campaign.rewardAmount),
-        createdAt: campaign.createdAt.toISOString(),
-        updatedAt: campaign.updatedAt.toISOString(),
+        id: campaign.id,
+        title: campaign.title,
+        description: campaign.description,
+        platformId: campaign.platform_id,
+        rewardAmount: Number(campaign.reward_amount),
+        status: campaign.status,
+        adminApproved: Boolean(campaign.admin_approved),
+        sellerId: campaign.seller_id,
+        createdAt: campaign.created_at instanceof Date ? campaign.created_at.toISOString() : String(campaign.created_at),
+        updatedAt: campaign.updated_at instanceof Date ? campaign.updated_at.toISOString() : String(campaign.updated_at),
+        platform: campaign.platform_id
+          ? {
+              id: campaign.platform_id,
+              name: campaign.platform_name,
+              icon: campaign.platform_icon,
+            }
+          : null,
       },
     });
   } catch (error) {

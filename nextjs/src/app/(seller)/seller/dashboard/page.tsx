@@ -1,11 +1,25 @@
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import { prisma } from "@/lib/db";
+import { query, queryOne } from "@/lib/db";
 import StatsCard from "@/components/StatsCard";
 import { formatCurrency } from "@/lib/utils";
 import type { Metadata } from "next";
+import type { RowDataPacket } from "mysql2";
 
 export const metadata: Metadata = { title: "Seller Dashboard" };
+
+interface SellerRow extends RowDataPacket {
+  name: string;
+}
+
+interface CampaignStatusRow extends RowDataPacket {
+  status: string;
+  cnt: number;
+}
+
+interface WalletRow extends RowDataPacket {
+  balance: string;
+}
 
 export default async function SellerDashboardPage() {
   const session = await auth();
@@ -13,25 +27,24 @@ export default async function SellerDashboardPage() {
 
   const sellerId = parseInt(session.user.id);
 
-  const [seller, campaigns, wallet] = await Promise.all([
-    prisma.seller.findUnique({
-      where: { id: sellerId },
-      select: { name: true },
-    }),
-    prisma.socialCampaign.groupBy({
-      by: ["status"],
-      where: { sellerId },
-      _count: true,
-    }),
-    prisma.sellerWallet.findUnique({
-      where: { sellerId },
-      select: { balance: true },
-    }),
+  const [seller, campaignStatusRows, wallet] = await Promise.all([
+    queryOne<SellerRow>(
+      "SELECT name FROM sellers WHERE id = ? LIMIT 1",
+      [sellerId]
+    ),
+    query<CampaignStatusRow>(
+      "SELECT status, COUNT(*) AS cnt FROM social_campaigns WHERE seller_id = ? GROUP BY status",
+      [sellerId]
+    ),
+    queryOne<WalletRow>(
+      "SELECT balance FROM seller_wallets WHERE seller_id = ? LIMIT 1",
+      [sellerId]
+    ),
   ]);
 
-  const totalCampaigns = campaigns.reduce((sum, g) => sum + g._count, 0);
-  const activeCampaigns = campaigns.find((g) => g.status === "active")?._count ?? 0;
-  const pendingCampaigns = campaigns.find((g) => g.status === "pending")?._count ?? 0;
+  const totalCampaigns = campaignStatusRows.reduce((sum, g) => sum + Number(g.cnt), 0);
+  const activeCampaigns = Number(campaignStatusRows.find((g) => g.status === "active")?.cnt ?? 0);
+  const pendingCampaigns = Number(campaignStatusRows.find((g) => g.status === "pending")?.cnt ?? 0);
 
   return (
     <div className="space-y-6">

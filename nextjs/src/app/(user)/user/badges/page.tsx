@@ -1,11 +1,19 @@
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import { prisma } from "@/lib/db";
+import { query } from "@/lib/db";
 import type { Metadata } from "next";
 import BadgeCard from "@/components/BadgeCard";
 import { BADGE_DEFINITIONS } from "@/lib/badges";
+import type { RowDataPacket } from "mysql2";
 
 export const metadata: Metadata = { title: "Badges" };
+
+interface UserBadgeRow extends RowDataPacket {
+  id: number;
+  user_id: number;
+  badge_id: string;
+  created_at: Date;
+}
 
 export default async function BadgesPage() {
   const session = await auth();
@@ -13,13 +21,13 @@ export default async function BadgesPage() {
 
   const userId = parseInt(session.user.id);
 
-  const userBadges = await prisma.userBadge.findMany({
-    where: { userId },
-    orderBy: { awardedAt: "desc" },
-  });
+  const userBadges = await query<UserBadgeRow>(
+    "SELECT * FROM user_badges WHERE user_id = ? ORDER BY created_at DESC",
+    [userId]
+  );
 
   const earnedMap = new Map(
-    userBadges.map((b) => [b.badgeId, b.awardedAt.toISOString()])
+    userBadges.map((b) => [b.badge_id, new Date(b.created_at).toISOString()])
   );
 
   const categories = ["task", "social", "streak", "special"] as const;

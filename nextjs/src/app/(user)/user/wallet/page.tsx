@@ -1,13 +1,40 @@
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import { prisma } from "@/lib/db";
+import { query, queryOne } from "@/lib/db";
 import WalletCard from "@/components/WalletCard";
 import TransactionHistory from "@/components/TransactionHistory";
 import WalletPageClient from "./WalletPageClient";
 import type { WalletTransaction } from "@/types";
 import type { Metadata } from "next";
+import type { RowDataPacket } from "mysql2";
 
 export const metadata: Metadata = { title: "Wallet" };
+
+interface UserRow extends RowDataPacket {
+  wallet_balance: string;
+  upi_id: string | null;
+  account_name: string | null;
+  account_number: string | null;
+  bank_name: string | null;
+  ifsc_code: string | null;
+}
+
+interface TransactionRow extends RowDataPacket {
+  id: number;
+  user_id: number;
+  type: string;
+  amount: string;
+  description: string | null;
+  reference_id: number | null;
+  reference_type: string | null;
+  balance_before: string | null;
+  balance_after: string | null;
+  created_at: Date;
+}
+
+interface SumRow extends RowDataPacket {
+  total: string | null;
+}
 
 export default async function WalletPage() {
   const session = await auth();
@@ -15,49 +42,41 @@ export default async function WalletPage() {
 
   const userId = parseInt(session.user.id);
 
-  const [wallet, user, transactions, earnedAgg, withdrawnAgg] = await Promise.all([
-    prisma.userWallet.findUnique({ where: { userId } }),
-    prisma.user.findUnique({
-      where: { id: userId },
-      select: {
-        walletBalance: true,
-        upiId: true,
-        accountName: true,
-        accountNumber: true,
-        bankName: true,
-        ifscCode: true,
-      },
-    }),
-    prisma.walletTransaction.findMany({
-      where: { userId },
-      orderBy: { createdAt: "desc" },
-      take: 50,
-    }),
-    prisma.walletTransaction.aggregate({
-      where: { userId, type: "credit" },
-      _sum: { amount: true },
-    }),
-    prisma.walletTransaction.aggregate({
-      where: { userId, type: "debit" },
-      _sum: { amount: true },
-    }),
+  const [user, transactions, earnedRows, withdrawnRows] = await Promise.all([
+    queryOne<UserRow>(
+      `SELECT wallet_balance, upi_id, account_name, account_number, bank_name, ifsc_code
+       FROM users WHERE id = ? LIMIT 1`,
+      [userId]
+    ),
+    query<TransactionRow>(
+      "SELECT * FROM wallet_transactions WHERE user_id = ? ORDER BY created_at DESC LIMIT 50",
+      [userId]
+    ),
+    query<SumRow>(
+      "SELECT SUM(amount) AS total FROM wallet_transactions WHERE user_id = ? AND type = 'credit'",
+      [userId]
+    ),
+    query<SumRow>(
+      "SELECT SUM(amount) AS total FROM wallet_transactions WHERE user_id = ? AND type = 'debit'",
+      [userId]
+    ),
   ]);
 
-  const balance = wallet
-    ? Number(wallet.balance)
-    : Number(user?.walletBalance ?? 0);
-  const totalEarned = Number(earnedAgg._sum.amount ?? 0);
-  const totalWithdrawn = Number(withdrawnAgg._sum.amount ?? 0);
+  const balance = Number(user?.wallet_balance ?? 0);
+  const totalEarned = Number(earnedRows[0]?.total ?? 0);
+  const totalWithdrawn = Number(withdrawnRows[0]?.total ?? 0);
 
   const serializedTransactions: WalletTransaction[] = transactions.map((t) => ({
-    ...t,
+    id: t.id,
+    userId: t.user_id,
+    type: t.type,
     amount: Number(t.amount),
-    balanceBefore: t.balanceBefore ? Number(t.balanceBefore) : undefined,
-    balanceAfter: t.balanceAfter ? Number(t.balanceAfter) : undefined,
     description: t.description ?? undefined,
-    referenceId: t.referenceId ?? undefined,
-    referenceType: t.referenceType ?? undefined,
-    createdAt: t.createdAt.toISOString(),
+    referenceId: t.reference_id ?? undefined,
+    referenceType: t.reference_type ?? undefined,
+    balanceBefore: t.balance_before ? Number(t.balance_before) : undefined,
+    balanceAfter: t.balance_after ? Number(t.balance_after) : undefined,
+    createdAt: new Date(t.created_at).toISOString(),
   }));
 
   return (
@@ -78,11 +97,11 @@ export default async function WalletPage() {
       {/* Withdrawal form */}
       <WalletPageClient
         balance={balance}
-        userUpiId={user?.upiId ?? undefined}
-        userAccountName={user?.accountName ?? undefined}
-        userAccountNumber={user?.accountNumber ?? undefined}
-        userBankName={user?.bankName ?? undefined}
-        userIfscCode={user?.ifscCode ?? undefined}
+        userUpiId={user?.upi_id ?? undefined}
+        userAccountName={user?.account_name ?? undefined}
+        userAccountNumber={user?.account_number ?? undefined}
+        userBankName={user?.bank_name ?? undefined}
+        userIfscCode={user?.ifsc_code ?? undefined}
       />
 
       {/* Transaction history */}

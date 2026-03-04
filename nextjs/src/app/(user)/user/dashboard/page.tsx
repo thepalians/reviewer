@@ -1,13 +1,43 @@
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import { prisma } from "@/lib/db";
+import { query, queryOne } from "@/lib/db";
 import StatsCard from "@/components/StatsCard";
 import TaskCard from "@/components/TaskCard";
 import { formatCurrency } from "@/lib/utils";
 import type { Task } from "@/types";
 import type { Metadata } from "next";
+import type { RowDataPacket } from "mysql2";
 
 export const metadata: Metadata = { title: "Dashboard" };
+
+interface UserRow extends RowDataPacket {
+  name: string;
+  wallet_balance: number;
+}
+
+interface TaskStatusCountRow extends RowDataPacket {
+  status: string;
+  cnt: number;
+}
+
+interface TaskRow extends RowDataPacket {
+  id: number;
+  user_id: number;
+  seller_id: number | null;
+  order_id: string | null;
+  product_name: string | null;
+  product_link: string | null;
+  platform: string | null;
+  commission: string | null;
+  status: string;
+  deadline: Date | null;
+  created_at: Date;
+  updated_at: Date;
+}
+
+interface CampaignCountRow extends RowDataPacket {
+  cnt: number;
+}
 
 export default async function UserDashboardPage() {
   const session = await auth();
@@ -15,33 +45,48 @@ export default async function UserDashboardPage() {
 
   const userId = parseInt(session.user.id);
 
-  const [user, taskCounts, recentTasks, activeCampaigns] = await Promise.all([
-    prisma.user.findUnique({
-      where: { id: userId },
-      select: { name: true, walletBalance: true },
-    }),
-    prisma.task.groupBy({
-      by: ["status"],
-      where: { userId },
-      _count: true,
-    }),
-    prisma.task.findMany({
-      where: { userId },
-      orderBy: { createdAt: "desc" },
-      take: 5,
-    }),
-    prisma.socialCampaign.count({
-      where: { status: "active", adminApproved: true },
-    }),
+  const [user, taskStatusCounts, recentTasks, campaignCountRows] = await Promise.all([
+    queryOne<UserRow>(
+      "SELECT name, wallet_balance FROM users WHERE id = ? LIMIT 1",
+      [userId]
+    ),
+    query<TaskStatusCountRow>(
+      "SELECT status, COUNT(*) AS cnt FROM tasks WHERE user_id = ? GROUP BY status",
+      [userId]
+    ),
+    query<TaskRow>(
+      "SELECT * FROM tasks WHERE user_id = ? ORDER BY created_at DESC LIMIT 5",
+      [userId]
+    ),
+    query<CampaignCountRow>(
+      "SELECT COUNT(*) AS cnt FROM social_campaigns WHERE status = 'active' AND admin_approved = 1",
+      []
+    ),
   ]);
 
-  const totalTasks = taskCounts.reduce((sum, g) => sum + g._count, 0);
+  const activeCampaigns = Number(campaignCountRows[0]?.cnt ?? 0);
+
+  const totalTasks = taskStatusCounts.reduce((sum, g) => sum + Number(g.cnt), 0);
   const completedTasks =
-    taskCounts.find((g) => g.status === "completed")?._count ?? 0;
-  const pendingTasks =
-    taskCounts
-      .filter((g) => ["pending", "assigned", "in_progress"].includes(g.status))
-      .reduce((sum, g) => sum + g._count, 0);
+    Number(taskStatusCounts.find((g) => g.status === "completed")?.cnt ?? 0);
+  const pendingTasks = taskStatusCounts
+    .filter((g) => ["pending", "assigned", "in_progress"].includes(g.status))
+    .reduce((sum, g) => sum + Number(g.cnt), 0);
+
+  const mappedTasks: Task[] = recentTasks.map((t) => ({
+    id: t.id,
+    userId: t.user_id,
+    orderId: t.order_id ?? undefined,
+    productName: t.product_name ?? undefined,
+    productLink: t.product_link ?? undefined,
+    platform: t.platform ?? undefined,
+    status: t.status as Task["status"],
+    commission: t.commission ? Number(t.commission) : undefined,
+    deadline: t.deadline ? new Date(t.deadline).toISOString() : undefined,
+    refundRequested: false,
+    createdAt: new Date(t.created_at).toISOString(),
+    updatedAt: new Date(t.updated_at).toISOString(),
+  }));
 
   return (
     <div className="space-y-6">
@@ -77,7 +122,7 @@ export default async function UserDashboardPage() {
         />
         <StatsCard
           title="Wallet Balance"
-          value={formatCurrency(Number(user?.walletBalance ?? 0))}
+          value={formatCurrency(Number(user?.wallet_balance ?? 0))}
           icon="💰"
           gradient="from-[#f6d365] to-[#fda085]"
         />
@@ -140,15 +185,15 @@ export default async function UserDashboardPage() {
             View all →
           </a>
         </div>
-        {recentTasks.length === 0 ? (
+        {mappedTasks.length === 0 ? (
           <div className="bg-white rounded-xl border border-gray-100 p-8 text-center text-gray-500">
             <p className="text-4xl mb-2">📋</p>
             <p>No tasks yet. Check back later!</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            {recentTasks.map((task) => (
-              <TaskCard key={task.id} task={task as unknown as Task} />
+            {mappedTasks.map((task) => (
+              <TaskCard key={task.id} task={task} />
             ))}
           </div>
         )}

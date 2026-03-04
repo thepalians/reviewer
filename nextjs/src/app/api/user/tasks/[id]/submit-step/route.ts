@@ -1,8 +1,22 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
-import { prisma } from "@/lib/db";
+import { queryOne, query, execute } from "@/lib/db";
+import type { RowDataPacket } from "mysql2";
 import { writeFile, mkdir } from "fs/promises";
 import path from "path";
+
+interface TaskRow extends RowDataPacket {
+  id: number;
+  user_id: number;
+  status: string;
+}
+
+interface TaskStepRow extends RowDataPacket {
+  id: number;
+  task_id: number;
+  step_number: number;
+  step_status: string;
+}
 
 const STEP_FIELDS: Record<
   number,
@@ -10,18 +24,18 @@ const STEP_FIELDS: Record<
 > = {
   1: {
     fileField: "orderScreenshot",
-    dbField: "orderScreenshot",
+    dbField: "order_screenshot",
     textFields: ["orderId"],
   },
-  2: { fileField: "deliveryScreenshot", dbField: "deliveryScreenshot" },
+  2: { fileField: "deliveryScreenshot", dbField: "delivery_screenshot" },
   3: {
     fileField: "reviewScreenshot",
-    dbField: "reviewScreenshot",
+    dbField: "review_screenshot",
     textFields: ["reviewText", "reviewRating", "reviewLiveScreenshot"],
   },
   4: {
     fileField: "paymentQrCode",
-    dbField: "paymentQrCode",
+    dbField: "order_screenshot",
     textFields: ["feedback", "rating"],
   },
 };
@@ -73,14 +87,19 @@ export async function POST(
 
   const userId = parseInt(session.user.id);
 
-  const task = await prisma.task.findFirst({
-    where: { id: taskId, userId },
-    include: { steps: { orderBy: { stepNumber: "asc" } } },
-  });
+  const task = await queryOne<TaskRow>(
+    "SELECT id, user_id, status FROM tasks WHERE id = ? AND user_id = ?",
+    [taskId, userId]
+  );
 
   if (!task) {
     return NextResponse.json({ error: "Task not found" }, { status: 404 });
   }
+
+  const steps = await query<TaskStepRow>(
+    "SELECT id, task_id, step_number, step_status FROM task_steps WHERE task_id = ? ORDER BY step_number ASC",
+    [taskId]
+  );
 
   let formData: FormData;
   try {
@@ -95,12 +114,12 @@ export async function POST(
   }
 
   const stepConfig = STEP_FIELDS[stepNumber];
-  const existingStep = task.steps.find((s) => s.stepNumber === stepNumber);
+  const existingStep = steps.find((s) => s.step_number === stepNumber);
 
   // Check step is unlocked: step N requires step N-1 to be approved
   if (stepNumber > 1) {
-    const prevStep = task.steps.find((s) => s.stepNumber === stepNumber - 1);
-    if (!prevStep || prevStep.stepStatus !== "approved") {
+    const prevStep = steps.find((s) => s.step_number === stepNumber - 1);
+    if (!prevStep || prevStep.step_status !== "approved") {
       return NextResponse.json(
         { error: "Previous step must be approved before submitting this step" },
         { status: 400 }
@@ -108,7 +127,7 @@ export async function POST(
     }
   }
 
-  if (existingStep && existingStep.stepStatus === "approved") {
+  if (existingStep && existingStep.step_status === "approved") {
     return NextResponse.json(
       { error: "This step has already been approved" },
       { status: 400 }
@@ -116,9 +135,8 @@ export async function POST(
   }
 
   try {
-    const updateData: Record<string, unknown> = {
-      stepStatus: "submitted",
-      submittedByUser: true,
+    const updateFields: Record<string, unknown> = {
+      step_status: "submitted",
     };
 
     // Handle file upload
@@ -128,7 +146,7 @@ export async function POST(
       if ("error" in result) {
         return NextResponse.json({ error: result.error }, { status: 400 });
       }
-      updateData[stepConfig.dbField] = result.path;
+      updateFields[stepConfig.dbField] = result.path;
     } else if (!existingStep) {
       return NextResponse.json(
         { error: "Screenshot is required for this step" },
@@ -136,55 +154,62 @@ export async function POST(
       );
     }
 
-    // Handle text fields
+    // Handle text fields for step 1 (orderId on task)
     if (stepNumber === 1) {
       const orderId = formData.get("orderId") as string | null;
       if (orderId) {
-        await prisma.task.update({
-          where: { id: taskId },
-          data: { orderId, status: "in_progress" },
-        });
+        await execute(
+          "UPDATE tasks SET order_id = ?, status = 'in_progress', updated_at = NOW() WHERE id = ?",
+          [orderId, taskId]
+        );
       }
     }
 
+    // Handle step 3 review fields
     if (stepNumber === 3) {
       const reviewText = formData.get("reviewText") as string | null;
       const reviewRating = formData.get("reviewRating") as string | null;
       const reviewLiveFile = formData.get("reviewLiveScreenshot") as File | null;
 
-      if (reviewText) updateData.reviewText = reviewText;
-      if (reviewRating) updateData.reviewRating = parseInt(reviewRating) || null;
+      if (reviewText) updateFields.review_text = reviewText;
+      if (reviewRating) updateFields.review_rating = parseInt(reviewRating) || null;
       if (reviewLiveFile && reviewLiveFile.size > 0) {
         const result = await saveUploadedFile(reviewLiveFile, `task-${taskId}`);
         if ("error" in result) {
           return NextResponse.json({ error: result.error }, { status: 400 });
         }
-        updateData.reviewLiveScreenshot = result.path;
+        updateFields.review_live_screenshot = result.path;
       }
     }
 
+    // Handle step 4 feedback/rating fields
     if (stepNumber === 4) {
       const feedbackText = formData.get("feedback") as string | null;
       const rating = formData.get("rating") as string | null;
 
-      if (feedbackText) updateData.reviewText = feedbackText;
-      if (rating) updateData.reviewRating = parseInt(rating) || null;
+      if (feedbackText) updateFields.review_text = feedbackText;
+      if (rating) updateFields.review_rating = parseInt(rating) || null;
     }
 
     if (existingStep) {
-      await prisma.taskStep.update({
-        where: { id: existingStep.id },
-        data: updateData,
-      });
+      // Build dynamic UPDATE
+      const setClauses = Object.keys(updateFields)
+        .map((k) => `${k} = ?`)
+        .join(", ");
+      const values = [...Object.values(updateFields), existingStep.id];
+      await execute(
+        `UPDATE task_steps SET ${setClauses}, updated_at = NOW() WHERE id = ?`,
+        values
+      );
     } else {
-      await prisma.taskStep.create({
-        data: {
-          taskId,
-          stepNumber,
-          stepName: getStepName(stepNumber),
-          ...updateData,
-        },
-      });
+      // INSERT new step
+      const columns = ["task_id", "step_number", ...Object.keys(updateFields)];
+      const placeholders = columns.map(() => "?").join(", ");
+      const values = [taskId, stepNumber, ...Object.values(updateFields)];
+      await execute(
+        `INSERT INTO task_steps (${columns.join(", ")}, created_at, updated_at) VALUES (${placeholders}, NOW(), NOW())`,
+        values
+      );
     }
 
     // Update task status to reflect the submitted step
@@ -194,10 +219,10 @@ export async function POST(
       3: "step3_pending",
       4: "step4_pending",
     };
-    await prisma.task.update({
-      where: { id: taskId },
-      data: { status: statusMap[stepNumber] },
-    });
+    await execute(
+      "UPDATE tasks SET status = ?, updated_at = NOW() WHERE id = ?",
+      [statusMap[stepNumber], taskId]
+    );
 
     return NextResponse.json({
       success: true,
@@ -210,14 +235,4 @@ export async function POST(
       { status: 500 }
     );
   }
-}
-
-function getStepName(stepNumber: number): string {
-  const names: Record<number, string> = {
-    1: "Order & Screenshot",
-    2: "Delivery Confirmation",
-    3: "Review Submission",
-    4: "Refund & Feedback",
-  };
-  return names[stepNumber] ?? `Step ${stepNumber}`;
 }

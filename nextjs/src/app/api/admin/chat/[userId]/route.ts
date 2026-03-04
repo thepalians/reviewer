@@ -1,6 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
-import { prisma } from "@/lib/db";
+import { query, execute } from "@/lib/db";
+import type { RowDataPacket } from "mysql2";
+
+interface ChatMessageRow extends RowDataPacket {
+  id: number;
+  user_id: number;
+  message: string;
+  sender_type: string;
+  created_at: string;
+}
 
 export async function GET(
   _req: NextRequest,
@@ -19,20 +28,20 @@ export async function GET(
   }
 
   try {
-    // Mark all user messages as read
-    await prisma.chatMessage.updateMany({
-      where: { userId: targetUserId, sender: "user", isRead: false },
-      data: { isRead: true },
-    });
-
-    const messages = await prisma.chatMessage.findMany({
-      where: { userId: targetUserId },
-      orderBy: { createdAt: "asc" },
-    });
+    const messages = await query<ChatMessageRow>(
+      "SELECT id, user_id, message, sender_type, created_at FROM chat_messages WHERE user_id = ? ORDER BY created_at ASC",
+      [targetUserId]
+    );
 
     return NextResponse.json({
       success: true,
-      data: messages.map((m) => ({ ...m, createdAt: m.createdAt.toISOString() })),
+      data: messages.map((m) => ({
+        id: m.id,
+        userId: m.user_id,
+        message: m.message,
+        senderType: m.sender_type,
+        createdAt: m.created_at,
+      })),
     });
   } catch (error) {
     console.error("Admin Chat userId GET error:", error);
@@ -64,13 +73,27 @@ export async function POST(
       return NextResponse.json({ error: "Message is required" }, { status: 400 });
     }
 
-    const chatMessage = await prisma.chatMessage.create({
-      data: { userId: targetUserId, sender: "admin", message: message.trim() },
-    });
+    const result = await execute(
+      "INSERT INTO chat_messages (user_id, message, sender_type, created_at) VALUES (?, ?, 'admin', NOW())",
+      [targetUserId, message.trim()]
+    );
+
+    const rows = await query<ChatMessageRow>(
+      "SELECT id, user_id, message, sender_type, created_at FROM chat_messages WHERE id = ?",
+      [result.insertId]
+    );
+
+    const chatMessage = rows[0];
 
     return NextResponse.json({
       success: true,
-      data: { ...chatMessage, createdAt: chatMessage.createdAt.toISOString() },
+      data: {
+        id: chatMessage.id,
+        userId: chatMessage.user_id,
+        message: chatMessage.message,
+        senderType: chatMessage.sender_type,
+        createdAt: chatMessage.created_at,
+      },
     });
   } catch (error) {
     console.error("Admin Chat userId POST error:", error);

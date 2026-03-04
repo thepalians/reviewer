@@ -1,6 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
-import { prisma } from "@/lib/db";
+import { query, execute } from "@/lib/db";
+import type { RowDataPacket } from "mysql2";
+
+interface ChatMessageRow extends RowDataPacket {
+  id: number;
+  user_id: number;
+  message: string;
+  sender_type: string;
+  created_at: Date;
+}
 
 export async function GET(_req: NextRequest) {
   const session = await auth();
@@ -11,16 +20,19 @@ export async function GET(_req: NextRequest) {
   const userId = parseInt(session.user.id);
 
   try {
-    const messages = await prisma.chatMessage.findMany({
-      where: { userId },
-      orderBy: { createdAt: "asc" },
-    });
+    const messages = await query<ChatMessageRow>(
+      "SELECT * FROM chat_messages WHERE user_id = ? ORDER BY created_at ASC",
+      [userId]
+    );
 
     return NextResponse.json({
       success: true,
       data: messages.map((m) => ({
-        ...m,
-        createdAt: m.createdAt.toISOString(),
+        id: m.id,
+        userId: m.user_id,
+        message: m.message,
+        senderType: m.sender_type,
+        createdAt: m.created_at instanceof Date ? m.created_at.toISOString() : String(m.created_at),
       })),
     });
   } catch (error) {
@@ -45,13 +57,22 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Message is required" }, { status: 400 });
     }
 
-    const chatMessage = await prisma.chatMessage.create({
-      data: { userId, sender: "user", message: message.trim() },
-    });
+    const result = await execute(
+      "INSERT INTO chat_messages (user_id, message, sender_type, created_at) VALUES (?, ?, 'user', NOW())",
+      [userId, message.trim()]
+    );
+
+    const insertId = result.insertId;
 
     return NextResponse.json({
       success: true,
-      data: { ...chatMessage, createdAt: chatMessage.createdAt.toISOString() },
+      data: {
+        id: insertId,
+        userId,
+        message: message.trim(),
+        senderType: "user",
+        createdAt: new Date().toISOString(),
+      },
     });
   } catch (error) {
     console.error("Chat POST error:", error);

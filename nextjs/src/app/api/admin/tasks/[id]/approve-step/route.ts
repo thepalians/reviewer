@@ -1,6 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
-import { prisma } from "@/lib/db";
+import { queryOne, query, execute } from "@/lib/db";
+import type { RowDataPacket } from "mysql2";
+
+interface StepRow extends RowDataPacket {
+  id: number;
+  task_id: number;
+  step_number: number;
+  step_status: string;
+  completed_at: string | null;
+}
 
 export async function PUT(
   request: NextRequest,
@@ -21,24 +30,38 @@ export async function PUT(
     const body = await request.json();
     const { stepNumber } = body;
 
-    const step = await prisma.taskStep.findFirst({
-      where: { taskId, stepNumber },
-    });
+    const step = await queryOne<StepRow>(
+      "SELECT id, task_id, step_number, step_status, completed_at FROM task_steps WHERE task_id = ? AND step_number = ? LIMIT 1",
+      [taskId, stepNumber]
+    );
 
     if (!step) {
       return NextResponse.json({ error: "Step not found" }, { status: 404 });
     }
 
-    const updatedStep = await prisma.taskStep.update({
-      where: { id: step.id },
-      data: { stepStatus: "approved", completedAt: new Date() },
-    });
+    await execute(
+      "UPDATE task_steps SET step_status = 'approved', completed_at = NOW(), updated_at = NOW() WHERE id = ?",
+      [step.id]
+    );
 
-    // Update task status if all steps approved
-    const allSteps = await prisma.taskStep.findMany({ where: { taskId } });
-    const allApproved = allSteps.every((s) => s.stepStatus === "approved");
+    // Re-fetch updated step
+    const updatedStep = await queryOne<StepRow>(
+      "SELECT id, task_id, step_number, step_status, completed_at FROM task_steps WHERE id = ?",
+      [step.id]
+    );
+
+    // Check if all steps are approved; if so, mark task as completed
+    const allSteps = await query<StepRow>(
+      "SELECT step_status FROM task_steps WHERE task_id = ?",
+      [taskId]
+    );
+
+    const allApproved = allSteps.length > 0 && allSteps.every((s) => s.step_status === "approved");
     if (allApproved) {
-      await prisma.task.update({ where: { id: taskId }, data: { status: "completed" } });
+      await execute(
+        "UPDATE tasks SET status = 'completed', updated_at = NOW() WHERE id = ?",
+        [taskId]
+      );
     }
 
     return NextResponse.json({ success: true, data: updatedStep });

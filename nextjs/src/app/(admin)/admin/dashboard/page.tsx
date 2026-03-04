@@ -1,34 +1,54 @@
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import { prisma } from "@/lib/db";
+import { query } from "@/lib/db";
 import StatsCard from "@/components/StatsCard";
 import type { Metadata } from "next";
+import type { RowDataPacket } from "mysql2";
 
 export const metadata: Metadata = { title: "Admin Dashboard" };
+
+interface CountRow extends RowDataPacket {
+  cnt: number;
+}
 
 export default async function AdminDashboardPage() {
   const session = await auth();
   if (!session || session.user.userType !== "admin") redirect("/login");
 
   const [
-    totalUsers,
-    totalSellers,
-    totalTasks,
-    pendingTasks,
-    completedTasks,
-    pendingWithdrawals,
-    pendingKyc,
+    totalUsersRows,
+    totalSellersRows,
+    totalTasksRows,
+    pendingTasksRows,
+    completedTasksRows,
+    pendingWithdrawalsRows,
+    pendingKycRows,
   ] = await Promise.all([
-    prisma.user.count({ where: { userType: "user" } }),
-    prisma.seller.count(),
-    prisma.task.count(),
-    prisma.task.count({ where: { status: { in: ["pending", "assigned", "in_progress"] } } }),
-    prisma.task.count({ where: { status: "completed" } }),
-    prisma.walletTransaction.count({
-      where: { type: "withdrawal_pending" },
-    }),
-    prisma.kycDocument.count({ where: { status: "pending" } }),
+    query<CountRow>("SELECT COUNT(*) AS cnt FROM users WHERE user_type = 'user'", []),
+    query<CountRow>("SELECT COUNT(*) AS cnt FROM sellers", []),
+    query<CountRow>("SELECT COUNT(*) AS cnt FROM tasks", []),
+    query<CountRow>(
+      "SELECT COUNT(*) AS cnt FROM tasks WHERE status IN ('pending', 'assigned', 'in_progress')",
+      []
+    ),
+    query<CountRow>("SELECT COUNT(*) AS cnt FROM tasks WHERE status = 'completed'", []),
+    query<CountRow>(
+      "SELECT COUNT(*) AS cnt FROM wallet_transactions WHERE type = 'withdrawal_pending'",
+      []
+    ),
+    query<CountRow>(
+      "SELECT COUNT(*) AS cnt FROM kyc_documents WHERE status = 'pending'",
+      []
+    ),
   ]);
+
+  const totalUsers = Number(totalUsersRows[0]?.cnt ?? 0);
+  const totalSellers = Number(totalSellersRows[0]?.cnt ?? 0);
+  const totalTasks = Number(totalTasksRows[0]?.cnt ?? 0);
+  const pendingTasks = Number(pendingTasksRows[0]?.cnt ?? 0);
+  const completedTasks = Number(completedTasksRows[0]?.cnt ?? 0);
+  const pendingWithdrawals = Number(pendingWithdrawalsRows[0]?.cnt ?? 0);
+  const pendingKyc = Number(pendingKycRows[0]?.cnt ?? 0);
 
   return (
     <div className="space-y-6">

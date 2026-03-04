@@ -1,6 +1,20 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
-import { prisma } from "@/lib/db";
+import { query, queryOne } from "@/lib/db";
+import type { RowDataPacket } from "mysql2";
+
+interface UserPointRow extends RowDataPacket {
+  id: number;
+  user_id: number;
+  points: number;
+  type: string;
+  description: string | null;
+  created_at: Date;
+}
+
+interface TotalRow extends RowDataPacket {
+  total: number | null;
+}
 
 export async function GET() {
   const session = await auth();
@@ -12,19 +26,18 @@ export async function GET() {
   const userId = parseInt(session.user.id);
 
   try {
-    const [points, totalAgg] = await Promise.all([
-      prisma.userPoint.findMany({
-        where: { userId },
-        orderBy: { createdAt: "desc" },
-        take: 100,
-      }),
-      prisma.userPoint.aggregate({
-        where: { userId },
-        _sum: { points: true },
-      }),
+    const [points, totalRow] = await Promise.all([
+      query<UserPointRow>(
+        "SELECT * FROM user_points WHERE user_id = ? ORDER BY created_at DESC LIMIT 100",
+        [userId]
+      ),
+      queryOne<TotalRow>(
+        "SELECT SUM(points) AS total FROM user_points WHERE user_id = ?",
+        [userId]
+      ),
     ]);
 
-    const totalPoints = totalAgg._sum.points ?? 0;
+    const totalPoints = Number(totalRow?.total ?? 0);
 
     const breakdown = points.reduce<Record<string, number>>((acc, p) => {
       acc[p.type] = (acc[p.type] ?? 0) + p.points;
@@ -41,7 +54,7 @@ export async function GET() {
           points: p.points,
           type: p.type,
           description: p.description,
-          createdAt: p.createdAt.toISOString(),
+          createdAt: p.created_at instanceof Date ? p.created_at.toISOString() : String(p.created_at),
         })),
       },
     });

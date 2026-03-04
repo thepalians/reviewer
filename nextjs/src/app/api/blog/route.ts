@@ -1,5 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/lib/db";
+import { query } from "@/lib/db";
+import type { RowDataPacket } from "mysql2";
+
+interface BlogPostRow extends RowDataPacket {
+  id: number;
+  title: string;
+  slug: string;
+  excerpt: string | null;
+  created_at: Date;
+}
+
+interface CountRow extends RowDataPacket {
+  total: number;
+}
 
 export async function GET(request: NextRequest) {
   try {
@@ -7,38 +20,45 @@ export async function GET(request: NextRequest) {
     const page = parseInt(searchParams.get("page") || "1");
     const limit = parseInt(searchParams.get("limit") || "12");
     const search = searchParams.get("search") || "";
-    const skip = (page - 1) * limit;
+    const offset = (page - 1) * limit;
 
-    const where = {
-      status: "published",
-      ...(search && { title: { contains: search } }),
-    };
+    const conditions: string[] = ["status = 'published'"];
+    const params: unknown[] = [];
+    const countParams: unknown[] = [];
 
-    const [posts, total] = await Promise.all([
-      prisma.blogPost.findMany({
-        where,
-        orderBy: { publishedAt: "desc" },
-        skip,
-        take: limit,
-        select: {
-          id: true,
-          title: true,
-          slug: true,
-          excerpt: true,
-          featuredImage: true,
-          publishedAt: true,
-          createdAt: true,
-        },
-      }),
-      prisma.blogPost.count({ where }),
+    if (search) {
+      conditions.push("title LIKE ?");
+      params.push(`%${search}%`);
+      countParams.push(`%${search}%`);
+    }
+
+    const whereClause = conditions.join(" AND ");
+
+    const [posts, countRows] = await Promise.all([
+      query<BlogPostRow>(
+        `SELECT id, title, slug, excerpt, created_at
+         FROM blog_posts
+         WHERE ${whereClause}
+         ORDER BY created_at DESC
+         LIMIT ? OFFSET ?`,
+        [...params, limit, offset]
+      ),
+      query<CountRow>(
+        `SELECT COUNT(*) AS total FROM blog_posts WHERE ${whereClause}`,
+        countParams
+      ),
     ]);
+
+    const total = Number(countRows[0]?.total ?? 0);
 
     return NextResponse.json({
       success: true,
       data: posts.map((p) => ({
-        ...p,
-        publishedAt: p.publishedAt ? p.publishedAt.toISOString() : null,
-        createdAt: p.createdAt.toISOString(),
+        id: p.id,
+        title: p.title,
+        slug: p.slug,
+        excerpt: p.excerpt,
+        createdAt: p.created_at instanceof Date ? p.created_at.toISOString() : p.created_at,
       })),
       total,
       page,

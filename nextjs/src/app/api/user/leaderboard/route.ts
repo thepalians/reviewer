@@ -1,21 +1,28 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
-import { prisma } from "@/lib/db";
+import { query } from "@/lib/db";
+import type { RowDataPacket } from "mysql2";
 
 const PERIODS = ["week", "month", "all"] as const;
 type Period = (typeof PERIODS)[number];
 
-function getStartDate(period: Period): Date | null {
+interface LeaderboardRow extends RowDataPacket {
+  user_id: number;
+  name: string;
+  total_points: number;
+}
+
+function getStartDateStr(period: Period): string | null {
   const now = new Date();
   if (period === "week") {
     const d = new Date(now);
     d.setDate(d.getDate() - 7);
-    return d;
+    return d.toISOString().slice(0, 19).replace("T", " ");
   }
   if (period === "month") {
     const d = new Date(now);
     d.setMonth(d.getMonth() - 1);
-    return d;
+    return d.toISOString().slice(0, 19).replace("T", " ");
   }
   return null;
 }
@@ -34,34 +41,45 @@ export async function GET(req: NextRequest) {
     ? (periodParam as Period)
     : "all";
 
-  const startDate = getStartDate(period);
+  const startDateStr = getStartDateStr(period);
 
   try {
-    const aggregated = await prisma.userPoint.groupBy({
-      by: ["userId"],
-      where: startDate ? { createdAt: { gte: startDate } } : undefined,
-      _sum: { points: true },
-      orderBy: { _sum: { points: "desc" } },
-      take: 50,
-    });
+    let sql: string;
+    let params: unknown[];
 
-    if (aggregated.length === 0) {
-      return NextResponse.json({ success: true, data: { rankings: [], currentUserRank: null } });
+    if (startDateStr) {
+      sql = `SELECT up.user_id, u.name, SUM(up.points) AS total_points
+             FROM user_points up
+             JOIN users u ON u.id = up.user_id
+             WHERE up.created_at >= ?
+             GROUP BY up.user_id, u.name
+             ORDER BY total_points DESC
+             LIMIT 50`;
+      params = [startDateStr];
+    } else {
+      sql = `SELECT up.user_id, u.name, SUM(up.points) AS total_points
+             FROM user_points up
+             JOIN users u ON u.id = up.user_id
+             GROUP BY up.user_id, u.name
+             ORDER BY total_points DESC
+             LIMIT 50`;
+      params = [];
     }
 
-    const userIds = aggregated.map((a) => a.userId);
-    const users = await prisma.user.findMany({
-      where: { id: { in: userIds } },
-      select: { id: true, name: true },
-    });
+    const aggregated = await query<LeaderboardRow>(sql, params);
 
-    const userMap = new Map(users.map((u) => [u.id, u.name]));
+    if (aggregated.length === 0) {
+      return NextResponse.json({
+        success: true,
+        data: { rankings: [], currentUserRank: null },
+      });
+    }
 
     const rankings = aggregated.map((a, idx) => ({
       rank: idx + 1,
-      userId: a.userId,
-      name: userMap.get(a.userId) ?? "Unknown",
-      points: a._sum.points ?? 0,
+      userId: a.user_id,
+      name: a.name ?? "Unknown",
+      points: Number(a.total_points ?? 0),
     }));
 
     const currentUserRank = rankings.find((r) => r.userId === currentUserId) ?? null;

@@ -1,7 +1,34 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
-import { prisma } from "@/lib/db";
+import { query, queryOne } from "@/lib/db";
 import { formatCurrency } from "@/lib/utils";
+import type { RowDataPacket } from "mysql2";
+
+interface SellerRow extends RowDataPacket {
+  name: string;
+  email: string;
+  wallet_balance: string | number;
+}
+
+interface CampaignStatusRow extends RowDataPacket {
+  status: string;
+  count: number;
+}
+
+interface RecentCampaignRow extends RowDataPacket {
+  id: number;
+  title: string;
+  status: string;
+  reward_amount: string | number;
+  created_at: Date;
+  platform_name: string;
+  completions_count: number;
+}
+
+interface CompletionStatsRow extends RowDataPacket {
+  total_completions: number;
+  total_spent: string | number;
+}
 
 export async function GET() {
   const session = await auth();
@@ -12,60 +39,74 @@ export async function GET() {
   const sellerId = parseInt(session.user.id);
 
   try {
-    const [seller, campaigns, wallet, recentCampaigns] = await Promise.all([
-      prisma.seller.findUnique({
-        where: { id: sellerId },
-        select: { name: true, email: true },
-      }),
-      prisma.socialCampaign.groupBy({
-        by: ["status"],
-        where: { sellerId },
-        _count: true,
-      }),
-      prisma.sellerWallet.findUnique({
-        where: { sellerId },
-        select: { balance: true },
-      }),
-      prisma.socialCampaign.findMany({
-        where: { sellerId },
-        select: {
-          id: true,
-          title: true,
-          status: true,
-          rewardAmount: true,
-          createdAt: true,
-          platform: { select: { name: true } },
-          _count: { select: { completions: true } },
-        },
-        orderBy: { createdAt: "desc" },
-        take: 5,
-      }),
+    const [seller, campaignStatuses, recentCampaigns, completionStats] = await Promise.all([
+      queryOne<SellerRow>(
+        "SELECT name, email, wallet_balance FROM sellers WHERE id = ?",
+        [sellerId]
+      ),
+      query<CampaignStatusRow>(
+        "SELECT status, COUNT(*) AS count FROM social_campaigns WHERE seller_id = ? GROUP BY status",
+        [sellerId]
+      ),
+      query<RecentCampaignRow>(
+        `SELECT
+           sc.id,
+           sc.title,
+           sc.status,
+           sc.reward_amount,
+           sc.created_at,
+           sp.name AS platform_name,
+           COUNT(stc.id) AS completions_count
+         FROM social_campaigns sc
+         LEFT JOIN social_platforms sp ON sp.id = sc.platform_id
+         LEFT JOIN social_task_completions stc ON stc.campaign_id = sc.id
+         WHERE sc.seller_id = ?
+         GROUP BY sc.id, sc.title, sc.status, sc.reward_amount, sc.created_at, sp.name
+         ORDER BY sc.created_at DESC
+         LIMIT 5`,
+        [sellerId]
+      ),
+      queryOne<CompletionStatsRow>(
+        `SELECT
+           COUNT(stc.id) AS total_completions,
+           COALESCE(SUM(sc.reward_amount), 0) AS total_spent
+         FROM social_task_completions stc
+         INNER JOIN social_campaigns sc ON sc.id = stc.campaign_id
+         WHERE sc.seller_id = ?`,
+        [sellerId]
+      ),
     ]);
 
-    const totalCampaigns = campaigns.reduce((sum, g) => sum + g._count, 0);
-    const activeCampaigns = campaigns.find((g) => g.status === "active")?._count ?? 0;
-    const pendingCampaigns = campaigns.find((g) => g.status === "pending")?._count ?? 0;
-    const totalCompletions = await prisma.socialTaskCompletion.count({
-      where: { campaign: { sellerId } },
-    });
-    const totalSpentResult = await prisma.socialTaskCompletion.aggregate({
-      where: { campaign: { sellerId } },
-      _sum: { reward: true },
-    });
+    const totalCampaigns = campaignStatuses.reduce((sum, g) => sum + Number(g.count), 0);
+    const activeCampaigns = campaignStatuses.find((g) => g.status === "active")?.count ?? 0;
+    const pendingCampaigns = campaignStatuses.find((g) => g.status === "pending")?.count ?? 0;
+    const totalCompletions = Number(completionStats?.total_completions ?? 0);
+    const totalSpent = Number(completionStats?.total_spent ?? 0);
+    const walletBalance = Number(seller?.wallet_balance ?? 0);
 
     return NextResponse.json({
       success: true,
       data: {
-        seller,
+        seller: seller
+          ? { name: seller.name, email: seller.email }
+          : null,
         stats: {
           totalCampaigns,
-          activeCampaigns,
-          pendingCampaigns,
+          activeCampaigns: Number(activeCampaigns),
+          pendingCampaigns: Number(pendingCampaigns),
           totalCompletions,
-          totalSpent: formatCurrency(Number(totalSpentResult._sum.reward ?? 0)),
-          walletBalance: formatCurrency(Number(wallet?.balance ?? 0)),
+          totalSpent: formatCurrency(totalSpent),
+          walletBalance: formatCurrency(walletBalance),
         },
-        recentCampaigns,
+        recentCampaigns: recentCampaigns.map((c) => ({
+          id: c.id,
+          title: c.title,
+          status: c.status,
+          rewardAmount: Number(c.reward_amount),
+          createdAt: c.created_at,
+          platform: { name: c.platform_name },
+          _count: { completions: Number(c.completions_count) },
+        })),
       },
     });
   } catch (error) {

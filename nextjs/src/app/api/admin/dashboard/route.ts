@@ -1,6 +1,11 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
-import { prisma } from "@/lib/db";
+import { query } from "@/lib/db";
+import type { RowDataPacket } from "mysql2";
+
+interface CountRow extends RowDataPacket {
+  count: number;
+}
 
 export async function GET() {
   const session = await auth();
@@ -11,37 +16,37 @@ export async function GET() {
 
   try {
     const [
-      totalUsers,
-      totalSellers,
-      totalTasks,
-      pendingTasks,
-      completedTasks,
-      pendingWithdrawals,
-      pendingKyc,
+      totalUsersRows,
+      totalSellersRows,
+      totalTasksRows,
+      pendingTasksRows,
+      completedTasksRows,
+      pendingWithdrawalsRows,
+      pendingKycRows,
     ] = await Promise.all([
-      prisma.user.count({ where: { userType: "user" } }),
-      prisma.seller.count(),
-      prisma.task.count(),
-      prisma.task.count({
-        where: { status: { in: ["pending", "assigned", "in_progress"] } },
-      }),
-      prisma.task.count({ where: { status: "completed" } }),
-      prisma.walletTransaction.count({
-        where: { type: "withdrawal_pending" },
-      }),
-      prisma.kycDocument.count({ where: { status: "pending" } }),
+      query<CountRow>("SELECT COUNT(*) AS count FROM users WHERE user_type = 'user'"),
+      query<CountRow>("SELECT COUNT(*) AS count FROM sellers"),
+      query<CountRow>("SELECT COUNT(*) AS count FROM tasks"),
+      query<CountRow>(
+        "SELECT COUNT(*) AS count FROM tasks WHERE status IN ('pending', 'assigned', 'in_progress')"
+      ),
+      query<CountRow>("SELECT COUNT(*) AS count FROM tasks WHERE status = 'completed'"),
+      query<CountRow>(
+        "SELECT COUNT(*) AS count FROM withdrawal_requests WHERE status = 'pending'"
+      ),
+      query<CountRow>("SELECT COUNT(*) AS count FROM kyc_documents WHERE status = 'pending'"),
     ]);
 
     return NextResponse.json({
       success: true,
       data: {
-        totalUsers,
-        totalSellers,
-        totalTasks,
-        pendingTasks,
-        completedTasks,
-        pendingWithdrawals,
-        pendingKyc,
+        totalUsers: totalUsersRows[0].count,
+        totalSellers: totalSellersRows[0].count,
+        totalTasks: totalTasksRows[0].count,
+        pendingTasks: pendingTasksRows[0].count,
+        completedTasks: completedTasksRows[0].count,
+        pendingWithdrawals: pendingWithdrawalsRows[0].count,
+        pendingKyc: pendingKycRows[0].count,
       },
     });
   } catch (error) {

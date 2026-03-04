@@ -34,7 +34,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             
             if (!$withdrawal) {
                 $errors[] = "Withdrawal request not found";
-            } elseif ($withdrawal['status'] !== 'pending') {
+            } elseif ($action === 'complete' && $withdrawal['status'] !== 'approved') {
+                $errors[] = "This withdrawal must be approved first before marking as paid";
+            } elseif ($action !== 'complete' && $withdrawal['status'] !== 'pending') {
                 $errors[] = "This withdrawal has already been processed";
             } else {
                 $pdo->beginTransaction();

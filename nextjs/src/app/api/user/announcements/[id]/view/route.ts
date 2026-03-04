@@ -1,6 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
-import { prisma } from "@/lib/db";
+import { queryOne, execute } from "@/lib/db";
+import type { RowDataPacket } from "mysql2";
+
+interface ViewRow extends RowDataPacket {
+  id: number;
+}
 
 export async function POST(
   _req: NextRequest,
@@ -20,11 +25,18 @@ export async function POST(
   }
 
   try {
-    await prisma.announcementView.upsert({
-      where: { announcementId_userId: { announcementId, userId } },
-      update: {},
-      create: { announcementId, userId },
-    });
+    // Upsert: insert view record if it doesn't already exist
+    const existing = await queryOne<ViewRow>(
+      "SELECT id FROM announcement_views WHERE announcement_id = ? AND user_id = ?",
+      [announcementId, userId]
+    );
+
+    if (!existing) {
+      await execute(
+        "INSERT INTO announcement_views (user_id, announcement_id, created_at) VALUES (?, ?, NOW())",
+        [userId, announcementId]
+      );
+    }
 
     return NextResponse.json({ success: true });
   } catch (error) {

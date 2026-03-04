@@ -1,10 +1,19 @@
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import { prisma } from "@/lib/db";
+import { queryOne } from "@/lib/db";
 import type { Metadata } from "next";
 import SpinWheelPageClient from "./SpinWheelPageClient";
+import type { RowDataPacket } from "mysql2";
 
 export const metadata: Metadata = { title: "Daily Spin Wheel" };
+
+interface PointSpinRow extends RowDataPacket {
+  id: number;
+}
+
+interface WalletSpinRow extends RowDataPacket {
+  id: number;
+}
 
 export default async function SpinWheelPage() {
   const session = await auth();
@@ -14,14 +23,17 @@ export default async function SpinWheelPage() {
 
   const todayStart = new Date();
   todayStart.setHours(0, 0, 0, 0);
+  const todayStartStr = todayStart.toISOString().slice(0, 19).replace("T", " ");
 
   const [lastSpin, lastCashSpin] = await Promise.all([
-    prisma.userPoint.findFirst({
-      where: { userId, type: "spin_wheel", createdAt: { gte: todayStart } },
-    }),
-    prisma.walletTransaction.findFirst({
-      where: { userId, referenceType: "spin_wheel", createdAt: { gte: todayStart } },
-    }),
+    queryOne<PointSpinRow>(
+      "SELECT id FROM user_points WHERE user_id = ? AND type = 'spin_wheel' AND created_at >= ? LIMIT 1",
+      [userId, todayStartStr]
+    ),
+    queryOne<WalletSpinRow>(
+      "SELECT id FROM wallet_transactions WHERE user_id = ? AND reference_type = 'spin_wheel' AND created_at >= ? LIMIT 1",
+      [userId, todayStartStr]
+    ),
   ]);
 
   const alreadySpunToday = !!(lastSpin || lastCashSpin);

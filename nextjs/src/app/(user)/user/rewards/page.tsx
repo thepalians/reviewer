@@ -1,11 +1,21 @@
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import { prisma } from "@/lib/db";
+import { query } from "@/lib/db";
 import type { Metadata } from "next";
 import PointsHistory from "@/components/PointsHistory";
 import TierBadge, { TierProgress } from "@/components/TierBadge";
+import type { RowDataPacket } from "mysql2";
 
 export const metadata: Metadata = { title: "Rewards & Points" };
+
+interface PointRow extends RowDataPacket {
+  id: number;
+  user_id: number;
+  points: number;
+  type: string;
+  description: string | null;
+  created_at: Date;
+}
 
 export default async function RewardsPage() {
   const session = await auth();
@@ -13,22 +23,15 @@ export default async function RewardsPage() {
 
   const userId = parseInt(session.user.id);
 
-  const [points, totalAgg] = await Promise.all([
-    prisma.userPoint.findMany({
-      where: { userId },
-      orderBy: { createdAt: "desc" },
-      take: 100,
-    }),
-    prisma.userPoint.aggregate({
-      where: { userId },
-      _sum: { points: true },
-    }),
-  ]);
+  const points = await query<PointRow>(
+    "SELECT * FROM user_points WHERE user_id = ? ORDER BY created_at DESC LIMIT 100",
+    [userId]
+  );
 
-  const totalPoints = totalAgg._sum.points ?? 0;
+  const totalPoints = points.reduce((sum, p) => sum + Number(p.points), 0);
 
   const breakdown = points.reduce<Record<string, number>>((acc, p) => {
-    acc[p.type] = (acc[p.type] ?? 0) + p.points;
+    acc[p.type] = (acc[p.type] ?? 0) + Number(p.points);
     return acc;
   }, {});
 
@@ -43,10 +46,10 @@ export default async function RewardsPage() {
 
   const serializedHistory = points.map((p) => ({
     id: p.id,
-    points: p.points,
+    points: Number(p.points),
     type: p.type,
     description: p.description,
-    createdAt: p.createdAt.toISOString(),
+    createdAt: new Date(p.created_at).toISOString(),
   }));
 
   return (
@@ -71,14 +74,14 @@ export default async function RewardsPage() {
           <p className="text-3xl font-bold text-gray-900 mt-1">
             {points
               .filter((p) => {
-                const d = new Date(p.createdAt);
+                const d = new Date(p.created_at);
                 const now = new Date();
                 return (
                   d.getMonth() === now.getMonth() &&
                   d.getFullYear() === now.getFullYear()
                 );
               })
-              .reduce((sum, p) => sum + p.points, 0)}
+              .reduce((sum, p) => sum + Number(p.points), 0)}
           </p>
         </div>
         <div className="bg-white rounded-xl border border-gray-100 p-5 shadow-sm">
