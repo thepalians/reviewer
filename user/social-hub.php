@@ -85,6 +85,9 @@ try {
 // User social stats
 $social_stats = getUserSocialStats($pdo, $user_id);
 
+// Allow YouTube/social embeds on social hub
+header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://wa.me; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self'; frame-src 'self' https://www.youtube.com https://youtube.com https://www.youtube-nocookie.com https://player.vimeo.com https://www.instagram.com https://www.facebook.com https://platform.twitter.com; frame-ancestors 'self';");
+
 include '../includes/security.php';
 ?>
 <!DOCTYPE html>
@@ -183,9 +186,31 @@ include '../includes/security.php';
             .campaign-grid { grid-template-columns: 1fr; }
             .platform-grid { grid-template-columns: repeat(3, 1fr); }
         }
+        /* Collapse sidebar by default on social hub */
+        .sidebar {
+            transform: translateX(-100%);
+            position: fixed;
+            z-index: 1000;
+        }
+        .main-content {
+            margin-left: 0 !important;
+        }
+        .sidebar-toggle {
+            position: fixed; top: 1rem; left: 1rem; z-index: 1100;
+            background: #667eea; color: #fff; border: none; border-radius: 8px;
+            padding: 0.5rem 0.75rem; cursor: pointer; font-size: 1.1rem;
+        }
+        .sidebar.open { transform: translateX(0); }
+        .dashboard-btn {
+            position: fixed; top: 1rem; left: 4rem; z-index: 1100;
+            background: #28a745; color: #fff; border-radius: 8px;
+            padding: 0.5rem 0.9rem; text-decoration: none; font-size: 0.9rem;
+        }
     </style>
 </head>
 <body>
+<button class="sidebar-toggle" id="sidebarToggleBtn" aria-label="Toggle menu" aria-expanded="false">☰</button>
+<a href="<?php echo APP_URL; ?>/user/dashboard.php" class="dashboard-btn">🏠 Dashboard</a>
 <?php include 'includes/sidebar.php'; ?>
 <div class="main-content">
 
@@ -279,5 +304,12 @@ include '../includes/security.php';
     <?php endif; ?>
 
 </div>
+<script>
+document.getElementById('sidebarToggleBtn').addEventListener('click', function() {
+    var sidebar = document.querySelector('.sidebar');
+    sidebar.classList.toggle('open');
+    this.setAttribute('aria-expanded', sidebar.classList.contains('open') ? 'true' : 'false');
+});
+</script>
 </body>
 </html>
