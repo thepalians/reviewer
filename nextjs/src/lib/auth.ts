@@ -30,6 +30,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
                 email: login,
                 status: "active",
               },
+              select: { id: true, name: true, email: true, password: true, status: true },
             });
 
             if (!seller) return null;
@@ -51,6 +52,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             where: isEmail
               ? { email: login, status: "active" }
               : { mobile: login, status: "active" },
+            select: { id: true, name: true, email: true, password: true, userType: true, status: true },
           });
 
           if (!user) return null;

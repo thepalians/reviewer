@@ -16,58 +16,21 @@ interface NavItem {
 const navItems: NavItem[] = [
   { href: "/admin/dashboard", label: "Dashboard", emoji: "📊" },
   // Users
-  { href: "/admin/users", label: "All Reviewers", emoji: "👥", section: "👥 Users" },
-  { href: "/admin/kyc-management", label: "KYC Management", emoji: "🔐" },
+  { href: "/admin/users", label: "All Users", emoji: "👥", section: "👥 Users" },
+  { href: "/admin/kyc", label: "KYC Management", emoji: "🔐" },
   // Tasks
-  { href: "/admin/assign-task", label: "Assign Task", emoji: "➕", section: "📋 Tasks" },
-  { href: "/admin/auto-assign", label: "Auto Assign Tasks", emoji: "⚡" },
-  { href: "/admin/bulk-upload", label: "Bulk Upload", emoji: "📤" },
-  { href: "/admin/tasks/pending", label: "Pending Tasks", emoji: "⏳" },
-  { href: "/admin/tasks/completed", label: "Completed Tasks", emoji: "✅" },
-  { href: "/admin/tasks/rejected", label: "Rejected Tasks", emoji: "❌" },
-  { href: "/admin/verify-proofs", label: "Verify Proofs", emoji: "✅" },
+  { href: "/admin/tasks", label: "All Tasks", emoji: "📋", section: "📋 Tasks" },
+  // Campaigns
+  { href: "/admin/campaigns", label: "Campaigns", emoji: "📱", section: "📱 Campaigns" },
   // Finance
   { href: "/admin/withdrawals", label: "Withdrawals", emoji: "💸", section: "💰 Finance" },
-  { href: "/admin/wallet-requests", label: "Wallet Recharges", emoji: "💳" },
-  { href: "/admin/seller-wallet", label: "Manage Seller Wallet", emoji: "🏦" },
-  { href: "/admin/add-bonus", label: "Add User Bonus", emoji: "🎁" },
-  // Sellers
-  { href: "/admin/sellers", label: "All Sellers", emoji: "🏪", section: "🏪 Sellers" },
-  { href: "/admin/review-requests", label: "Seller Requests", emoji: "📝" },
-  // Referrals
-  { href: "/admin/referral-settings", label: "Referral Settings", emoji: "⚙️", section: "🔗 Referrals" },
-  // Gamification
-  { href: "/admin/gamification", label: "Gamification Settings", emoji: "⚙️", section: "🎮 Gamification" },
-  { href: "/admin/leaderboard", label: "Leaderboard", emoji: "🏆" },
-  { href: "/admin/monthly-bonus", label: "Monthly Bonus", emoji: "🏅" },
-  // Support
-  { href: "/admin/support-chat", label: "Support Chat", emoji: "💬", section: "💬 Support" },
-  { href: "/admin/faq-manager", label: "Chatbot FAQ", emoji: "❓" },
-  { href: "/admin/chatbot-unanswered", label: "Unanswered Questions", emoji: "📝" },
-  // Communication
-  { href: "/admin/announcements", label: "Announcements", emoji: "📢", section: "📢 Communication" },
-  { href: "/admin/broadcast", label: "Broadcast Messages", emoji: "📡" },
-  // Task Management
-  { href: "/admin/task-categories", label: "Task Categories", emoji: "🏷️", section: "🏷️ Task Management" },
-  // Analytics
-  { href: "/admin/analytics", label: "Analytics Dashboard", emoji: "📈", section: "📊 Analytics" },
-  // Reports
-  { href: "/admin/reports", label: "Reports", emoji: "📈", section: "📊 Reports & Export" },
-  { href: "/admin/export-data", label: "Export Review Data", emoji: "📥" },
-  { href: "/admin/export-reports", label: "Export Reports", emoji: "📊" },
-  // Notifications
-  { href: "/admin/notification-templates", label: "Notification Templates", emoji: "📧", section: "📧 Notifications" },
-  // Security
-  { href: "/admin/security-logs", label: "Security Logs", emoji: "🔒", section: "🔒 Security" },
-  { href: "/admin/suspicious-users", label: "Suspicious Users", emoji: "🚨" },
   // Content
-  { href: "/admin/blog-manage", label: "Blog Manager", emoji: "📝", section: "📝 Content" },
-  // Social Media
-  { href: "/admin/social-campaigns", label: "Social Campaigns", emoji: "📢", section: "📱 Social Media" },
+  { href: "/admin/blog", label: "Blog", emoji: "📝", section: "📝 Content" },
+  { href: "/admin/announcements", label: "Announcements", emoji: "📢" },
+  // Support
+  { href: "/admin/chat", label: "Support Chat", emoji: "💬", section: "💬 Support" },
   // Settings
-  { href: "/admin/settings", label: "General Settings", emoji: "⚙️", section: "⚙️ Settings" },
-  { href: "/admin/gst-settings", label: "GST Settings", emoji: "💰" },
-  { href: "/admin/features", label: "Features", emoji: "✨" },
+  { href: "/admin/settings", label: "Settings", emoji: "⚙️", section: "⚙️ Settings" },
 ];
 
 interface AdminSidebarProps {
@@ -90,11 +53,10 @@ export default function AdminSidebar({
   const pathname = usePathname();
 
   const getBadge = (href: string) => {
-    if (href === "/admin/tasks/pending" && pendingTasks > 0) return pendingTasks;
+    if (href === "/admin/tasks" && pendingTasks > 0) return pendingTasks;
     if (href === "/admin/withdrawals" && pendingWithdrawals > 0) return pendingWithdrawals;
-    if (href === "/admin/kyc-management" && pendingKyc > 0) return pendingKyc;
-    if (href === "/admin/verify-proofs" && pendingProofs > 0) return pendingProofs;
-    if (href === "/admin/social-campaigns" && pendingSocialCampaigns > 0) return pendingSocialCampaigns;
+    if (href === "/admin/kyc" && pendingKyc > 0) return pendingKyc;
+    if (href === "/admin/campaigns" && pendingSocialCampaigns > 0) return pendingSocialCampaigns;
     return 0;
   };
 

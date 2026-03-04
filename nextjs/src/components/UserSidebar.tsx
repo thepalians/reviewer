@@ -18,33 +18,22 @@ const navItems: NavItem[] = [
   // Tasks
   { href: "/user/tasks", label: "My Tasks", emoji: "📋", section: "📋 Tasks" },
   // Social Hub
-  { href: "/user/social-hub", label: "Social Hub", emoji: "📱", section: "📱 Social Hub" },
+  { href: "/user/social-hub", label: "Social Hub", emoji: "📱", section: "📱 Social" },
   // Finance
   { href: "/user/wallet", label: "Wallet", emoji: "💰", section: "💰 Finance" },
-  { href: "/user/transactions", label: "Transactions", emoji: "💳" },
   // Referrals
   { href: "/user/referrals", label: "My Referrals", emoji: "🔗", section: "🔗 Referrals" },
   // Gamification
   { href: "/user/rewards", label: "Rewards & Points", emoji: "🎮", section: "🎮 Gamification" },
   { href: "/user/badges", label: "Badges", emoji: "🏅" },
-  { href: "/user/spin-wheel", label: "Daily Spin Wheel", emoji: "🎰" },
+  { href: "/user/spin-wheel", label: "Daily Spin", emoji: "🎰" },
   { href: "/user/leaderboard", label: "Leaderboard", emoji: "🏆" },
-  { href: "/user/competitions", label: "Competitions", emoji: "🏅" },
-  // Proofs
-  { href: "/user/submit-proof", label: "Submit Proof", emoji: "📸", section: "📸 Proofs" },
   // Support
   { href: "/user/chat", label: "Support Chat", emoji: "💬", section: "💬 Support" },
-  // Updates
-  { href: "/user/announcements", label: "Announcements", emoji: "📢", section: "📢 Updates" },
-  // Payments
-  { href: "/user/recharge-wallet", label: "Recharge Wallet", emoji: "💳", section: "💳 Payments" },
-  { href: "/user/payment-history", label: "Payment History", emoji: "📜" },
-  { href: "/user/my-activity", label: "My Activity", emoji: "📊" },
+  { href: "/user/announcements", label: "Announcements", emoji: "📢" },
   // Account
   { href: "/user/kyc", label: "KYC Verification", emoji: "🆔", section: "🔐 Account" },
-  { href: "/user/analytics", label: "My Analytics", emoji: "📊" },
-  // Settings
-  { href: "/user/profile", label: "Profile", emoji: "👤", section: "⚙️ Settings" },
+  { href: "/user/profile", label: "Profile", emoji: "👤" },
   { href: "/user/notifications", label: "Notifications", emoji: "🔔" },
 ];
 
