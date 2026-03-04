@@ -1,7 +1,7 @@
 -- Fix Social Hub: create seller_wallet_transactions table and add video_duration to campaigns
 -- Run this after social_media_hub.sql
 
--- Seller wallet transaction log (used by createCampaign() in social-functions.php)
+-- Seller wallet transaction log (used by createSocialCampaign() in social-functions.php)
 CREATE TABLE IF NOT EXISTS seller_wallet_transactions (
     id INT PRIMARY KEY AUTO_INCREMENT,
     seller_id INT NOT NULL,
@@ -18,3 +18,7 @@ CREATE TABLE IF NOT EXISTS seller_wallet_transactions (
 -- Add video_duration column to social_campaigns for accurate watch-time tracking
 ALTER TABLE social_campaigns
     ADD COLUMN IF NOT EXISTS video_duration INT DEFAULT 300 AFTER watch_percent_required;
+
+-- Add last_watch_seconds to social_watch_sessions for server-side anti-cheat speed checks
+ALTER TABLE social_watch_sessions
+    ADD COLUMN IF NOT EXISTS last_watch_seconds INT DEFAULT 0 AFTER tab_active;
