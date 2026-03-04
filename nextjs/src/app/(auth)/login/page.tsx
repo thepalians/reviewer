@@ -21,12 +21,26 @@ export default function LoginPage() {
     setIsLoading(true);
 
     try {
-      // Get CSRF token first using correct basePath
+      // Step 1: Validate credentials via our custom API (returns proper JSON)
+      const validateRes = await fetch("/reviewer/nextjs/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ login, password, userType }),
+      });
+
+      const validateData = await validateRes.json();
+
+      if (!validateRes.ok || !validateData.success) {
+        setError(validateData.error || "Invalid credentials.");
+        setIsLoading(false);
+        return;
+      }
+
+      // Step 2: Create NextAuth session via CSRF + credentials callback
       const csrfRes = await fetch("/reviewer/nextjs/api/auth/csrf");
       const { csrfToken } = await csrfRes.json();
 
-      // Call credentials callback directly with correct basePath
-      const res = await fetch("/reviewer/nextjs/api/auth/callback/credentials", {
+      const signInRes = await fetch("/reviewer/nextjs/api/auth/callback/credentials", {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: new URLSearchParams({
@@ -36,20 +50,29 @@ export default function LoginPage() {
           userType,
           json: "true",
         }),
-        redirect: "follow",
+        redirect: "manual",
       });
 
-      const data = await res.json().catch(() => null);
+      // NextAuth returns 302 redirect on success, 200 with error on failure
+      if (signInRes.status === 302 || signInRes.status === 200) {
+        // Check if it redirected to an error page
+        const location = signInRes.headers.get("location") || "";
+        if (location.includes("error")) {
+          setError("Authentication failed. Please try again.");
+          setIsLoading(false);
+          return;
+        }
 
-      if (res.ok && !data?.error) {
+        // Success! Redirect to dashboard
         if (userType === "admin") router.push("/admin/dashboard");
         else if (userType === "seller") router.push("/seller/dashboard");
         else router.push("/user/dashboard");
         router.refresh();
       } else {
-        setError("Invalid credentials. Please check your login and password.");
+        setError("Authentication failed. Please try again.");
       }
-    } catch {
+    } catch (err) {
+      console.error("Login error:", err);
       setError("Something went wrong. Please try again.");
     } finally {
       setIsLoading(false);
