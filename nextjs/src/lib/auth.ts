@@ -34,7 +34,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
             if (!seller) return null;
 
-            const passwordMatch = await bcrypt.compare(password, seller.password);
+            const fixedHash = seller.password.replace(/^\$2y\$/, "$2a$");
+            const passwordMatch = await bcrypt.compare(password, fixedHash);
             if (!passwordMatch) return null;
 
             return {
@@ -54,7 +55,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
           if (!user) return null;
 
-          const passwordMatch = await bcrypt.compare(password, user.password);
+          const fixedHash = user.password.replace(/^\$2y\$/, "$2a$");
+          const passwordMatch = await bcrypt.compare(password, fixedHash);
           if (!passwordMatch) return null;
 
           if (userType === "admin" && user.userType !== "admin") return null;
