@@ -15,12 +15,14 @@ export async function GET(request: NextRequest) {
   const skip = (page - 1) * limit;
 
   try {
-    const where: Record<string, unknown> = {
-      type: { in: ["withdrawal_pending", "withdrawal_approved", "withdrawal_rejected"] },
-    };
-    if (status === "pending") where.type = "withdrawal_pending";
-    else if (status === "approved") where.type = "withdrawal_approved";
-    else if (status === "rejected") where.type = "withdrawal_rejected";
+    const typeFilter =
+      status === "pending" ? "withdrawal_pending" :
+      status === "approved" ? "withdrawal_approved" :
+      status === "rejected" ? "withdrawal_rejected" : null;
+
+    const where: Record<string, unknown> = typeFilter
+      ? { type: typeFilter }
+      : { type: { in: ["withdrawal_pending", "withdrawal_approved", "withdrawal_rejected"] } };
 
     const [withdrawals, total] = await Promise.all([
       prisma.walletTransaction.findMany({

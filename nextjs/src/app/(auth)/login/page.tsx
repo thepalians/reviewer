@@ -39,7 +39,7 @@ export default function LoginPage() {
         redirect: "follow",
       });
 
-      const data = await res.json().catch((err) => { console.debug("Login response parse error:", err); return null; });
+      const data = await res.json().catch(() => null);
 
       if (res.ok && !data?.error) {
         if (userType === "admin") router.push("/admin/dashboard");
