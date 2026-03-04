@@ -17,8 +17,7 @@ const navItems: NavItem[] = [
   { href: "/seller/campaigns", label: "My Campaigns", emoji: "📢", section: "📱 Campaigns" },
   { href: "/seller/campaigns/create", label: "Create Campaign", emoji: "➕" },
   { href: "/seller/wallet", label: "Wallet", emoji: "💰", section: "💰 Finance" },
-  { href: "/seller/transactions", label: "Transactions", emoji: "💳" },
-  { href: "/seller/profile", label: "Profile", emoji: "👤", section: "⚙️ Settings" },
+  { href: "/seller/settings", label: "Settings", emoji: "⚙️", section: "⚙️ Settings" },
 ];
 
 interface SellerSidebarProps {
