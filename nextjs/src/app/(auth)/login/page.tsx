@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Input from "@/components/ui/Input";
@@ -22,19 +21,33 @@ export default function LoginPage() {
     setIsLoading(true);
 
     try {
-      const result = await signIn("credentials", {
-        login,
-        password,
-        userType,
-        redirect: false,
+      // Get CSRF token first using correct basePath
+      const csrfRes = await fetch("/reviewer/nextjs/api/auth/csrf");
+      const { csrfToken } = await csrfRes.json();
+
+      // Call credentials callback directly with correct basePath
+      const res = await fetch("/reviewer/nextjs/api/auth/callback/credentials", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams({
+          csrfToken,
+          login,
+          password,
+          userType,
+          json: "true",
+        }),
+        redirect: "follow",
       });
 
-      if (result?.error) {
-        setError("Invalid credentials. Please check your login and password.");
-      } else {
+      const data = await res.json().catch(() => null);
+
+      if (res.ok && !data?.error) {
         if (userType === "admin") router.push("/admin/dashboard");
         else if (userType === "seller") router.push("/seller/dashboard");
         else router.push("/user/dashboard");
+        router.refresh();
+      } else {
+        setError("Invalid credentials. Please check your login and password.");
       }
     } catch {
       setError("Something went wrong. Please try again.");
