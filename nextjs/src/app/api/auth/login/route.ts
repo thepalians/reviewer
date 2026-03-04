@@ -17,6 +17,7 @@ export async function POST(request: NextRequest) {
     if (userType === "seller") {
       const seller = await prisma.seller.findFirst({
         where: { email: login, status: "active" },
+        select: { id: true, name: true, email: true, password: true, status: true },
       });
       if (!seller) {
         return NextResponse.json({ error: "Invalid credentials" }, { status: 401 });
@@ -32,12 +33,12 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    // User or Admin login
     const isEmail = login.includes("@");
     const user = await prisma.user.findFirst({
       where: isEmail
         ? { email: login, status: "active" }
         : { mobile: login, status: "active" },
+      select: { id: true, name: true, email: true, password: true, userType: true, status: true },
     });
 
     if (!user) {
