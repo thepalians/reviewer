@@ -80,14 +80,17 @@ export default async function BadgesPage() {
               {catLabels[cat]}
             </h2>
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
-              {catBadges.map((badge) => (
+              {catBadges.map((badge) => {
+                const badgeKey = String(badge.id);
+                return (
                 <BadgeCard
                   key={badge.id}
                   badge={badge}
-                  earned={earnedMap.has(badge.id)}
-                  awardedAt={earnedMap.get(badge.id)}
+                  earned={earnedMap.has(badgeKey)}
+                  awardedAt={earnedMap.get(badgeKey)}
                 />
-              ))}
+                );
+              })}
             </div>
           </div>
         );

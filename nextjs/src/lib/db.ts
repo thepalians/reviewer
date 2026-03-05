@@ -1,5 +1,6 @@
 import mysql from "mysql2/promise";
-import type { RowDataPacket, ResultSetHeader, PoolConnection } from "mysql2";
+import type { RowDataPacket, ResultSetHeader } from "mysql2";
+import type { PoolConnection } from "mysql2/promise";
 
 const globalForPool = globalThis as unknown as { dbPool: mysql.Pool | undefined };
 
@@ -44,7 +45,7 @@ export async function execute(
   sql: string,
   params?: unknown[]
 ): Promise<ResultSetHeader> {
-  const [result] = await pool.execute<ResultSetHeader>(sql, params);
+  const [result] = await pool.query<ResultSetHeader>(sql, params);
   return result;
 }
 
